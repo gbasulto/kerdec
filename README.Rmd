@@ -1,4 +1,9 @@
-# kerdec
-Guillermo Basulto-Elias  
+---
+title: "kerdec"
+author: "Guillermo Basulto-Elias"
+output: 
+  html_document: 
+    keep_md: yes
+---
 
 `R` package to kernel deconvolution methods, including multivariate kernel deconvolution density estimation and deconvolution version of local constant polynomial regression.
