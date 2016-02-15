@@ -7,7 +7,9 @@ Depends:
     R (>= 3.2.3)
 License: What license is it under?
 LazyData: true
-LinkingTo: Rcpp
+LinkingTo:
+    RcppArmadillo,
+    Rcpp
 Imports:
     Rcpp
 RoxygenNote: 5.0.1
