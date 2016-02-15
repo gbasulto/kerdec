@@ -18,3 +18,15 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// ecf_im
+arma::vec ecf_im(arma::mat t, arma::mat smp);
+RcppExport SEXP kerdec_ecf_im(SEXP tSEXP, SEXP smpSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< arma::mat >::type t(tSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type smp(smpSEXP);
+    __result = Rcpp::wrap(ecf_im(t, smp));
+    return __result;
+END_RCPP
+}
