@@ -32,6 +32,9 @@ using namespace arma;
 //' @return A vector of size m with the real part of the empirical
 //' characteristic function.
 //'
+//' @example
+//' examples/ex_ecf_re.R
+//'
 //' @export
 //[[Rcpp::export]]
 arma::vec ecf_re(arma::mat t, arma::mat smp)

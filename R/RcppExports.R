@@ -16,6 +16,9 @@
 #' @return A vector of size m with the real part of the empirical
 #' characteristic function.
 #'
+#' @example
+#' examples/ex_ecf_re.R
+#'
 #' @export
 ecf_re <- function(t, smp) {
     .Call('kerdec_ecf_re', PACKAGE = 'kerdec', t, smp)

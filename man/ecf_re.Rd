@@ -24,4 +24,32 @@ d.
 This function must receive matrices. Vectors or values are not
 accepted.
 }
+\examples{
+
+## ---------------------------------------------------------------- ##
+## ---- Univariate empirical characteristic function -------------- ##
+## ---------------------------------------------------------------- ##
+
+library(kerdec)
+
+## Parameters of normal distribution, sample size and grid size
+mu <- -pi
+sig <- pi
+n <- 100                                # Sample size
+m <- 1500                               # Grid size
+t <- seq(-5, 5, length.out = m)         # Evaluation grid
+smp <- rnorm(n, mu, sig)                # Random sample
+
+## Compute empirical characteristic values and characteristic function
+## values
+phi <- ecf_re(matrix(t), matrix(smp))
+true <- Re(exp(1i*t*mu - (t*sig)^2/2))
+
+## Make plots
+plot(t, phi, type = "l", col = 3)
+lines(t, true, col = 4)
+title("Real part of empirical and true characteristic functions")
+legend("topleft", legend = c("ecf", "cf"), col = 3:4, lwd = 2)
+
+}
 
