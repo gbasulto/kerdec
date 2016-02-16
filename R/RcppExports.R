@@ -20,8 +20,8 @@
 #' examples/ex_ecf_re.R
 #'
 #' @export
-ecf_re <- function(t, smp) {
-    .Call('kerdec_ecf_re', PACKAGE = 'kerdec', t, smp)
+ecf_re_cpp <- function(t, smp) {
+    .Call('kerdec_ecf_re_cpp', PACKAGE = 'kerdec', t, smp)
 }
 
 #' Imaginary part of empirical characteristic function
@@ -40,7 +40,47 @@ ecf_re <- function(t, smp) {
 #' empirical characteristic function.
 #'
 #' @export
-ecf_im <- function(t, smp) {
-    .Call('kerdec_ecf_im', PACKAGE = 'kerdec', t, smp)
+ecf_im_cpp <- function(t, smp) {
+    .Call('kerdec_ecf_im_cpp', PACKAGE = 'kerdec', t, smp)
+}
+
+#' Modulus of empirical characteristic function
+#'
+#' Modulus of empirical characteristic function of a d-dimensional
+#' random variable. This function is evaluated at m vectors of size
+#' d.
+#'
+#' This function must receive matrices. Vectors or values are not
+#' accepted.
+#' 
+#' @param t mxd matrix where the function will be evaluated.
+#' @param smp nxd matrix with sample size if size n.
+#'
+#' @return A complex of size m with the modulus of the
+#' empirical characteristic function.
+#'
+#' @export
+ecf_mod_cpp <- function(t, smp) {
+    .Call('kerdec_ecf_mod_cpp', PACKAGE = 'kerdec', t, smp)
+}
+
+#' Empirical characteristic function
+#'
+#' Empirical characteristic function of a d-dimensional
+#' random variable. This function is evaluated at m vectors of size
+#' d.
+#'
+#' This function must receive matrices. Vectors or values are not
+#' accepted.
+#' 
+#' @param t mxd matrix where the function will be evaluated.
+#' @param smp nxd matrix with sample size if size n.
+#'
+#' @return A complex vector of size m with the empirical
+#' characteristic function evaluated at t.
+#'
+#' @export
+ecf_cpp <- function(t, smp) {
+    .Call('kerdec_ecf_cpp', PACKAGE = 'kerdec', t, smp)
 }
 

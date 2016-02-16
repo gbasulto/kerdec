@@ -6,27 +6,51 @@
 
 using namespace Rcpp;
 
-// ecf_re
-arma::vec ecf_re(arma::mat t, arma::mat smp);
-RcppExport SEXP kerdec_ecf_re(SEXP tSEXP, SEXP smpSEXP) {
+// ecf_re_cpp
+arma::vec ecf_re_cpp(arma::mat t, arma::mat smp);
+RcppExport SEXP kerdec_ecf_re_cpp(SEXP tSEXP, SEXP smpSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< arma::mat >::type t(tSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type smp(smpSEXP);
-    __result = Rcpp::wrap(ecf_re(t, smp));
+    __result = Rcpp::wrap(ecf_re_cpp(t, smp));
     return __result;
 END_RCPP
 }
-// ecf_im
-arma::vec ecf_im(arma::mat t, arma::mat smp);
-RcppExport SEXP kerdec_ecf_im(SEXP tSEXP, SEXP smpSEXP) {
+// ecf_im_cpp
+arma::vec ecf_im_cpp(arma::mat t, arma::mat smp);
+RcppExport SEXP kerdec_ecf_im_cpp(SEXP tSEXP, SEXP smpSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< arma::mat >::type t(tSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type smp(smpSEXP);
-    __result = Rcpp::wrap(ecf_im(t, smp));
+    __result = Rcpp::wrap(ecf_im_cpp(t, smp));
+    return __result;
+END_RCPP
+}
+// ecf_mod_cpp
+arma::vec ecf_mod_cpp(arma::mat t, arma::mat smp);
+RcppExport SEXP kerdec_ecf_mod_cpp(SEXP tSEXP, SEXP smpSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< arma::mat >::type t(tSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type smp(smpSEXP);
+    __result = Rcpp::wrap(ecf_mod_cpp(t, smp));
+    return __result;
+END_RCPP
+}
+// ecf_cpp
+arma::cx_vec ecf_cpp(arma::mat t, arma::mat smp);
+RcppExport SEXP kerdec_ecf_cpp(SEXP tSEXP, SEXP smpSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< arma::mat >::type t(tSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type smp(smpSEXP);
+    __result = Rcpp::wrap(ecf_cpp(t, smp));
     return __result;
 END_RCPP
 }
