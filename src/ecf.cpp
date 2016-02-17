@@ -33,7 +33,7 @@ using namespace arma;
 //' characteristic function.
 //'
 //' @example
-//' examples/ex_ecf_re.R
+//' examples/ex_ecf.R
 //'
 //' @export
 //[[Rcpp::export]]

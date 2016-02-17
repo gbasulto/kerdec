@@ -17,7 +17,7 @@
 #' characteristic function.
 #'
 #' @example
-#' examples/ex_ecf_re.R
+#' examples/ex_ecf.R
 #'
 #' @export
 ecf_re_cpp <- function(t, smp) {
