@@ -35,18 +35,9 @@ library(kerdec)
 smp <- rpois(5, lambda = 100)
 t <- c(-1, 1)
 
-ecf_re_cpp(matrix(t), matrix(smp))
-ecf_real(t, smp)
-Re(ecf_cpp(matrix(t), matrix(smp)))
-
-
-smp <- rpois(150, lambda = 1000)
-t <- seq(-1, 1, length.out = 1500)
-microbenchmark::microbenchmark(
-    ecf_re_cpp(matrix(t), matrix(smp)),
-    ecf_real(t, smp),
-    Re(ecf_cpp(matrix(t), matrix(smp)))
-)
+ecf_im_cpp(matrix(t), matrix(smp))
+ecf_imag(t, smp)
+Im(ecf_cpp(matrix(t), matrix(smp)))
 
 ## ---------------------------------------------------------------- ##
 ## ---- Univariate empirical characteristic function -------------- ##

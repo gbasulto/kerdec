@@ -2,6 +2,7 @@
 
 export(ecf_cpp)
 export(ecf_im_cpp)
+export(ecf_imag)
 export(ecf_mod_cpp)
 export(ecf_re_cpp)
 export(ecf_real)
