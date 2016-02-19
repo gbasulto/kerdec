@@ -13,12 +13,12 @@ ecf_imag(t, smp)
 }
 \value{
 A vector of size m with the imaginary part of the empirical
-characteristic function.
+    characteristic function.
 }
 \description{
-Imaginary part of empirical characteristic function of a d-dimensional
-random variable. This function is evaluated at m vectors of size
-d.
+Imaginary part of empirical characteristic function of a
+d-dimensional random variable. This function is evaluated at m
+vectors of size d.
 }
 \details{
 This function must receive matrices or vectors. It is a wrapper
@@ -35,6 +35,14 @@ library(kerdec)
 smp <- rpois(5, lambda = 100)
 t <- c(-1, 1)
 
+## - ecf_im_cpp: is the fastest, but it requires arguments to be
+## matrices with the appropriate arguments.
+## - ecf_imag: is almost as fast as the function above, but it allows
+## vectors when it applies (either when the random sample is
+## unidimensional or the characteristic function is evaluated at only
+## one point).
+## - ecf_cpp: takes twice the time, but it also computes the real
+## part.
 ecf_im_cpp(matrix(t), matrix(smp))
 ecf_imag(t, smp)
 Im(ecf_cpp(matrix(t), matrix(smp)))
