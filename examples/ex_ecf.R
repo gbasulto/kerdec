@@ -42,6 +42,12 @@ imag <- ecf_im_cpp(matrix(t), matrix(smp))
 modu <- ecf_mod_cpp(matrix(t), matrix(smp))
 true <- exp(lambda*(exp(1i*t) - 1))
 
+real <- ecf_real(t, smp)
+imag <- ecf_imag(t, smp)
+modu <- ecf_mod(t, smp)
+true <- exp(lambda*(exp(1i*t) - 1))
+
+
 ## Make plots
                                         # Real
 plot(t, real, type = "l", col = 3)
@@ -58,6 +64,5 @@ legend("topleft", legend = c("ecf", "cf"), col = 3:4, lwd = 2)
                                         # Modulus
 plot(t, modu, type = "l", col = 3)
 lines(t, Mod(true), col = 4)
-lines(t, Mod(ecf_cpp(matrix(t), matrix(smp))), col = 2)
 title("Modulus of empirical and true characteristic functions")
 legend("topleft", legend = c("ecf", "cf"), col = 3:4, lwd = 2)
