@@ -25,9 +25,8 @@ This function must receive matrices. Vectors or values are not
 accepted.
 }
 \examples{
-
 ## ---------------------------------------------------------------- ##
-## ---- Different functions to find the same ---------------------- ##
+##      Different functions to find the same
 ## ---------------------------------------------------------------- ##
 
 library(kerdec)
@@ -48,7 +47,7 @@ ecf_imag(t, smp)
 Im(ecf_cpp(matrix(t), matrix(smp)))
 
 ## ---------------------------------------------------------------- ##
-## ---- Univariate empirical characteristic function -------------- ##
+##       Univariate empirical characteristic function
 ## ---------------------------------------------------------------- ##
 
 library(kerdec)
@@ -69,6 +68,12 @@ imag <- ecf_im_cpp(matrix(t), matrix(smp))
 modu <- ecf_mod_cpp(matrix(t), matrix(smp))
 true <- exp(lambda*(exp(1i*t) - 1))
 
+real <- ecf_real(t, smp)
+imag <- ecf_imag(t, smp)
+modu <- ecf_mod(t, smp)
+true <- exp(lambda*(exp(1i*t) - 1))
+
+
 ## Make plots
                                         # Real
 plot(t, real, type = "l", col = 3)
@@ -85,8 +90,68 @@ legend("topleft", legend = c("ecf", "cf"), col = 3:4, lwd = 2)
                                         # Modulus
 plot(t, modu, type = "l", col = 3)
 lines(t, Mod(true), col = 4)
-lines(t, Mod(ecf_cpp(matrix(t), matrix(smp))), col = 2)
 title("Modulus of empirical and true characteristic functions")
 legend("topleft", legend = c("ecf", "cf"), col = 3:4, lwd = 2)
+
+## ---------------------------------------------------------------- ##
+##  Empirical characteristic function of random vectors
+## ---------------------------------------------------------------- ##
+
+## ## Parameters of bivariate normal distribution
+## mu <- c(-1, 1)
+## sig <- matrix(c(3, -1, -1, 2), 2, 2)
+
+## ## Characteristic function
+## ## s is n x d
+## phi <- function(s) {
+##     complex(modulus = exp(- 0.5*rowSums(s*(s \%*\% sig))),
+##             argument = s \%*\% mu)
+## }
+
+## d <- 4
+## n <- 150
+## t1 <- seq(-3, 3, length.out = 150)
+
+## grid <- function(t, d){
+
+## }
+
+## sapply(
+
+
+
+
+## ## Approximate cf using Fourier integrals
+## eval <- fourierin(f, a = c(-8, -6), b = c(6, 8),
+##                     c = c(-4, -4), d = c(4, 4),
+##                     r = 1, s = 1, resol = c(128, 128))
+## t1 <- eval$w1
+## t2 <- eval$w2
+## t <- as.matrix(expand.grid(t1 = t1, t2 = t2))
+## approx <- eval$values
+## true <- matrix(phi(t), 128, 128)        # Compute true values
+
+## ## This is a section of the characteristic functions
+## i <- 65
+## plot(t2, Re(approx[i, ]), type = "l", col = 2,
+##      ylab = "",
+##      xlab = expression(t[2]),
+##      main = expression(paste("Real part section at ",
+##                              t[1], "= 0")))
+## lines(t2, Re(true[i, ]), col = 3)
+## legend("topleft", legend = c("true", "approximation"),
+##        col = 3:2, lwd = 1)
+
+## ## Another section, now of the imaginary part
+## plot(t1, Im(approx[, i]), type = "l", col = 2,
+##      ylab = "",
+##      xlab = expression(t[1]),
+##      main = expression(paste("Imaginary part section at ",
+##                              t[2], "= 0")))
+## lines(t1, Im(true[, i]), col = 3)
+## legend("topleft", legend = c("true", "approximation"),
+##        col = 3:2, lwd = 1)
+
+
 }
 

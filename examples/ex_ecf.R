@@ -1,6 +1,5 @@
-
 ## ---------------------------------------------------------------- ##
-## ---- Different functions to find the same ---------------------- ##
+##      Different functions to find the same
 ## ---------------------------------------------------------------- ##
 
 library(kerdec)
@@ -21,12 +20,10 @@ ecf_imag(t, smp)
 Im(ecf_cpp(matrix(t), matrix(smp)))
 
 ## ---------------------------------------------------------------- ##
-## ---- Univariate empirical characteristic function -------------- ##
+##       Univariate empirical characteristic function
 ## ---------------------------------------------------------------- ##
 
 library(kerdec)
-devtools::reload()
-rm(list = ls())
 
 ## Parameters of Poisson distribution, sample size and grid size
 lambda <- 10
@@ -66,3 +63,48 @@ plot(t, modu, type = "l", col = 3)
 lines(t, Mod(true), col = 4)
 title("Modulus of empirical and true characteristic functions")
 legend("topleft", legend = c("ecf", "cf"), col = 3:4, lwd = 2)
+
+## ---------------------------------------------------------------- ##
+##  Empirical characteristic function of random vectors
+## ---------------------------------------------------------------- ##
+
+library(kerdec)
+
+## Parameters of bivariate normal distribution
+mu <- c(-1, 0, 1)
+sig <- diag(1:3)
+
+## Characteristic function
+## s is n x d
+phi <- function(s) {
+    complex(modulus = exp(- 0.5*rowSums(s*(s %*% sig))),
+            argument = s %*% mu)
+}
+
+## Random sample of dimension 3.
+rndm <- function(n) {
+    cbind(rnorm(n, mu[1], sig[1, 1]),
+          rnorm(n, mu[2], sig[2, 2]),
+          rnorm(n, mu[3], sig[3, 3]))
+}
+
+## Create evaluation grid.
+grid_1d <- seq(-3, 3, length.out = 10)
+grid <- as.matrix(expand.grid(t1 = grid_1d,
+                              t2 = grid_1d,
+                              t3 = grid_1d))
+
+## Compute absolute error of modules
+n <- seq(500, 5000, by = 500)
+abs_error <- sapply(n, function(nn)
+    sum(abs(Mod(phi(grid)) - ecf_mod(t = grid, smp = rndm(nn)))))
+
+## Generate plot
+plot(n, abs_error, type = "b")
+
+
+
+
+
+
+
