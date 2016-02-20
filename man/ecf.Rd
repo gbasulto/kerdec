@@ -50,8 +50,6 @@ Im(ecf_cpp(matrix(t), matrix(smp)))
 ## ---------------------------------------------------------------- ##
 
 library(kerdec)
-devtools::reload()
-rm(list = ls())
 
 ## Parameters of Poisson distribution, sample size and grid size
 lambda <- 10
@@ -96,60 +94,44 @@ legend("topleft", legend = c("ecf", "cf"), col = 3:4, lwd = 2)
 ##  Empirical characteristic function of random vectors
 ## ---------------------------------------------------------------- ##
 
-## ## Parameters of bivariate normal distribution
-## mu <- c(-1, 1)
-## sig <- matrix(c(3, -1, -1, 2), 2, 2)
+library(kerdec)
 
-## ## Characteristic function
-## ## s is n x d
-## phi <- function(s) {
-##     complex(modulus = exp(- 0.5*rowSums(s*(s \%*\% sig))),
-##             argument = s \%*\% mu)
-## }
+## Parameters of bivariate normal distribution
+mu <- c(-1, 0, 1)
+sig <- diag(1:3)
 
-## d <- 4
-## n <- 150
-## t1 <- seq(-3, 3, length.out = 150)
+## Characteristic function
+## s is n x d
+phi <- function(s) {
+    complex(modulus = exp(- 0.5*rowSums(s*(s \%*\% sig))),
+            argument = s \%*\% mu)
+}
 
-## grid <- function(t, d){
+## Random sample of dimension 3.
+rndm <- function(n) {
+    cbind(rnorm(n, mu[1], sig[1, 1]),
+          rnorm(n, mu[2], sig[2, 2]),
+          rnorm(n, mu[3], sig[3, 3]))
+}
 
-## }
+## Create evaluation grid.
+grid_1d <- seq(-3, 3, length.out = 10)
+grid <- as.matrix(expand.grid(t1 = grid_1d,
+                              t2 = grid_1d,
+                              t3 = grid_1d))
 
-## sapply(
+## Compute absolute error of modules
+n <- seq(500, 5000, by = 500)
+abs_error <- sapply(n, function(nn)
+    sum(abs(Mod(phi(grid)) - ecf_mod(t = grid, smp = rndm(nn)))))
+
+## Generate plot
+plot(n, abs_error, type = "b")
 
 
 
 
-## ## Approximate cf using Fourier integrals
-## eval <- fourierin(f, a = c(-8, -6), b = c(6, 8),
-##                     c = c(-4, -4), d = c(4, 4),
-##                     r = 1, s = 1, resol = c(128, 128))
-## t1 <- eval$w1
-## t2 <- eval$w2
-## t <- as.matrix(expand.grid(t1 = t1, t2 = t2))
-## approx <- eval$values
-## true <- matrix(phi(t), 128, 128)        # Compute true values
 
-## ## This is a section of the characteristic functions
-## i <- 65
-## plot(t2, Re(approx[i, ]), type = "l", col = 2,
-##      ylab = "",
-##      xlab = expression(t[2]),
-##      main = expression(paste("Real part section at ",
-##                              t[1], "= 0")))
-## lines(t2, Re(true[i, ]), col = 3)
-## legend("topleft", legend = c("true", "approximation"),
-##        col = 3:2, lwd = 1)
-
-## ## Another section, now of the imaginary part
-## plot(t1, Im(approx[, i]), type = "l", col = 2,
-##      ylab = "",
-##      xlab = expression(t[1]),
-##      main = expression(paste("Imaginary part section at ",
-##                              t[2], "= 0")))
-## lines(t1, Im(true[, i]), col = 3)
-## legend("topleft", legend = c("true", "approximation"),
-##        col = 3:2, lwd = 1)
 
 
 }
