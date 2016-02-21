@@ -8,6 +8,7 @@ Depends:
 License: MIT + file LICENSE
 LazyData: true
 LinkingTo:
+    fourierin,
     RcppArmadillo,
     Rcpp
 Imports:
