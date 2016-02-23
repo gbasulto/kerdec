@@ -18,6 +18,8 @@ A vector of size n.
 Compute Fourier transform of product kernels.
 }
 \details{
-The Fourier transform of all the kernel functions considered for this package have a bounded support, as it is usual in kernel deconvolution methods.
+The Fourier transform of all the kernel functions considered for
+this package have a bounded support, as it is usual in kernel
+deconvolution methods.
 }
 
