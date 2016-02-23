@@ -87,8 +87,7 @@ ecf_cpp <- function(t, smp) {
 #' Fourier transforms of kernels
 #'
 #' Explanation here.
-#' @export
-FT_ker <- function(t, ker) {
-    .Call('kerdec_FT_ker', PACKAGE = 'kerdec', t, ker)
+ft_kernel_cpp <- function(t, ker) {
+    .Call('kerdec_ft_kernel_cpp', PACKAGE = 'kerdec', t, ker)
 }
 

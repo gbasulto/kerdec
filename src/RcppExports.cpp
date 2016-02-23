@@ -54,15 +54,15 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
-// FT_ker
-double FT_ker(double t, int ker);
-RcppExport SEXP kerdec_FT_ker(SEXP tSEXP, SEXP kerSEXP) {
+// ft_kernel_cpp
+arma::vec ft_kernel_cpp(arma::mat t, int ker);
+RcppExport SEXP kerdec_ft_kernel_cpp(SEXP tSEXP, SEXP kerSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< double >::type t(tSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type t(tSEXP);
     Rcpp::traits::input_parameter< int >::type ker(kerSEXP);
-    __result = Rcpp::wrap(FT_ker(t, ker));
+    __result = Rcpp::wrap(ft_kernel_cpp(t, ker));
     return __result;
 END_RCPP
 }
