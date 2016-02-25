@@ -34,8 +34,6 @@ using namespace arma;
 //'
 //' @example
 //' examples/ex_ecf.R
-//'
-//' @export
 //[[Rcpp::export]]
 arma::vec ecf_re_cpp(arma::mat t, arma::mat smp)
 {
@@ -67,8 +65,6 @@ arma::vec ecf_re_cpp(arma::mat t, arma::mat smp)
 //'
 //' @return A vector of size m with the imaginary part of the
 //' empirical characteristic function.
-//'
-//' @export
 //[[Rcpp::export]]
 arma::vec ecf_im_cpp(arma::mat t, arma::mat smp)
 {
@@ -100,8 +96,6 @@ arma::vec ecf_im_cpp(arma::mat t, arma::mat smp)
 //'
 //' @return A complex of size m with the modulus of the
 //' empirical characteristic function.
-//'
-//' @export
 //[[Rcpp::export]]
 arma::vec ecf_mod_cpp(arma::mat t, arma::mat smp)
 {
@@ -140,8 +134,6 @@ arma::vec ecf_mod_cpp(arma::mat t, arma::mat smp)
 //'
 //' @return A complex vector of size m with the empirical
 //' characteristic function evaluated at t.
-//'
-//' @export
 //[[Rcpp::export]]
 arma::cx_vec ecf_cpp(arma::mat t, arma::mat smp)
 {

@@ -15,9 +15,9 @@ t <- c(-1, 1)
 ## one point).
 ## - ecf_cpp: takes twice the time, but it also computes the real
 ## part.
-ecf_im_cpp(matrix(t), matrix(smp))
+kerdec:::ecf_im_cpp(matrix(t), matrix(smp))
 ecf_imag(t, smp)
-Im(ecf_cpp(matrix(t), matrix(smp)))
+Im(ecf(t, smp))
 
 ## ---------------------------------------------------------------- ##
 ##       Univariate empirical characteristic function
@@ -34,16 +34,10 @@ smp <- rpois(n, lambda)                 # Random sample
 
 ## Compute empirical characteristic values and characteristic function
 ## values
-real <- ecf_re_cpp(matrix(t), matrix(smp))
-imag <- ecf_im_cpp(matrix(t), matrix(smp))
-modu <- ecf_mod_cpp(matrix(t), matrix(smp))
-true <- exp(lambda*(exp(1i*t) - 1))
-
 real <- ecf_real(t, smp)
 imag <- ecf_imag(t, smp)
 modu <- ecf_mod(t, smp)
 true <- exp(lambda*(exp(1i*t) - 1))
-
 
 ## Make plots
                                         # Real

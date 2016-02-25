@@ -5,6 +5,9 @@
 
 using namespace arma;
 
+/* In this file we define functions to evaluate Fourier transforms of
+   kernels. Such Fourier transforms must have support [-1, 1].  */
+
 double ft_kernel_cpp(double t, int ker)
 {
   double out;			// Output number
@@ -40,7 +43,7 @@ double ft_kernel_cpp(double t, int ker)
 
 //' Fourier transforms of kernels
 //'
-//' Explanation here.
+//' See ft_kernel
 //[[Rcpp::export]]
 arma::vec ft_kernel_cpp(arma::mat t, int ker)
 {
@@ -57,3 +60,4 @@ arma::vec ft_kernel_cpp(arma::mat t, int ker)
   
   return out;
 }
+

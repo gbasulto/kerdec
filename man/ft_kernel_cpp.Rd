@@ -7,6 +7,6 @@
 ft_kernel_cpp(t, ker)
 }
 \description{
-Explanation here.
+See ft_kernel
 }
 

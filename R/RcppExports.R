@@ -18,8 +18,6 @@
 #'
 #' @example
 #' examples/ex_ecf.R
-#'
-#' @export
 ecf_re_cpp <- function(t, smp) {
     .Call('kerdec_ecf_re_cpp', PACKAGE = 'kerdec', t, smp)
 }
@@ -38,8 +36,6 @@ ecf_re_cpp <- function(t, smp) {
 #'
 #' @return A vector of size m with the imaginary part of the
 #' empirical characteristic function.
-#'
-#' @export
 ecf_im_cpp <- function(t, smp) {
     .Call('kerdec_ecf_im_cpp', PACKAGE = 'kerdec', t, smp)
 }
@@ -58,8 +54,6 @@ ecf_im_cpp <- function(t, smp) {
 #'
 #' @return A complex of size m with the modulus of the
 #' empirical characteristic function.
-#'
-#' @export
 ecf_mod_cpp <- function(t, smp) {
     .Call('kerdec_ecf_mod_cpp', PACKAGE = 'kerdec', t, smp)
 }
@@ -78,15 +72,13 @@ ecf_mod_cpp <- function(t, smp) {
 #'
 #' @return A complex vector of size m with the empirical
 #' characteristic function evaluated at t.
-#'
-#' @export
 ecf_cpp <- function(t, smp) {
     .Call('kerdec_ecf_cpp', PACKAGE = 'kerdec', t, smp)
 }
 
 #' Fourier transforms of kernels
 #'
-#' Explanation here.
+#' See ft_kernel
 ft_kernel_cpp <- function(t, ker) {
     .Call('kerdec_ft_kernel_cpp', PACKAGE = 'kerdec', t, ker)
 }
