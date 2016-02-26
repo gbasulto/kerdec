@@ -15,7 +15,7 @@ double ft_kernel_cpp(double t, int ker)
   t = std::abs(t);		// Only the abs. value is required.
   if(t >= 1) return 0;		// Ft of kernel must have [-1, 1] as
 				// their support
-
+  
   switch(ker)
     {
     case 1:			// Sinc kernel
