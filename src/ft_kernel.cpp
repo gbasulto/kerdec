@@ -1,6 +1,5 @@
 
 #include <RcppArmadillo.h>
-#include <fourierin.h>
 // [[Rcpp::depends(RcppArmadillo)]]
 
 using namespace arma;
