@@ -12,6 +12,9 @@
 ##' @return A vector of size n.
 ##' @export
 ft_kernel <- function(t, ker){
+  ## If t is dataframe, convert it to matrix
+  if(is.data.frame(t)) t <- as.matrix(t)
+  
   ## Stop if t is not numeric
     if(!is.numeric(t)){
         stop("t must be numeric matrix or numeric vector")
