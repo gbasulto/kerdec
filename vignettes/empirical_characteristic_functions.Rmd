@@ -69,7 +69,7 @@ library(kerdec)
 lambda <- 10
 n <- 150                                # Sample size
 m <- 200                                # Grid size
-t <- seq(-5, 5, length.out = m)         # Evaluation grid
+t <- seq(-2, 2, length.out = m)         # Evaluation grid
 smp <- rpois(n, lambda)                 # Random sample
 
 ## Compute empirical characteristic values and characteristic function
