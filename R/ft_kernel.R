@@ -27,11 +27,11 @@ ft_kernel <- function(t, ker){
                       "flat-top" = 5,
                       stop("Kernel not specified")
                       )
+    }
 
         ## Call the appropriate function
         if(is.vector(t)) t <- matrix(t)
 
         return(drop(ft_kernel_cpp(t, ker)))
-    }
 }
 
