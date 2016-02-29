@@ -1,6 +1,7 @@
 
 #include <RcppArmadillo.h>
 // [[Rcpp::depends(RcppArmadillo)]]
+// [[Rcpp::interfaces(r, cpp)]]
 
 using namespace arma;
 

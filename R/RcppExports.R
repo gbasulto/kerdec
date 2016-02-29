@@ -83,3 +83,7 @@ ft_kernel_cpp <- function(t, ker) {
     .Call('kerdec_ft_kernel_cpp', PACKAGE = 'kerdec', t, ker)
 }
 
+# Register entry points for exported C++ functions
+methods::setLoadAction(function(ns) {
+    .Call('kerdec_RcppExport_registerCCallable', PACKAGE = 'kerdec')
+})

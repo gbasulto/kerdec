@@ -3,66 +3,187 @@
 
 #include <RcppArmadillo.h>
 #include <Rcpp.h>
+#include <string>
+#include <set>
 
 using namespace Rcpp;
 
 // ecf_re_cpp
 arma::vec ecf_re_cpp(arma::mat t, arma::mat smp);
-RcppExport SEXP kerdec_ecf_re_cpp(SEXP tSEXP, SEXP smpSEXP) {
+static SEXP kerdec_ecf_re_cpp_try(SEXP tSEXP, SEXP smpSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< arma::mat >::type t(tSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type smp(smpSEXP);
     __result = Rcpp::wrap(ecf_re_cpp(t, smp));
     return __result;
-END_RCPP
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP kerdec_ecf_re_cpp(SEXP tSEXP, SEXP smpSEXP) {
+    SEXP __result;
+    {
+        Rcpp::RNGScope __rngScope;
+        __result = PROTECT(kerdec_ecf_re_cpp_try(tSEXP, smpSEXP));
+    }
+    Rboolean __isInterrupt = Rf_inherits(__result, "interrupted-error");
+    if (__isInterrupt) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    Rboolean __isError = Rf_inherits(__result, "try-error");
+    if (__isError) {
+        SEXP __msgSEXP = Rf_asChar(__result);
+        UNPROTECT(1);
+        Rf_error(CHAR(__msgSEXP));
+    }
+    UNPROTECT(1);
+    return __result;
 }
 // ecf_im_cpp
 arma::vec ecf_im_cpp(arma::mat t, arma::mat smp);
-RcppExport SEXP kerdec_ecf_im_cpp(SEXP tSEXP, SEXP smpSEXP) {
+static SEXP kerdec_ecf_im_cpp_try(SEXP tSEXP, SEXP smpSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< arma::mat >::type t(tSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type smp(smpSEXP);
     __result = Rcpp::wrap(ecf_im_cpp(t, smp));
     return __result;
-END_RCPP
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP kerdec_ecf_im_cpp(SEXP tSEXP, SEXP smpSEXP) {
+    SEXP __result;
+    {
+        Rcpp::RNGScope __rngScope;
+        __result = PROTECT(kerdec_ecf_im_cpp_try(tSEXP, smpSEXP));
+    }
+    Rboolean __isInterrupt = Rf_inherits(__result, "interrupted-error");
+    if (__isInterrupt) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    Rboolean __isError = Rf_inherits(__result, "try-error");
+    if (__isError) {
+        SEXP __msgSEXP = Rf_asChar(__result);
+        UNPROTECT(1);
+        Rf_error(CHAR(__msgSEXP));
+    }
+    UNPROTECT(1);
+    return __result;
 }
 // ecf_mod_cpp
 arma::vec ecf_mod_cpp(arma::mat t, arma::mat smp);
-RcppExport SEXP kerdec_ecf_mod_cpp(SEXP tSEXP, SEXP smpSEXP) {
+static SEXP kerdec_ecf_mod_cpp_try(SEXP tSEXP, SEXP smpSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< arma::mat >::type t(tSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type smp(smpSEXP);
     __result = Rcpp::wrap(ecf_mod_cpp(t, smp));
     return __result;
-END_RCPP
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP kerdec_ecf_mod_cpp(SEXP tSEXP, SEXP smpSEXP) {
+    SEXP __result;
+    {
+        Rcpp::RNGScope __rngScope;
+        __result = PROTECT(kerdec_ecf_mod_cpp_try(tSEXP, smpSEXP));
+    }
+    Rboolean __isInterrupt = Rf_inherits(__result, "interrupted-error");
+    if (__isInterrupt) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    Rboolean __isError = Rf_inherits(__result, "try-error");
+    if (__isError) {
+        SEXP __msgSEXP = Rf_asChar(__result);
+        UNPROTECT(1);
+        Rf_error(CHAR(__msgSEXP));
+    }
+    UNPROTECT(1);
+    return __result;
 }
 // ecf_cpp
 arma::cx_vec ecf_cpp(arma::mat t, arma::mat smp);
-RcppExport SEXP kerdec_ecf_cpp(SEXP tSEXP, SEXP smpSEXP) {
+static SEXP kerdec_ecf_cpp_try(SEXP tSEXP, SEXP smpSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< arma::mat >::type t(tSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type smp(smpSEXP);
     __result = Rcpp::wrap(ecf_cpp(t, smp));
     return __result;
-END_RCPP
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP kerdec_ecf_cpp(SEXP tSEXP, SEXP smpSEXP) {
+    SEXP __result;
+    {
+        Rcpp::RNGScope __rngScope;
+        __result = PROTECT(kerdec_ecf_cpp_try(tSEXP, smpSEXP));
+    }
+    Rboolean __isInterrupt = Rf_inherits(__result, "interrupted-error");
+    if (__isInterrupt) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    Rboolean __isError = Rf_inherits(__result, "try-error");
+    if (__isError) {
+        SEXP __msgSEXP = Rf_asChar(__result);
+        UNPROTECT(1);
+        Rf_error(CHAR(__msgSEXP));
+    }
+    UNPROTECT(1);
+    return __result;
 }
 // ft_kernel_cpp
 arma::vec ft_kernel_cpp(arma::mat t, int ker);
-RcppExport SEXP kerdec_ft_kernel_cpp(SEXP tSEXP, SEXP kerSEXP) {
+static SEXP kerdec_ft_kernel_cpp_try(SEXP tSEXP, SEXP kerSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< arma::mat >::type t(tSEXP);
     Rcpp::traits::input_parameter< int >::type ker(kerSEXP);
     __result = Rcpp::wrap(ft_kernel_cpp(t, ker));
     return __result;
-END_RCPP
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP kerdec_ft_kernel_cpp(SEXP tSEXP, SEXP kerSEXP) {
+    SEXP __result;
+    {
+        Rcpp::RNGScope __rngScope;
+        __result = PROTECT(kerdec_ft_kernel_cpp_try(tSEXP, kerSEXP));
+    }
+    Rboolean __isInterrupt = Rf_inherits(__result, "interrupted-error");
+    if (__isInterrupt) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    Rboolean __isError = Rf_inherits(__result, "try-error");
+    if (__isError) {
+        SEXP __msgSEXP = Rf_asChar(__result);
+        UNPROTECT(1);
+        Rf_error(CHAR(__msgSEXP));
+    }
+    UNPROTECT(1);
+    return __result;
+}
+
+// validate (ensure exported C++ functions exist before calling them)
+static int kerdec_RcppExport_validate(const char* sig) { 
+    static std::set<std::string> signatures;
+    if (signatures.empty()) {
+        signatures.insert("arma::vec(*ecf_re_cpp)(arma::mat,arma::mat)");
+        signatures.insert("arma::vec(*ecf_im_cpp)(arma::mat,arma::mat)");
+        signatures.insert("arma::vec(*ecf_mod_cpp)(arma::mat,arma::mat)");
+        signatures.insert("arma::cx_vec(*ecf_cpp)(arma::mat,arma::mat)");
+        signatures.insert("arma::vec(*ft_kernel_cpp)(arma::mat,int)");
+    }
+    return signatures.find(sig) != signatures.end();
+}
+
+// registerCCallable (register entry points for exported C++ functions)
+RcppExport SEXP kerdec_RcppExport_registerCCallable() { 
+    R_RegisterCCallable("kerdec", "kerdec_ecf_re_cpp", (DL_FUNC)kerdec_ecf_re_cpp_try);
+    R_RegisterCCallable("kerdec", "kerdec_ecf_im_cpp", (DL_FUNC)kerdec_ecf_im_cpp_try);
+    R_RegisterCCallable("kerdec", "kerdec_ecf_mod_cpp", (DL_FUNC)kerdec_ecf_mod_cpp_try);
+    R_RegisterCCallable("kerdec", "kerdec_ecf_cpp", (DL_FUNC)kerdec_ecf_cpp_try);
+    R_RegisterCCallable("kerdec", "kerdec_ft_kernel_cpp", (DL_FUNC)kerdec_ft_kernel_cpp_try);
+    R_RegisterCCallable("kerdec", "kerdec_RcppExport_validate", (DL_FUNC)kerdec_RcppExport_validate);
+    return R_NilValue;
 }
