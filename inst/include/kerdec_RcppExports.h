@@ -25,6 +25,25 @@ namespace kerdec {
         }
     }
 
+    inline arma::vec ft_kernel_cpp(arma::mat t, int ker) {
+        typedef SEXP(*Ptr_ft_kernel_cpp)(SEXP,SEXP);
+        static Ptr_ft_kernel_cpp p_ft_kernel_cpp = NULL;
+        if (p_ft_kernel_cpp == NULL) {
+            validateSignature("arma::vec(*ft_kernel_cpp)(arma::mat,int)");
+            p_ft_kernel_cpp = (Ptr_ft_kernel_cpp)R_GetCCallable("kerdec", "kerdec_ft_kernel_cpp");
+        }
+        RObject __result;
+        {
+            RNGScope __rngScope;
+            __result = p_ft_kernel_cpp(Rcpp::wrap(t), Rcpp::wrap(ker));
+        }
+        if (__result.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (__result.inherits("try-error"))
+            throw Rcpp::exception(as<std::string>(__result).c_str());
+        return Rcpp::as<arma::vec >(__result);
+    }
+
     inline arma::vec ecf_re_cpp(arma::mat t, arma::mat smp) {
         typedef SEXP(*Ptr_ecf_re_cpp)(SEXP,SEXP);
         static Ptr_ecf_re_cpp p_ecf_re_cpp = NULL;
@@ -99,25 +118,6 @@ namespace kerdec {
         if (__result.inherits("try-error"))
             throw Rcpp::exception(as<std::string>(__result).c_str());
         return Rcpp::as<arma::cx_vec >(__result);
-    }
-
-    inline arma::vec ft_kernel_cpp(arma::mat t, int ker) {
-        typedef SEXP(*Ptr_ft_kernel_cpp)(SEXP,SEXP);
-        static Ptr_ft_kernel_cpp p_ft_kernel_cpp = NULL;
-        if (p_ft_kernel_cpp == NULL) {
-            validateSignature("arma::vec(*ft_kernel_cpp)(arma::mat,int)");
-            p_ft_kernel_cpp = (Ptr_ft_kernel_cpp)R_GetCCallable("kerdec", "kerdec_ft_kernel_cpp");
-        }
-        RObject __result;
-        {
-            RNGScope __rngScope;
-            __result = p_ft_kernel_cpp(Rcpp::wrap(t), Rcpp::wrap(ker));
-        }
-        if (__result.inherits("interrupted-error"))
-            throw Rcpp::internal::InterruptedException();
-        if (__result.inherits("try-error"))
-            throw Rcpp::exception(as<std::string>(__result).c_str());
-        return Rcpp::as<arma::vec >(__result);
     }
 
 }
