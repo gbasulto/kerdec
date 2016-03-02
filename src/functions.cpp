@@ -1,7 +1,7 @@
 
 #include <RcppArmadillo.h>
+#include <fourierin.h>
 // [[Rcpp::depends(RcppArmadillo)]]
-// [[Rcpp::interfaces(r, cpp)]]
 
 using namespace arma;
 
@@ -213,3 +213,16 @@ arma::cx_vec ecf_cpp(arma::mat t, arma::mat smp)
   return arma::cx_vec(real, imag);
 }
 
+
+/* Deconvolution formulas */
+
+//' Multivariate kernel deconvolution density estimator
+//'
+//' @export
+//[[Rcpp::export]]
+arma::vec kerdec_dens()
+{
+  arma::vec out(5);
+
+  return out;
+}

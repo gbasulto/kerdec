@@ -83,7 +83,10 @@ ecf_cpp <- function(t, smp) {
     .Call('kerdec_ecf_cpp', PACKAGE = 'kerdec', t, smp)
 }
 
-# Register entry points for exported C++ functions
-methods::setLoadAction(function(ns) {
-    .Call('kerdec_RcppExport_registerCCallable', PACKAGE = 'kerdec')
-})
+#' Multivariate kernel deconvolution density estimator
+#'
+#' @export
+kerdec_dens <- function() {
+    .Call('kerdec_kerdec_dens', PACKAGE = 'kerdec')
+}
+
