@@ -86,7 +86,7 @@ ecf_cpp <- function(t, smp) {
 #' Multivariate kernel deconvolution density estimator
 #'
 #' @export
-kerdec_dens <- function() {
-    .Call('kerdec_kerdec_dens', PACKAGE = 'kerdec')
+kerdec_dens <- function(smp) {
+    .Call('kerdec_kerdec_dens', PACKAGE = 'kerdec', smp)
 }
 

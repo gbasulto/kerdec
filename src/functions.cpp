@@ -220,9 +220,11 @@ arma::cx_vec ecf_cpp(arma::mat t, arma::mat smp)
 //'
 //' @export
 //[[Rcpp::export]]
-arma::vec kerdec_dens()
+arma::cx_vec kerdec_dens(arma::vec smp)
 {
-  arma::vec out(5);
+  arma::cx_vec out(smp.n_rows);
 
+  out = fourierin::fourierin_1d_cpp(smp, 0, 1, 0, 1, 0, 0);
+  
   return out;
 }
