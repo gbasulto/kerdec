@@ -5,9 +5,17 @@
 
 using namespace arma;
 
-/* In this file we define functions to evaluate Fourier transforms of
-kernels. Such Fourier transforms must have support [-1, 1].  */
+/* 
+   We start by defining functions to work with Fourier transforms of
+   kernels. All of these transforms with support [-1, 1].
+   Specifically:
 
+   ft_kernel_cpp
+*/
+
+// ------------------------------------------------------------------
+//             Evaluate at only one value
+// ------------------------------------------------------------------
 double ft_kernel_cpp(double t, int ker)
 {
   double out;			// Output number
@@ -41,6 +49,9 @@ double ft_kernel_cpp(double t, int ker)
   return out;
 }
 
+// ------------------------------------------------------------------
+//             Evaluate at only at vectors or matrices
+// ------------------------------------------------------------------
 //' Fourier transforms of kernels
 //'
 //' See ft_kernel
@@ -63,13 +74,14 @@ arma::vec ft_kernel_cpp(arma::mat t, int ker)
 
 
 
-/* We will compute the real and imaginary parts of the empirical
-characteristic function as well as its modulus and the empirical
-characteristic function itself. All of this for univariate and
-multivariate cases.
-
-The purpose of doing it separately it is just for avoiding
-unnecesary computations or use of complex numbers.
+/* 
+   We will compute the real and imaginary parts of the empirical
+   characteristic function as well as its modulus and the empirical
+   characteristic function itself. All of this for univariate and
+   multivariate cases.
+   
+   The purpose of doing it separately it is just for avoiding
+   unnecesary computations or use of complex numbers.
 */
 
 /* --------------------------------------------------------------- */
