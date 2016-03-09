@@ -239,8 +239,9 @@ arma::cx_vec kerdec_dens_pure_1d_cpp(arma::vec smp, arma::vec error_smp,
 
   fun_vals = smp;
   
-  out = fourierin::fourierin_1d_cpp(fun_vals, -1, 1,
-				    lower, upper, -1, -1);
+  out = fourierin::fourierin_1d_cpp(fun_vals, -1.0, 1.0,
+				    lower, upper, -1.0, -1.0,
+				    resolution);
   
   return out;
 }
@@ -253,6 +254,8 @@ arma::cx_vec kerdec_dens_pure_1d_cpp(arma::vec smp, arma::vec error_smp,
 arma::cx_vec kerdec_dens(arma::vec smp)
 {
   arma::cx_vec out(smp.n_rows);
+
+  
 
   out = fourierin::fourierin_1d_cpp(smp, 0, 1, 0, 1, 0, 0);
   
