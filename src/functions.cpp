@@ -240,18 +240,25 @@ arma::cx_vec ecf_cpp(arma::mat t, arma::mat smp)
 
 /* Deconvolution formula when a sample of pure errors is available,
    which is independent from the signal. */
+
+//' @export
+//[[Rcpp::export]]
 arma::cx_vec kerdec_dens_pure_1d_cpp(arma::vec smp, arma::vec error_smp,
+				     double h,
 				     double lower, double upper,
 				     double cutoff, int resolution)
 {
-  arma::vec fun_vals(smp.n_rows); 
-  arma::cx_vec out(smp.n_rows);
+  int m = resolution;
+  arma::vec t(resolution); 
+  arma::cx_vec fun_vals(smp.n_rows), out(smp.n_rows);
 
-  fun_vals = smp;
+  fun_vals.zeros();
   
-  out = fourierin::fourierin_1d_cpp(fun_vals, -1.0, 1.0,
-				    lower, upper, -1.0, -1.0,
-				    resolution);
+  t = arma::linspace<arma::vec>(-1.0/h, 1.0/h - 2.0/h/m, m);
+  t.print();
+  
+  out = fourierin::fourierin_cx_1d_cpp(fun_vals, -1/h, 1/h,
+				    lower, upper, -1.0, -1.0);
   
   return out;
 }
