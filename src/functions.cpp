@@ -5,12 +5,22 @@
 
 using namespace arma;
 
+/* -------------------------------------------------------------------
+
+   The code on this file could be separated in the following topics of
+   functions:
+
+   1. Fourier transforms of kernels.
+   2. Empirical characteristic functions.
+   3. Univariate kdde.
+
+--------------------------------------------------------------------*/
+
 /* 
+   Fourier transforms of kernels and product kernels
+
    We start by defining functions to work with Fourier transforms of
    kernels. All of these transforms with support [-1, 1].
-   Specifically:
-
-   ft_kernel_cpp
 */
 
 // ------------------------------------------------------------------
