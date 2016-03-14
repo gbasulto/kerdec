@@ -254,8 +254,9 @@ arma::cx_vec kerdec_dens_pure_1d_cpp(arma::vec smp, arma::vec error_smp,
 
   fun_vals.zeros();
   
-  t = arma::linspace<arma::vec>(-1.0/h, 1.0/h - 2.0/h/m, m);
-  t.print();
+  t = arma::linspace<arma::mat>(-1.0/h, 1.0/h - 2.0/h/m, m);
+
+  fun_vals = ecf_cpp(t, smp)/ecf_mod_cpp(t, error_smp);
   
   out = fourierin::fourierin_cx_1d_cpp(fun_vals, -1/h, 1/h,
 				    lower, upper, -1.0, -1.0);
