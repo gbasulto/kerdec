@@ -250,7 +250,7 @@ arma::cx_vec kerdec_dens_pure_1d_cpp(arma::vec smp, arma::vec error_smp,
 {
   int m = resolution, i;
   arma::vec t(m), denom(m); 
-  arma::cx_vec fun_vals(smp.n_rows), out(smp.n_rows);
+  arma::cx_vec fun_vals(m), out(m);
 
   t = arma::linspace<arma::mat>(-1.0/h, 1.0/h - 2.0/h/m, m);
 
