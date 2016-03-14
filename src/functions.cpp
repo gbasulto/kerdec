@@ -248,15 +248,19 @@ arma::cx_vec kerdec_dens_pure_1d_cpp(arma::vec smp, arma::vec error_smp,
 				     double lower, double upper,
 				     double cutoff, int resolution)
 {
-  int m = resolution;
-  arma::vec t(resolution); 
+  int m = resolution, i;
+  arma::vec t(m), denom(m); 
   arma::cx_vec fun_vals(smp.n_rows), out(smp.n_rows);
 
-  fun_vals.zeros();
-  
   t = arma::linspace<arma::mat>(-1.0/h, 1.0/h - 2.0/h/m, m);
 
-  fun_vals = ecf_cpp(t, smp)/ecf_mod_cpp(t, error_smp);
+  denom = ecf_mod_cpp(t, error_smp);
+  fun_vals = ecf_cpp(t, smp)/denom;
+
+  for(i = 0; i < m; i++)
+    {
+      if(denom[i] < cutoff) fun_vals[i] = 0; 
+    }
   
   out = fourierin::fourierin_cx_1d_cpp(fun_vals, -1/h, 1/h,
 				    lower, upper, -1.0, -1.0);
