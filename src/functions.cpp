@@ -53,7 +53,7 @@ double ft_kernel_cpp(double t, int ker)
     else out = 1 - 2.0*(t - 0.5);
     break;
   default:
-    Rcpp::stop("Kernel not specified.");
+    Rcpp::stop("Kernel not defined.");
   }
   
   return out;
@@ -246,16 +246,23 @@ arma::cx_vec ecf_cpp(arma::mat t, arma::mat smp)
 arma::cx_vec kerdec_dens_pure_1d_cpp(arma::vec smp, arma::vec error_smp,
 				     double h,
 				     double lower, double upper,
-				     double cutoff, int resolution)
+				     int resolution,
+				     int ker,
+				     double cutoff = 999)
 {
   int m = resolution, i;
   arma::vec t(m), denom(m); 
   arma::cx_vec fun_vals(m), out(m);
 
+  // If no cutoff is given, it is set to the one suggested by Neumann
+  // (1997).
+  if(cutoff == 999) cutoff = 1/sqrt(smp.n_rows);
+
+  // Define grid where the integrand will be evaluated.
   t = arma::linspace<arma::mat>(-1.0/h, 1.0/h - 2.0/h/m, m);
 
   denom = ecf_mod_cpp(t, error_smp);
-  fun_vals = ecf_cpp(t, smp)/denom;
+  fun_vals = ecf_cpp(t, smp) % ft_kernel_cpp(h*t, ker)/denom;
 
   for(i = 0; i < m; i++)
     {
