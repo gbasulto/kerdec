@@ -275,6 +275,47 @@ arma::cx_vec kerdec_dens_pure_1d_cpp(arma::vec smp, arma::vec error_smp,
   return out;
 }
 
+//' Process differences for panel data
+//'
+//' Panel data allows to approximate the characteristic function of
+//' the error taking differences of observations for each
+//' individual. This way is not unique when there are more than two
+//' replicates per individual. This function allows to do it in
+//' several ways.
+//' @export
+//[[Rcpp::export]]
+arma::vec process_differences(arma::mat smp, int method)
+{
+  int n, d, i, l;
+  
+  n = smp.n_rows;
+  d = smp.n_cols;
+
+  switch(method)
+    {
+    case 1:
+      // Case 1: All pairwise differences
+      l = n*d*(d - 1)/2;
+      arma::vec out(l);
+      break;
+    case 2:
+      // Case 2: All versus first.
+      arma::vec out(l);
+      l = n*(d - 1);
+    case 3:
+      // Case 3: Group columns by pairs.
+      l  = n*d/2;
+      arma::vec out(l);
+    default:
+      Rcpp::stop("Differences method not defined.");
+    }
+
+  
+  
+  return out;
+}
+
+
 //' @export
 //[[Rcpp::export]]
 arma::cx_vec kerdec_dens_panel_1d_cpp(arma::mat smp,
@@ -286,7 +327,7 @@ arma::cx_vec kerdec_dens_panel_1d_cpp(arma::mat smp,
 				      int diff_processing = 1)
 {
   int m = resolution, i;
-  // arma::vec t(m), denom(m); 
+  arma::vec t(m), denom(m); 
   arma::cx_vec fun_vals(m), out(m);
 
   // // If no cutoff is given, it is set to the one suggested by Neumann
@@ -318,9 +359,6 @@ arma::cx_vec kerdec_dens_panel_1d_cpp(arma::mat smp,
 arma::cx_vec kerdec_dens(arma::vec smp)
 {
   arma::cx_vec out(smp.n_rows);
-
-  
-
   out = fourierin::fourierin_1d_cpp(smp, 0, 1, 0, 1, 0, 0);
   
   return out;
