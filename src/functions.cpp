@@ -277,35 +277,35 @@ arma::cx_vec kerdec_dens_pure_1d_cpp(arma::vec smp, arma::vec error_smp,
 
 //' @export
 //[[Rcpp::export]]
-arma::cx_vec kerdec_dens_panel_1d_cpp(arma::vec smp,
-				      arma::vec error_smp,
+arma::cx_vec kerdec_dens_panel_1d_cpp(arma::mat smp,
 				      double h,
 				      double lower, double upper,
 				      int resolution,
 				      int ker,
-				      double cutoff = 999)
+				      double cutoff = 999,
+				      int diff_processing = 1)
 {
   int m = resolution, i;
-  arma::vec t(m), denom(m); 
+  // arma::vec t(m), denom(m); 
   arma::cx_vec fun_vals(m), out(m);
 
-  // If no cutoff is given, it is set to the one suggested by Neumann
-  // (1997).
-  if(cutoff == 999) cutoff = 1/sqrt(smp.n_rows);
+  // // If no cutoff is given, it is set to the one suggested by Neumann
+  // // (1997).
+  // if(cutoff == 999) cutoff = 1/sqrt(smp.n_rows);
 
-  // Define grid where the integrand will be evaluated.
-  t = arma::linspace<arma::mat>(-1.0/h, 1.0/h - 2.0/h/m, m);
+  // // Define grid where the integrand will be evaluated.
+  // t = arma::linspace<arma::mat>(-1.0/h, 1.0/h - 2.0/h/m, m);
 
-  denom = ecf_mod_cpp(t, error_smp);
-  fun_vals = ecf_cpp(t, smp) % ft_kernel_cpp(h*t, ker)/denom;
+  // denom = ecf_mod_cpp(t, error_smp);
+  // fun_vals = ecf_cpp(t, smp) % ft_kernel_cpp(h*t, ker)/denom;
 
-  for(i = 0; i < m; i++)
-    {
-      if(denom[i] < cutoff) fun_vals[i] = 0; 
-    }
+  // for(i = 0; i < m; i++)
+  //   {
+  //     if(denom[i] < cutoff) fun_vals[i] = 0; 
+  //   }
   
-  out = fourierin::fourierin_cx_1d_cpp(fun_vals, -1/h, 1/h,
-				    lower, upper, -1.0, -1.0);
+  // out = fourierin::fourierin_cx_1d_cpp(fun_vals, -1/h, 1/h,
+  // 				    lower, upper, -1.0, -1.0);
   
   return out;
 }

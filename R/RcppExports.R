@@ -88,6 +88,11 @@ kerdec_dens_pure_1d_cpp <- function(smp, error_smp, h, lower, upper, resolution,
     .Call('kerdec_kerdec_dens_pure_1d_cpp', PACKAGE = 'kerdec', smp, error_smp, h, lower, upper, resolution, ker, cutoff)
 }
 
+#' @export
+kerdec_dens_panel_1d_cpp <- function(smp, h, lower, upper, resolution, ker, cutoff = 999, diff_processing = 1L) {
+    .Call('kerdec_kerdec_dens_panel_1d_cpp', PACKAGE = 'kerdec', smp, h, lower, upper, resolution, ker, cutoff, diff_processing)
+}
+
 #' Multivariate kernel deconvolution density estimator
 #'
 #' @export
