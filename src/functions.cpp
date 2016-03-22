@@ -286,35 +286,68 @@ arma::cx_vec kerdec_dens_pure_1d_cpp(arma::vec smp, arma::vec error_smp,
 //[[Rcpp::export]]
 arma::vec process_differences(arma::mat smp, int method)
 {
-  int n, d, i, l;
+  // n is the sample size, d the dimension, l the output vector size
+  // and idx index tro fill out output vector. The rest are indices
+  // for loops.
+  int n, d, i, j, k, l, idx;
   
   n = smp.n_rows;
   d = smp.n_cols;
 
+  if(d == 1)
+    {
+      Rcpp::stop("smp must be a matrix with at least two columns.");
+    }
+  
+  // Select vector size based on the selected method.
   switch(method)
     {
-    case 1:
-      // Case 1: All pairwise differences
+    case 1:			// All pairwise differences
       l = n*d*(d - 1)/2;
-      // arma::vec out(l);
      break;
-    case 2:
-      // Case 2: All versus first.
+    case 2:			// All versus first.
       l = n*(d - 1);
-      // arma::vec out(l);
       break;
-    case 3:
-      // Case 3: Group columns by pairs.
-      l  = n*d/2;
-      // arma::vec out(l);
+    case 3:			// Group columns by pairs.
+      l  = n*(d/2);
       break;
     default:
       Rcpp::stop("Differences method not defined.");
     }
 
   arma::vec out(l);
-  out.zeros();
-   Rprintf("%d\n", l);
+  idx = 0;
+
+  switch(method)
+    {
+    case 1:			// All pairwise differences
+      for(i = 0; i < n; i++)
+	for(j = d - 1; j > 0; j--)
+	  for(k = j - 1; k >= 0; k--)
+	    {
+	      out(idx) = smp(i, j) - smp(i, k);
+	      idx++;
+	    }
+      break;
+    case 2:			// All versus first.
+      for(i = 0; i < n; i++)
+	for(j = d - 1; j > 0; j--)
+	  {
+	    out(idx) = smp(i, j) - smp(i, 0);
+	    idx++;
+	  }
+      break;
+    case 3:			// Group columns by pairs.
+      for(i = 0; i < n; i++)
+	for(j = d/2 - 1; j >= 0; j--)
+	  {
+	    out(idx) = smp(i, 2*j + 1) - smp(i, 2*j);
+	    idx++;
+	  }
+      break;
+    default:
+      Rcpp::stop("Differences method not defined.");
+    }
   
   return out;
 }
