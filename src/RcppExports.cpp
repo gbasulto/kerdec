@@ -84,6 +84,18 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// process_differences
+arma::vec process_differences(arma::mat smp, int method);
+RcppExport SEXP kerdec_process_differences(SEXP smpSEXP, SEXP methodSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< arma::mat >::type smp(smpSEXP);
+    Rcpp::traits::input_parameter< int >::type method(methodSEXP);
+    __result = Rcpp::wrap(process_differences(smp, method));
+    return __result;
+END_RCPP
+}
 // kerdec_dens_panel_1d_cpp
 arma::cx_vec kerdec_dens_panel_1d_cpp(arma::mat smp, double h, double lower, double upper, int resolution, int ker, double cutoff, int diff_processing);
 RcppExport SEXP kerdec_kerdec_dens_panel_1d_cpp(SEXP smpSEXP, SEXP hSEXP, SEXP lowerSEXP, SEXP upperSEXP, SEXP resolutionSEXP, SEXP kerSEXP, SEXP cutoffSEXP, SEXP diff_processingSEXP) {

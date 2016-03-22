@@ -296,21 +296,25 @@ arma::vec process_differences(arma::mat smp, int method)
     case 1:
       // Case 1: All pairwise differences
       l = n*d*(d - 1)/2;
-      arma::vec out(l);
-      break;
+      // arma::vec out(l);
+     break;
     case 2:
       // Case 2: All versus first.
-      arma::vec out(l);
       l = n*(d - 1);
+      // arma::vec out(l);
+      break;
     case 3:
       // Case 3: Group columns by pairs.
       l  = n*d/2;
-      arma::vec out(l);
+      // arma::vec out(l);
+      break;
     default:
       Rcpp::stop("Differences method not defined.");
     }
 
-  
+  arma::vec out(l);
+  out.zeros();
+   Rprintf("%d\n", l);
   
   return out;
 }

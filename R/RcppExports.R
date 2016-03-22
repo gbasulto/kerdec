@@ -88,6 +88,18 @@ kerdec_dens_pure_1d_cpp <- function(smp, error_smp, h, lower, upper, resolution,
     .Call('kerdec_kerdec_dens_pure_1d_cpp', PACKAGE = 'kerdec', smp, error_smp, h, lower, upper, resolution, ker, cutoff)
 }
 
+#' Process differences for panel data
+#'
+#' Panel data allows to approximate the characteristic function of
+#' the error taking differences of observations for each
+#' individual. This way is not unique when there are more than two
+#' replicates per individual. This function allows to do it in
+#' several ways.
+#' @export
+process_differences <- function(smp, method) {
+    .Call('kerdec_process_differences', PACKAGE = 'kerdec', smp, method)
+}
+
 #' @export
 kerdec_dens_panel_1d_cpp <- function(smp, h, lower, upper, resolution, ker, cutoff = 999, diff_processing = 1L) {
     .Call('kerdec_kerdec_dens_panel_1d_cpp', PACKAGE = 'kerdec', smp, h, lower, upper, resolution, ker, cutoff, diff_processing)
