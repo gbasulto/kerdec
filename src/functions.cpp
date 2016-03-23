@@ -282,6 +282,12 @@ arma::cx_vec kerdec_dens_pure_1d_cpp(arma::vec smp, arma::vec error_smp,
 //' individual. This way is not unique when there are more than two
 //' replicates per individual. This function allows to do it in
 //' several ways.
+//' 
+//' @param smp n x d matrix
+//' @param method Integer specifying method to process differences.
+//'        1, all pairwise differences.
+//'        2, all minus first.
+//'        3, independent columns.
 //' @export
 //[[Rcpp::export]]
 arma::vec process_differences(arma::mat smp, int method)

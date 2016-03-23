@@ -6,6 +6,14 @@
 \usage{
 process_differences(smp, method)
 }
+\arguments{
+\item{smp}{n x d matrix}
+
+\item{method}{Integer specifying method to process differences.
+1, all pairwise differences.
+2, all minus first.
+3, independent columns.}
+}
 \description{
 Panel data allows to approximate the characteristic function of
 the error taking differences of observations for each
