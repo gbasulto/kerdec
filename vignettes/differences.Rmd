@@ -1,0 +1,40 @@
+---
+title: "Taking differences from panel data structure"
+author: "Guillermo Basulto-Elias"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+Panel data structure $Y_{ij}$ for individual $i = 1, \ldots, n$ and occasion $j = 1, \ldots, l$.
+
+An example of panel data is 
+
+$$ 
+\begin{bmatrix}
+0 & 0 \\
+1 & 1 
+\end{bmatrix}
+$$
+
+```{r}
+
+library(kerdec)
+
+smp <- matrix(c(0, 1, 3, 6, 10,
+                1, 2, 4, 7, 11), 
+              2, 5, byrow = TRUE)
+
+vec1 <- process_differences(smp, method = 1)
+vec2 <- process_differences(smp, method = 2)
+vec3 <- process_differences(smp, method = 3)
+
+c(vec1)
+c(vec2)
+c(vec3)
+
+```
+

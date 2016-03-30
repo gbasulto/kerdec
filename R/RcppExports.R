@@ -95,6 +95,12 @@ kerdec_dens_pure_1d_cpp <- function(smp, error_smp, h, lower, upper, resolution,
 #' individual. This way is not unique when there are more than two
 #' replicates per individual. This function allows to do it in
 #' several ways.
+#' 
+#' @param smp n x d matrix
+#' @param method Integer specifying method to process differences.
+#'        1, all pairwise differences.
+#'        2, all minus first.
+#'        3, independent columns.
 #' @export
 process_differences <- function(smp, method) {
     .Call('kerdec_process_differences', PACKAGE = 'kerdec', smp, method)

@@ -299,7 +299,7 @@ arma::vec process_differences(arma::mat smp, int method)
   
   n = smp.n_rows;
   d = smp.n_cols;
-
+  
   if(d == 1)
     {
       Rcpp::stop("smp must be a matrix with at least two columns.");
