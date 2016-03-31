@@ -9,16 +9,27 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-Information about the error distribution can be extracted from panel data by taking differences or observations for the same individual, which produces differences of errors. For example, if $Y_{ij_1} = X_i + \epsilon_{ij_1}$ and $Y_{ij_2} = X_i + \epsilon_{ij_2}$ are two observations with measurement error for the same individual, then $Y_{ij_1} - Y_{ij_2} = \epsilon_{ij_1} - \epsilon_{ij_2}$
+Information about the error distribution can be extracted from panel data by taking differences or observations for the same individual, which produces differences of errors. For example, if $Y_{ij_1} = X_i + \epsilon_{ij_1}$ and $Y_{ij_2} = X_i + \epsilon_{ij_2}$ are two observations with measurement error for the same individual, then $Y_{ij_1} - Y_{ij_2} = \epsilon_{ij_1} - \epsilon_{ij_2}$.
+
+If there are only two observations per individual, this process is as simple as taking the difference between these two. However, when there are more than two observations per individual, there is not a unique way to do this. It is possible to take all possible differences, resulting on a sample of non-independent differences; to obtain independent samples, although fewer differences would be available, or a compromise between them.
+
+The function `process_differences()` considers three approaches which are described below. For the examples, consider a panel data array of contaminated observations with $n$ individuals and every measurement taken $l$ times, that is, 
+$$
+\begin{matrix}
+Y_{11} & \cdots & Y_{1k} \\
+Y_{21} & \cdots & Y_{2k} \\
+\vdots & \ddots & \vdots \\
+Y_{n1} & \cdots & Y_{nk}
+\end{matrix}.
+$$
+
+### Method 1: All pairwise differences
+
+We consider all the differences $Y_{ij_1} - Y_{ij_2}$, for individual $i \in {1, \ldots, n}$ and $1 \leq j_2 < j_1 \leq l$. Therefore, it must be $nl(l-1)/2$ differences.
+
+### Method 2: All versus first 
 
 
-Panel data structure $Y_{ij}$ for individual $i = 1, \ldots, n$ and occasion $j = 1, \ldots, l$.
-
-## Method 1: All pairwise difference
-
-All the differences $Y_{ij_1} - Y_{ij_2}$, for individual $i \in {1, \ldots, n}$ and 
-
-An example of panel data is 
 
 $$ 
 \begin{bmatrix}
@@ -45,3 +56,7 @@ c(vec3)
 
 ```
 
+## Thrash
+
+
+Panel data structure $Y_{ij}$ for individual $i = 1, \ldots, n$ and occasion $j = 1, \ldots, l$.
