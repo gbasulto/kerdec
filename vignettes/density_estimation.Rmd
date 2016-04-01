@@ -1,6 +1,6 @@
 ---
 title: "Kernel Density Deconvolution"
-author: "Guillermo Basulto"
+author: "Guillermo Basulto-Elias"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -11,9 +11,23 @@ vignette: >
 
 Kernel deconvolution formula.
 
+$$
+\hat{f}_{\boldsymbol{X}}(\boldsymbol{x}) = 
+    \frac{1}{(2\pi)^d}
+    \int e^{-\imath \langle \boldsymbol{x}, \boldsymbol{t} \rangle}
+    \hat{\phi}_{\boldsymbol{Y}, n}(\boldsymbol{t})
+    \frac{K^{Ft}(H^{-1/2}\boldsymbol{t})}
+         {\hat{\phi}_{\boldsymbol{\epsilon}}(\boldsymbol{t})}
+    d\boldsymbol{t}
+$$
+
+## Kernel deconvolution density estimation on panel data
+
 ```{r}
 library(kerdec)
 
+kerdec_dens_panel_1d_cpp(matrix(rnorm(12), 3, 4), h = .5, lower = -2, upper = 2,
+                         resolution = 64, ker = 1)
 
 ```
 
