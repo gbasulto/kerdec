@@ -369,16 +369,19 @@ arma::cx_vec kerdec_dens_panel_1d_cpp(arma::mat smp,
 				      double cutoff = 999,
 				      int diff_processing = 1)
 {
-  int m = resolution, i;
+  // n in the sample size and l is the number of repetitions.
+  int m = resolution, i, n, l;
   arma::vec t(m), denom(m); 
   arma::cx_vec fun_vals(m), out(m);
 
-  // // If no cutoff is given, it is set to the one suggested by Neumann
-  // // (1997).
-  // if(cutoff == 999) cutoff = 1/sqrt(smp.n_rows);
+  n = smp.n_rows;
 
-  // // Define grid where the integrand will be evaluated.
-  // t = arma::linspace<arma::mat>(-1.0/h, 1.0/h - 2.0/h/m, m);
+  // If no cutoff is given, it is set to the one suggested by Neumann
+  // (1997).
+  if(cutoff == 999) cutoff = 1/sqrt(n);
+
+  // Define grid where the integrand will be evaluated.
+  t = arma::linspace<arma::mat>(-1.0/h, 1.0/h - 2.0/h/m, m);
 
   // denom = ecf_mod_cpp(t, error_smp);
   // fun_vals = ecf_cpp(t, smp) % ft_kernel_cpp(h*t, ker)/denom;
