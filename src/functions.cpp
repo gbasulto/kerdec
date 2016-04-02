@@ -375,15 +375,16 @@ arma::cx_vec kerdec_dens_panel_1d_cpp(arma::mat smp,
   arma::cx_vec fun_vals(m), out(m);
 
   n = smp.n_rows;
+  l = smp.n_cols;
 
   // If no cutoff is given, it is set to the one suggested by Neumann
   // (1997).
   if(cutoff == 999) cutoff = 1/sqrt(n);
-
+  
   // Define grid where the integrand will be evaluated.
   t = arma::linspace<arma::mat>(-1.0/h, 1.0/h - 2.0/h/m, m);
-
-  // denom = ecf_mod_cpp(t, error_smp);
+  
+  denom = ecf_mod_cpp(t, process_differences(smp, diff_processing));
   // fun_vals = ecf_cpp(t, smp) % ft_kernel_cpp(h*t, ker)/denom;
 
   // for(i = 0; i < m; i++)
@@ -393,6 +394,8 @@ arma::cx_vec kerdec_dens_panel_1d_cpp(arma::mat smp,
   
   // out = fourierin::fourierin_cx_1d_cpp(fun_vals, -1/h, 1/h,
   // 				    lower, upper, -1.0, -1.0);
+
+  out.zeros();
   
   return out;
 }
