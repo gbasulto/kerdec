@@ -9,6 +9,15 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+It is desired to provide a nonparametric density estimator of a random vector $\boldsymbol{X}$ a random vector in $\mathbb{R}^d$ based on samples contaminated with additive error $\boldsymbol{\epsilon}$ say
+$$\boldsymbol{Y} = \boldsymbol{X} + \boldsymbol{\epsilon}.$$
+
+
+Let $\boldsymbol{X}_1, \ldots, \boldsymbol{X}_n$ be a sample of independent and identically distributed (_iid_) random vectors in $\mathbb{R}^d$. Suppose that it is desired to provide a density estimator 
+
+where for $i = 1, \ldots, n$,
+$$\boldsymbol{Y}_i = \boldsymbol{X}_i + \boldsymbol{\epsilon}_i$$. 
+
 Kernel deconvolution formula.
 
 $$
@@ -22,6 +31,7 @@ $$
 $$
 
 ## Kernel deconvolution density estimation on panel data
+
 
 ```{r}
 library(kerdec)
