@@ -358,6 +358,10 @@ arma::vec process_differences(arma::mat smp, int method)
   return out;
 }
 
+// arma::vec error_cf_approx(arma::vec t, arma::mat smp)
+// {
+  
+// }
 
 //' @export
 //[[Rcpp::export]]
