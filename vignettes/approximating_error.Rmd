@@ -24,6 +24,38 @@ Recall that $Y_{ij_1} - Y_{ij_2} = \epsilon_{ij_1} - \epsilon_{ij_2}$, that is, 
 
 ## Nonparametric approach
 
+Assume that the error distribution is symmetric and its characteristic function is never zero. The latter condition is true is $\boldsymbol{\epsilon}$ is Laplace or normal, for instance. Then $\phi_{\boldsymbol{\delta}}(\boldsymbol{t}) = 
+  \phi_{\boldsymbol{\epsilon}}^2(\boldsymbol{t})$
+
 $$
-\hat{\phi}_{\epsilon}(t) = \sqrt{\lvert \hat{\phi}_{\boldsymbol{\delta}} \rvert}
+\hat{\phi}_{\epsilon}(t) = 
+\sqrt{\lvert \hat{\phi}_{\boldsymbol{\delta}} (\boldsymbol{t}) \rvert}
 $$
+
+Therefore, 
+$$
+\hat{\phi}_{\bar{\epsilon}}(t) =
+\left[\hat{\phi}_{\epsilon}(t/k)\right]^k
+$$
+
+```{r, fig.width= 8, fig.height= 6}
+library(kerdec)
+
+n <- 50
+k <- 4
+smp <- matrix(rnorm(n*k), n, k)
+t <- seq(-10, 10, .05)
+
+averaged_smp <- rowMeans(smp);
+
+ecf1 <- ecf_mod(t, averaged_smp)
+ecf2 <- error_cf_approx(t = t, smp = smp, diff_method = 1)
+ecf3 <- exp(-t^2/2/k)
+
+plot(range(t), range(c(ecf1, ecf2, ecf3)), type = "n", col = "green")
+lines(t, ecf1, col = "green")
+lines(t, ecf2, col = "blue")
+lines(t, ecf3, col = "red")
+
+```
+
