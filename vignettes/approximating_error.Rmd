@@ -1,0 +1,29 @@
+---
+title: "Approximating error in Kernel Deconvolution Methods"
+author: "Guillermo Basulto-Elias"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+Consider the panel data 
+$$
+\begin{matrix}
+Y_{11} & \cdots & Y_{1k} \\
+Y_{21} & \cdots & Y_{2k} \\
+\vdots & \ddots & \vdots \\
+Y_{n1} & \cdots & Y_{nk}
+\end{matrix},
+$$
+where $Y_{ij} = X_i + \epsilon_{ij}$. We want to approximate the charactestic function of the error, $\phi_{\epsilon}(\cdot)$ based on these data. 
+
+Recall that $Y_{ij_1} - Y_{ij_2} = \epsilon_{ij_1} - \epsilon_{ij_2}$, that is, it is possible of extract differences of errors by taking differences of observations for the same individual. In vignette _differences_, we describe three possible ways to do this using the function `process_differences()`. Let $L$ denote the number of differences (thus, $L = nk(k - 1)/2$, $n(k - 1)$ or $n\lfloor k\rfloor/2$). Let $\delta_1, \ldots, \delta_L$ be such differences.
+
+## Nonparametric approach
+
+$$
+\hat{\phi}_{\epsilon}(t) = \sqrt{\lvert \hat{\phi}_{\boldsymbol{\delta}} \rvert}
+$$
