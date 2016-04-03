@@ -243,7 +243,8 @@ arma::cx_vec ecf_cpp(arma::mat t, arma::mat smp)
 
 //' @export
 //[[Rcpp::export]]
-arma::cx_vec kerdec_dens_pure_1d_cpp(arma::vec smp, arma::vec error_smp,
+arma::cx_vec kerdec_dens_pure_1d_cpp(arma::vec smp,
+				     arma::vec error_smp,
 				     double h,
 				     double lower, double upper,
 				     int resolution,
@@ -358,10 +359,20 @@ arma::vec process_differences(arma::mat smp, int method)
   return out;
 }
 
-// arma::vec error_cf_approx(arma::vec t, arma::mat smp)
-// {
-  
-// }
+//' @export
+//[[Rcpp::export]]
+arma::vec error_cf_appro(arma::vec t, arma::mat smp,
+			  int diff_method)
+{
+  int k = smp.n_cols;
+  arma::vec out(t);
+
+  out = ecf_mod_cpp(t/k, process_differences(smp, diff_method));
+  out = arma::pow(out, k/2.0);
+
+  return out;
+    
+}
 
 //' @export
 //[[Rcpp::export]]

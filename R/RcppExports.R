@@ -107,6 +107,11 @@ process_differences <- function(smp, method) {
 }
 
 #' @export
+error_cf_approx <- function(t, smp, diff_method) {
+    .Call('kerdec_error_cf_approx', PACKAGE = 'kerdec', t, smp, diff_method)
+}
+
+#' @export
 kerdec_dens_panel_1d_cpp <- function(smp, h, lower, upper, resolution, ker, cutoff = 999, diff_processing = 1L) {
     .Call('kerdec_kerdec_dens_panel_1d_cpp', PACKAGE = 'kerdec', smp, h, lower, upper, resolution, ker, cutoff, diff_processing)
 }
