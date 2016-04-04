@@ -41,7 +41,9 @@ $$
 ```{r, fig.width= 8, fig.height= 6}
 library(kerdec)
 
-n <- 50
+set.seed(1810)
+
+n <- 150
 k <- 4
 smp <- matrix(rnorm(n*k), n, k)
 t <- seq(-10, 10, .05)
@@ -52,7 +54,8 @@ ecf1 <- ecf_mod(t, averaged_smp)
 ecf2 <- error_cf_approx(t = t, smp = smp, diff_method = 1)
 ecf3 <- exp(-t^2/2/k)
 
-plot(range(t), range(c(ecf1, ecf2, ecf3)), type = "n", col = "green")
+plot(range(t), range(c(ecf1, ecf2, ecf3)), type = "n", col = "green",
+     ylab = "value", xlab = "t")
 lines(t, ecf1, col = "green")
 lines(t, ecf2, col = "blue")
 lines(t, ecf3, col = "red")
