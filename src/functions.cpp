@@ -242,11 +242,19 @@ arma::cx_vec ecf_cpp(arma::mat t, arma::mat smp)
   return arma::cx_vec(real, imag);
 }
 
+/* -------------------------------------------------------------------
 
-/* Deconvolution formulas */
+   UNIVARIATE KERNEL DECONVOLUTION FORMULAS 
 
-/* Deconvolution formula when a sample of pure errors is available,
-   which is independent from the signal. */
+   We include here functions for univariate kdde for knwon Gaussian or
+   Lpalce errors, pure samples errors and panel data.
+
+   -----------------------------------------------------------------*/
+
+
+// -------------------------------------------------------------------
+// Pure error sample (independent from contaminated sample)
+// -------------------------------------------------------------------
 
 //' @export
 //[[Rcpp::export]]
