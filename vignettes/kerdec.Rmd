@@ -11,14 +11,11 @@ vignette: >
 
 # Introduction
 
-A well studied nonparametric estimator of probability density functions based on the i.i.d. observations $X_1, \ldots, X_n$, is the kernel density estimator. A natural generalization to the case where random variables have been contaminated with random additive noise, say $Y_1, \ldots, Y_n$, with $Y_i = X_i + \epsilon_i$, $i = 1, \ldots n$ is the so kernel deconvolution density estimatior (kdde).
+A well studied nonparametric estimator of probability density functions based on the i.i.d. observations $X_1, \ldots, X_n$, is the kernel density estimator. A natural generalization to the case where random variables have been contaminated with random additive noise, say $Y_1, \ldots, Y_n$, with $Y_i = X_i + \epsilon_i$, $i = 1, \ldots n$ is the so kernel deconvolution density estimatior (kdde). The error distribution is usually assumed to be known.
 
+There are two popular `R` packages that provide functions to do this, `decon` and `deamer` (**REFERENCES**). The former package performs kdde with known error distribution allowing the user to pick the bandwidth selection method between several methods summarized in Delaigle and Gijbels (2004)(**REFERENCES**). The latter package covers the univariate case and it allows known error case, repeated observations and pure error case, the bandwidth selection method follows Comte (**2011???**)
 
-
-Kernel deconvolution 
-
-Kernel deconvolution 
-The package `kerdec` 
+The package `kerdec` provides functions to handle univariate and bivariate kdde with unknown error distribution, by using the empirical characteristic function, or knwon errors, which can be Laplace or Gaussian. Also functions are provided to estimate the parameters based on a sample of errors or panel data structured data.  
 
 
 # Density Estimation
