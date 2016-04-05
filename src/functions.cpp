@@ -7,6 +7,8 @@ using namespace arma;
 
 /* -------------------------------------------------------------------
 
+   TABLE OF CONTENTS
+
    The code on this file could be separated in the following topics of
    functions:
 
@@ -16,12 +18,14 @@ using namespace arma;
 
 --------------------------------------------------------------------*/
 
-/* 
-   Fourier transforms of kernels and product kernels
+/* -------------------------------------------------------------------
+
+   FOURIER TRANSFORMS OF KERNELS AND PRODUCT KERNELS
 
    We start by defining functions to work with Fourier transforms of
    kernels. All of these transforms with support [-1, 1].
-*/
+
+--------------------------------------------------------------------*/
 
 // ------------------------------------------------------------------
 //             Evaluate at only one value
@@ -62,6 +66,7 @@ double ft_kernel_cpp(double t, int ker)
 // ------------------------------------------------------------------
 //             Evaluate at only at vectors or matrices
 // ------------------------------------------------------------------
+
 //' Fourier transforms of kernels
 //'
 //' See ft_kernel
@@ -82,9 +87,10 @@ arma::vec ft_kernel_cpp(arma::mat t, int ker)
     return out;
 }
 
+/* -------------------------------------------------------------------
 
+   EMPIRICAL CHARACTERISTIC FUNCTIONS
 
-/* 
    We will compute the real and imaginary parts of the empirical
    characteristic function as well as its modulus and the empirical
    characteristic function itself. All of this for univariate and
@@ -92,11 +98,12 @@ arma::vec ft_kernel_cpp(arma::mat t, int ker)
    
    The purpose of doing it separately it is just for avoiding
    unnecesary computations or use of complex numbers.
-*/
 
-/* --------------------------------------------------------------- */
-/* -------- Real part of ecf ------------------------------------- */
-/* --------------------------------------------------------------- */
+--------------------------------------------------------------------*/
+
+// ------------------------------------------------------------------
+//           Real part of ecf
+// ------------------------------------------------------------------
 
 //' Real part of empirical characteristic function
 //'
@@ -128,9 +135,9 @@ arma::vec ecf_re_cpp(arma::mat t, arma::mat smp)
   return mean(cos(t * trans(smp)), 1);
 }
 
-/* --------------------------------------------------------------- */
-/* -------- Imaginary part of ecf -------------------------------- */
-/* --------------------------------------------------------------- */
+// ------------------------------------------------------------------
+//           Imaginary part of ecf 
+// ------------------------------------------------------------------
 
 //' Imaginary part of empirical characteristic function
 //'
@@ -159,9 +166,9 @@ arma::vec ecf_im_cpp(arma::mat t, arma::mat smp)
   return mean(sin(t * trans(smp)), 1);
 }
 
-/* --------------------------------------------------------------- */
-/* -------- Modulus of ecf --------------------------------------- */
-/* --------------------------------------------------------------- */
+// ------------------------------------------------------------------
+//           Modulus of ecf
+// ------------------------------------------------------------------
 
 //' Modulus of empirical characteristic function
 //'
@@ -198,7 +205,7 @@ arma::vec ecf_mod_cpp(arma::mat t, arma::mat smp)
 }
 
 /* --------------------------------------------------------------- */
-/* -------- ecf -------------------------------------------------- */
+/*                ecf                                              */
 /* --------------------------------------------------------------- */
 
 //' Empirical characteristic function
