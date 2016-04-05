@@ -361,7 +361,7 @@ arma::vec process_differences(arma::mat smp, int method)
 
 //' @export
 //[[Rcpp::export]]
-arma::vec error_cf_appro(arma::vec t, arma::mat smp,
+arma::vec error_cf_approx(arma::vec t, arma::mat smp,
 			  int diff_method)
 {
   int k = smp.n_cols;
