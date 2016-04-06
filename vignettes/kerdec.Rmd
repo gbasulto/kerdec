@@ -45,12 +45,23 @@ $$
 ```{r}
 library(kerdec)
 
-## Panel data  (matrix).
-panel_smp <- matrix(rnorm(150*4), ncol =  4)
+## 
+n <- 150
+
+## Uncontaminated gamma sample
+X <- rgamma(n, shape = 5, rate = 5)
+mean(X)
+sd(X)
+hist(X, freq = FALSE)
+
+## Generate panel data  (matrix).
+panel_smp <- 
+  sweep(x = matrix(rnorm(n = 150*4, mean = 0, sd = .2), ncol =  4),
+        MARGIN = 1, STATS = X, FUN = "+")
 
 ## Limits where function is going to be estimated.
-low <- -2
-upp <- 2
+low <- -1
+upp <- 6
 
 ## Set resolution
 resolution <- 128
@@ -58,8 +69,8 @@ resolution <- 128
 xx <- seq(low, upp, by = (upp - low)/resolution)[-(resolution + 1)]
 
 yy <- 
-  kerdec_dens_panel_1d_cpp(panel_smp, h = .5, low, upp,
-                           resolution, ker = 1)
+  kerdec_dens_panel_1d_cpp(panel_smp, h = .15, low, upp,
+                           resolution, ker = 4)
 
 plot(xx, Re(yy), type = "l")
 
