@@ -400,12 +400,11 @@ arma::cx_vec kerdec_dens_panel_1d_cpp(arma::mat smp,
 				      int diff_processing = 1)
 {
   // n in the sample size and l is the number of repetitions.
-  int m = resolution, i, n, l;
+  int m = resolution, i, n;
   arma::vec t(m), denom(m); 
   arma::cx_vec fun_vals(m), out(m);
-
+  
   n = smp.n_rows;
-  l = smp.n_cols;
 
   // If no cutoff is given, it is set to the one suggested by Neumann
   // (1997).
@@ -413,20 +412,22 @@ arma::cx_vec kerdec_dens_panel_1d_cpp(arma::mat smp,
   
   // Define grid where the integrand will be evaluated.
   t = arma::linspace<arma::mat>(-1.0/h, 1.0/h - 2.0/h/m, m);
-  
-  denom = ecf_mod_cpp(t, process_differences(smp, diff_processing));
-  // fun_vals = ecf_cpp(t, smp) % ft_kernel_cpp(h*t, ker)/denom;
 
-  // for(i = 0; i < m; i++)
-  //   {
-  //     if(denom[i] < cutoff) fun_vals[i] = 0; 
-  //   }
-  
-  // out = fourierin::fourierin_cx_1d_cpp(fun_vals, -1/h, 1/h,
-  // 				    lower, upper, -1.0, -1.0);
+  // Compute approximation to cf of averaged errors
+  denom = error_cf_approx(t, smp, diff_processing);
 
-  out.zeros();
+  // Find values taking averaged obs. by row.
+  fun_vals = ecf_cpp(t, mean(smp, 1)) % ft_kernel_cpp(h*t, ker)/denom;
+
+  // Set integrand value to zero if the denominator is small. 
+  for(i = 0; i < m; i++)
+    {
+      if(denom[i] < cutoff) fun_vals[i] = 0; 
+    }
   
+  out = fourierin::fourierin_cx_1d_cpp(fun_vals, -1/h, 1/h,
+  				    lower, upper, -1.0, -1.0);
+
   return out;
 }
 
