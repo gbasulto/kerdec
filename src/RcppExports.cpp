@@ -7,61 +7,61 @@
 using namespace Rcpp;
 
 // ft_kernel_cpp
-arma::vec ft_kernel_cpp(arma::mat t, int ker);
+arma::vec ft_kernel_cpp(const arma::mat& t, int ker);
 RcppExport SEXP kerdec_ft_kernel_cpp(SEXP tSEXP, SEXP kerSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< arma::mat >::type t(tSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type t(tSEXP);
     Rcpp::traits::input_parameter< int >::type ker(kerSEXP);
     __result = Rcpp::wrap(ft_kernel_cpp(t, ker));
     return __result;
 END_RCPP
 }
 // ecf_re_cpp
-arma::vec ecf_re_cpp(arma::mat t, arma::mat smp);
+arma::vec ecf_re_cpp(const arma::mat& t, const arma::mat& smp);
 RcppExport SEXP kerdec_ecf_re_cpp(SEXP tSEXP, SEXP smpSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< arma::mat >::type t(tSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type smp(smpSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type t(tSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type smp(smpSEXP);
     __result = Rcpp::wrap(ecf_re_cpp(t, smp));
     return __result;
 END_RCPP
 }
 // ecf_im_cpp
-arma::vec ecf_im_cpp(arma::mat t, arma::mat smp);
+arma::vec ecf_im_cpp(const arma::mat& t, const arma::mat& smp);
 RcppExport SEXP kerdec_ecf_im_cpp(SEXP tSEXP, SEXP smpSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< arma::mat >::type t(tSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type smp(smpSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type t(tSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type smp(smpSEXP);
     __result = Rcpp::wrap(ecf_im_cpp(t, smp));
     return __result;
 END_RCPP
 }
 // ecf_mod_cpp
-arma::vec ecf_mod_cpp(arma::mat t, arma::mat smp);
+arma::vec ecf_mod_cpp(const arma::mat& t, const arma::mat& smp);
 RcppExport SEXP kerdec_ecf_mod_cpp(SEXP tSEXP, SEXP smpSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< arma::mat >::type t(tSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type smp(smpSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type t(tSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type smp(smpSEXP);
     __result = Rcpp::wrap(ecf_mod_cpp(t, smp));
     return __result;
 END_RCPP
 }
 // ecf_cpp
-arma::cx_vec ecf_cpp(arma::mat t, arma::mat smp);
+arma::cx_vec ecf_cpp(const arma::mat& t, const arma::mat& smp);
 RcppExport SEXP kerdec_ecf_cpp(SEXP tSEXP, SEXP smpSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< arma::mat >::type t(tSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type smp(smpSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type t(tSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type smp(smpSEXP);
     __result = Rcpp::wrap(ecf_cpp(t, smp));
     return __result;
 END_RCPP

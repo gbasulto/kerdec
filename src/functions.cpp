@@ -71,7 +71,7 @@ double ft_kernel_cpp(double t, int ker)
 //'
 //' See ft_kernel
 //[[Rcpp::export]]
-arma::vec ft_kernel_cpp(arma::mat t, int ker)
+arma::vec ft_kernel_cpp(const arma::mat & t, int ker)
 {
   int i, j, n = t.n_rows, d = t.n_cols;
   arma::vec out(n);
@@ -123,7 +123,8 @@ arma::vec ft_kernel_cpp(arma::mat t, int ker)
 //' @example
 //' examples/ex_ecf.R
 //[[Rcpp::export]]
-arma::vec ecf_re_cpp(arma::mat t, arma::mat smp)
+arma::vec ecf_re_cpp(const arma::mat & t,
+		     const arma::mat & smp)
 {
   //  Display error dimensions are different in sample and
   //  eval. points.
@@ -154,7 +155,8 @@ arma::vec ecf_re_cpp(arma::mat t, arma::mat smp)
 //' @return A vector of size m with the imaginary part of the
 //' empirical characteristic function.
 //[[Rcpp::export]]
-arma::vec ecf_im_cpp(arma::mat t, arma::mat smp)
+arma::vec ecf_im_cpp(const arma::mat & t,
+		     const arma::mat & smp)
 {
   //  Display error dimensions are different in sample and
   //  eval. points.
@@ -185,7 +187,7 @@ arma::vec ecf_im_cpp(arma::mat t, arma::mat smp)
 //' @return A complex of size m with the modulus of the
 //' empirical characteristic function.
 //[[Rcpp::export]]
-arma::vec ecf_mod_cpp(arma::mat t, arma::mat smp)
+arma::vec ecf_mod_cpp(const arma::mat & t, const arma::mat & smp)
 {
   arma::vec real, imag;
   arma::mat arg;
@@ -223,7 +225,7 @@ arma::vec ecf_mod_cpp(arma::mat t, arma::mat smp)
 //' @return A complex vector of size m with the empirical
 //' characteristic function evaluated at t.
 //[[Rcpp::export]]
-arma::cx_vec ecf_cpp(arma::mat t, arma::mat smp)
+arma::cx_vec ecf_cpp(const arma::mat & t, const arma::mat & smp)
 {
   arma::vec real, imag;
   arma::mat arg;
