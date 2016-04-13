@@ -260,8 +260,8 @@ arma::cx_vec ecf_cpp(const arma::mat & t, const arma::mat & smp)
 
 //' @export
 //[[Rcpp::export]]
-arma::cx_vec kerdec_dens_pure_1d_cpp(arma::vec smp,
-				     arma::vec error_smp,
+arma::cx_vec kerdec_dens_pure_1d_cpp(const arma::vec & smp,
+				     const arma::vec & error_smp,
 				     double h,
 				     double lower, double upper,
 				     int resolution,
@@ -308,7 +308,7 @@ arma::cx_vec kerdec_dens_pure_1d_cpp(arma::vec smp,
 //'        3, independent columns.
 //' @export
 //[[Rcpp::export]]
-arma::vec process_differences(arma::mat smp, int method)
+arma::vec process_differences(const arma::mat & smp, int method)
 {
   // n is the sample size, d the dimension, l the output vector size
   // and idx index tro fill out output vector. The rest are indices
@@ -378,7 +378,8 @@ arma::vec process_differences(arma::mat smp, int method)
 
 //' @export
 //[[Rcpp::export]]
-arma::vec error_cf_approx(arma::vec t, arma::mat smp,
+arma::vec error_cf_approx(const arma::vec & t,
+			  const arma::mat & smp,
 			  int diff_method)
 {
   int k = smp.n_cols;
@@ -393,7 +394,7 @@ arma::vec error_cf_approx(arma::vec t, arma::mat smp,
 
 //' @export
 //[[Rcpp::export]]
-arma::cx_vec kerdec_dens_panel_1d_cpp(arma::mat smp,
+arma::cx_vec kerdec_dens_panel_1d_cpp(const arma::mat & smp,
 				      double h,
 				      double lower, double upper,
 				      int resolution,
@@ -438,7 +439,7 @@ arma::cx_vec kerdec_dens_panel_1d_cpp(arma::mat smp,
 //'
 //' @export
 //[[Rcpp::export]]
-arma::cx_vec kerdec_dens(arma::vec smp)
+arma::cx_vec kerdec_dens(const arma::vec & smp)
 {
   arma::cx_vec out(smp.n_rows);
   out = fourierin::fourierin_1d_cpp(smp, 0, 1, 0, 1, 0, 0);
