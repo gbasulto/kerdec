@@ -2,12 +2,26 @@
 title: "Kernel Deconvolution Density Estimation"
 author: "Guillermo Basulto-Elias"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: 
+    rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Vignette Title}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+
+```{r global_options, include=FALSE}
+rm(list=ls()) ### To clear namespace
+library(knitr)
+
+# opts_chunk$set(fig.width=12, fig.height=8, fig.path='Figs/',
+#                echo=TRUE, warning=FALSE, message=FALSE)
+opts_chunk$set(fig.width= 7, fig.height= 5,
+               echo=TRUE, warning=FALSE, message=FALSE)
+
+
+```
+
 
 # Introduction
 
@@ -28,7 +42,7 @@ $$\boldsymbol{Y} = \boldsymbol{X} + \boldsymbol{\epsilon}$$.
 Let $\boldsymbol{X}_1, \ldots, \boldsymbol{X}_n$ be a sample of independent and identically distributed (_iid_) random vectors in $\mathbb{R}^d$. Suppose that it is desired to provide a density estimator 
 
 where for $i = 1, \ldots, n$,
-$$\boldsymbol{Y}_i = \boldsymbol{X}_i + \boldsymbol{\epsilon}_i$$. 
+$$\boldsymbol{Y}_i = \boldsymbol{X}_i + \boldsymbol{\epsilon}_i.$$ 
 
 Kernel deconvolution formula.
 
@@ -45,34 +59,46 @@ $$
 ```{r}
 library(kerdec)
 
-## 
-n <- 150
+## Generate always the same results
+set.seed(666)
 
-## Uncontaminated gamma sample
-X <- rgamma(n, shape = 5, rate = 5)
-mean(X)
-sd(X)
-hist(X, freq = FALSE)
+## Set sample size and number of replicates
+n <- 250
+l <- 4
+resolution <- 128
 
-## Generate panel data  (matrix).
-panel_smp <- 
-  sweep(x = matrix(rnorm(n = 150*4, mean = 0, sd = .2), ncol =  4),
-        MARGIN = 1, STATS = X, FUN = "+")
+## Generate samples
+                                        # Uncontaminated vector
+X <- rgamma(n, shape = 5, rate = 5)     
+                                        # Error
+error_panel <- matrix(rnorm(n = n*l, mean = 0, sd = .2), ncol =  l)
+error_vec <- error_panel[, 1]
+                                        # Contaminated samples
+Y_panel <- sweep(x = error_panel, MARGIN = 1, STATS = X, FUN = "+")
+Y_vec <- X + error_vec
 
-## Limits where function is going to be estimated.
+
+## Limits where function is going to be estimated and kernel
 low <- -1
 upp <- 6
-
-## Set resolution
-resolution <- 128
+ker <- 3
 
 xx <- seq(low, upp, by = (upp - low)/resolution)[-(resolution + 1)]
 
-yy <- 
-  kerdec_dens_panel_1d_cpp(panel_smp, h = .15, low, upp,
-                           resolution, ker = 4)
+yy <- Re(kerdec_dens_panel_1d_cpp(Y_panel, h = .09, low, upp,
+                                  resolution, ker = ker))
 
-plot(xx, Re(yy), type = "l")
+zz <- Re(kerdec_dens_pure_1d_cpp(smp = Y_vec, error_smp = error_vec,
+                              h = .09, low, upp, resolution, ker = ker))
+
+uu <- dgamma(xx, shape = 5, rate = 5)
+
+plot(range(xx), range(c(yy, zz, uu)), type = "n")
+lines(xx, uu, type = "l", col = 2, lty = 1, lwd = 1.5)
+lines(xx, yy, type = "l", col = 3, lty = 2, lwd = 1.5)
+lines(xx, zz, type = "l", col = 4, lty = 3, 1.5)
+legend("topright", legend = c("true", "panel", "pure"),
+       col = 2:4, lty = 1:3)
 
 ```
 
