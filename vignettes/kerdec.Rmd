@@ -63,7 +63,7 @@ library(kerdec)
 set.seed(666)
 
 ## Set sample size and number of replicates
-n <- 250
+n <- 100
 l <- 4
 resolution <- 128
 
@@ -93,7 +93,8 @@ zz <- Re(kerdec_dens_pure_1d_cpp(smp = Y_vec, error_smp = error_vec,
 
 uu <- dgamma(xx, shape = 5, rate = 5)
 
-plot(range(xx), range(c(yy, zz, uu)), type = "n")
+plot(range(xx), range(c(yy, zz, uu)), type = "n",
+     ylab = "value", xlab = "x")
 lines(xx, uu, type = "l", col = 2, lty = 1, lwd = 1.5)
 lines(xx, yy, type = "l", col = 3, lty = 2, lwd = 1.5)
 lines(xx, zz, type = "l", col = 4, lty = 3, 1.5)
