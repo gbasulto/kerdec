@@ -56,6 +56,8 @@ $$
     d\boldsymbol{t}
 $$
 
+We will consider two approaches to prodive bandwidth. The first of them consists on minimizing the AMISE by plugging in a normal reference estimator to R(f''). The second is my crossed-validation. We will only consider cases with one smoothing parameter.
+
 ```{r}
 library(kerdec)
 
@@ -124,8 +126,11 @@ $$
 ```{r}
 library(kerdec)
 
-kerdec_dens_panel_1d_cpp(matrix(rnorm(12), 3, 4), h = .5, lower = -2, upper = 2,
-                         resolution = 64, ker = 1)
+aa <- kerdec_dens_panel_1d_cpp(matrix(rnorm(12), 3, 4), h = .5, 
+                               lower = -2, upper = 2,
+                               resolution = 64, ker = 1)
+
+str(aa)
 
 ```
 
@@ -143,7 +148,7 @@ Y_{21} & \cdots & Y_{2k} \\
 Y_{n1} & \cdots & Y_{nk}
 \end{matrix},
 $$
-where $Y_{ij} = X_i + \epsilon_{ij}$. We want to approximate the charactestic function of the error, $\phi_{\epsilon}(\cdot)$ based on these data. 
+where $Y_{ij} = X_i + \epsilon_{ij}$. We want to approximate the characteristic function of the error, $\phi_{\epsilon}(\cdot)$ based on these data. 
 
 Recall that $Y_{ij_1} - Y_{ij_2} = \epsilon_{ij_1} - \epsilon_{ij_2}$, that is, it is possible of extract differences of errors by taking differences of observations for the same individual. In vignette _differences_, we describe three possible ways to do this using the function `process_differences()`. Let $L$ denote the number of differences (thus, $L = nk(k - 1)/2$, $n(k - 1)$ or $n\lfloor k\rfloor/2$). Let $\delta_1, \ldots, \delta_L$ be such differences.
 
@@ -259,7 +264,7 @@ All the functions here described calculate empirical characteristic functions of
 
 ## Computing empirical characteristic functions faster
 
-Having a function that computes the empirical characteristic function (ecf) is practical, but if what the user needs is only the real part of the empirical characteristic function it is more efficient to do exactly that. The same is tru for the modulus and the imaginary part. Taking the real part of the ecf takes twice the time it takes to compute directly the real part.
+Having a function that computes the empirical characteristic function (ecf) is practical, but if what the user needs is only the real part of the empirical characteristic function it is more efficient to do exactly that. The same is true for the modulus and the imaginary part. Taking the real part of the ecf takes twice the time it takes to compute directly the real part.
 
 Therefore, functions have been implemented in `C++` for doing such operations directly, but only the wrappers in `R` are available to users.
 
