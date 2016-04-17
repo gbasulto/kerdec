@@ -1,3 +1,4 @@
+## -------------------------------------------------------------------
 ### Bandwidth Selection
 ###
 ### This function provides a bandwidth for kernel denvolvolution
@@ -8,14 +9,29 @@
 ###
 ### See the vignette for more details.
 select_bw <- function(smp,
-                      method = c("CV", "NR"),
+                      method = c("CV", "NR")[1],
+                      kernel = c("sinc", "vp", "triw", "tric",
+                                 "flat")[5],
                       h0 = NULL,
-                      error = NULL,
+                      error_dist = c("Normal", "Laplace", "None")[1],
+                      error_scale_par = NULL,
+                      error_smp = NULL,
                       resolution = 128,
-                      error_proc = c("all", "vs_first", "indep_pairs")[1],
+                      error_proc = c("all", "vs_first",
+                                     "indep_pairs")[1],
                       panel_proc = c("keep_first", "take_aver")[1],
-                      truncation_bound = NULL,
-                      kernel = 1){
+                      truncation_bound = NULL){
+
+    ## Check that the sample is numeric
+    if(is.numeric(smp)){
+        if(is.vector(smp)) matrix(smp)
+    } else{
+        stop("smp must be numeric.")
+    }
+
+    n <- nrow(smp)
+    if(n < 3) stop("Sample size must be of at least 3.")
+    
+    
     return(0)
 }
-                      
