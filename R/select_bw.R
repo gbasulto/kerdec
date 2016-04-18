@@ -1,4 +1,3 @@
-## -------------------------------------------------------------------
 ### Bandwidth Selection
 ###
 ### This function provides a bandwidth for kernel denvolvolution
@@ -30,6 +29,7 @@ select_bw <- function(smp,
         stop("smp must be numeric.")
     }
 
+    ## Ask the sample size to be at least three.
     n <- nrow(smp)
     if(n < 3) stop("Sample size must be of at least 3.")
 
@@ -38,11 +38,25 @@ select_bw <- function(smp,
     method <- tolower(method)
     bw_methods <- c("cv", "nr")
     if(!(method %in% bw_methods)){
-        msg <- paste0(c("Method ", method, " is not implemented. ",
+        msg <- paste0(c("\n Method ", method,
+                        " is not implemented. ",
                         "The current methods are:\n ",
-                        paste0(bw_methods, collapse = "\n")))
+                        paste0(bw_methods, collapse = "  ")))
         stop(msg)
     }
-    
+
+    ## Check 'kernel' is numeric, if not, assign it a numerica value
+    ## and then verify it is in the list of implemented kernels.
+    kernels <- c("sinc", "vp", "triw", "tric", "flat")
+    kernel0 <- kernel
+    if(is.character(kernel)) kernel <- match(kernel, kernels)
+    if(!(kernel %in% 1:length(kernels))){
+        msg <- paste0(c("\nKernel ",
+                        kernel0, " is not implemented. ",
+                        "The current kernels are:\n ",
+                        paste0(kernels, collapse = "  "),
+                        "\n\n See vignette for details."))
+        stop(msg)
+    }
     return(0)
 }
