@@ -1,12 +1,26 @@
-### Bandwidth Selection
-###
-### This function provides a bandwidth for kernel denvolvolution
-### density estimator. This works for several deconvolution scenarios,
-### specifically, when the error distribution is known, when a sample
-### of pure errors is available instead and when a contaminated sample
-### is available as panel data.
-###
-### See the vignette for more details.
+##' Bandwidth Selection
+##'
+##' This function provides a bandwidth for kernel denvolvolution
+##' density estimator. This works for several deconvolution scenarios,
+##' specifically, when the error distribution is known, when a sample
+##' of pure errors is available instead and when a contaminated sample
+##' is available as panel data.
+##'
+##' See the vignette for more details.
+##' @param smp 
+##' @param method 
+##' @param kernel 
+##' @param h0 
+##' @param error_dist 
+##' @param error_scale_par 
+##' @param error_smp 
+##' @param resolution 
+##' @param error_proc 
+##' @param panel_proc 
+##' @param truncation_bound 
+##' @return A list
+##' @author Guillermo Basulto-Elias
+##' @export
 select_bw <- function(smp,
                       method = c("CV", "NR")[1],
                       kernel = c("sinc", "vp", "triw", "tric",
