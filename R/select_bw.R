@@ -7,26 +7,32 @@
 ##' is available as panel data.
 ##'
 ##' See the vignette for more details.
-##' @param smp 
-##' @param method 
-##' @param kernel 
-##' @param h0 
-##' @param error_dist 
-##' @param error_scale_par 
-##' @param error_smp 
-##' @param resolution 
-##' @param error_proc 
-##' @param panel_proc 
-##' @param truncation_bound 
+##' @param smp It is either a vector of size n or a nxl matrix (for
+##'     repeated observations; l per each individual).
+##' @param method Method used to select the bandwidth. The currently
+##'     available methods are "CV" (cross-validation) and "NR" (normal
+##'     reference). Cross-validation is the default.
+##' @param kernel Kernel whose Fourier transform has bounded
+##'     support. There are currently 5 kernel programmed: "sinc",
+##'     "vp", "triw", "tric" and "flat". See vignette for further
+##'     details and examples. Flat-top kernel is the default.
+##' @param h0 Optional argument used as initial value to look for the
+##'     optimal value.
+##' @param error_dist Three possible values are accepted. c("Normal", "Laplace", "None")
+##' @param error_scale_par
+##' @param error_smp
+##' @param resolution
+##' @param error_proc
+##' @param panel_proc
+##' @param truncation_bound
 ##' @return A list
 ##' @author Guillermo Basulto-Elias
 ##' @export
 select_bw <- function(smp,
                       method = c("CV", "NR")[1],
-                      kernel = c("sinc", "vp", "triw", "tric",
-                                 "flat")[5],
+                      kernel = "flat",
                       h0 = NULL,
-                      error_dist = c("Normal", "Laplace", "None")[1],
+                      error_dist = "None",
                       error_scale_par = NULL,
                       error_smp = NULL,
                       resolution = 128,
