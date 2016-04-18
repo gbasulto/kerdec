@@ -22,16 +22,27 @@ select_bw <- function(smp,
                       panel_proc = c("keep_first", "take_aver")[1],
                       truncation_bound = NULL){
 
-    ## Check that the sample is numeric
+    ## Check that the sample is numeric. If it is a vector, cast it to
+    ## a matrix.
     if(is.numeric(smp)){
-        if(is.vector(smp)) matrix(smp)
+        if(is.vector(smp)) smp <- matrix(smp)
     } else{
         stop("smp must be numeric.")
     }
 
     n <- nrow(smp)
     if(n < 3) stop("Sample size must be of at least 3.")
-    
+
+    ## Convert to lower case the argument "method" and then it is
+    ## implemented.
+    method <- tolower(method)
+    bw_methods <- c("cv", "nr")
+    if(!(method %in% bw_methods)){
+        msg <- paste0(c("Method ", method, " is not implemented. ",
+                        "The current methods are:\n ",
+                        paste0(bw_methods, collapse = "\n")))
+        stop(msg)
+    }
     
     return(0)
 }
