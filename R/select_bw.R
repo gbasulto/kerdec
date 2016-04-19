@@ -38,8 +38,7 @@ select_bw <- function(smp,
                       error_dist = "None",
                       error_scale_par = NULL,
                       resolution = 128,
-                      error_proc = c("all", "vs_first",
-                                     "indep_pairs")[1],
+                      error_proc = "all",
                       panel_proc = c("keep_first", "take_aver")[1],
                       truncation_bound = NULL){
 
@@ -48,6 +47,7 @@ select_bw <- function(smp,
     bw_methods <- c("cv", "nr")
     kernels <- c("sinc", "vp", "triw", "tric", "flat")
     error_dists <- c("none", "laplace", "normal")
+    error_procs <- c("all", "vs_first", "indep_pairs")
     
     
     ## Check that the sample is numeric. If it is a vector, cast it to
@@ -58,9 +58,11 @@ select_bw <- function(smp,
         stop("smp must be numeric.")
     }
 
-    ## Ask the sample size to be at least three.
+    ## Ask the sample size to be at least three and also obtain the
+    ## number of repetitions.
     n <- nrow(smp)
     if(n < 3) stop("Sample size must be of at least 3.")
+    k <- ncol(smp)
 
     ## Convert to lower case the argument "method" and then it is
     ## implemented.
@@ -106,10 +108,30 @@ select_bw <- function(smp,
         if(is.vector(error_smp)) error_smp <- matrix(error_smp)
     } else{
         if(!is.null(error_smp)){
-            stop("smp must be numeric.")
+            stop("'error_smp' must be numeric.")
         }
     }
 
+    ## If data are provided in a panel structure, compute differences
+    ## of errors to approximate the error distribution.
+    if(k > 1){
+        diff_mthd <- match(error_proc, error_procs)
+        if(!(diff_mthd %in% 1:length(error_procs))){
+            msg <- paste0(c("\nerror_proc '",
+                            error_proc, "' is not implemented. ",
+                            "The current error_procs are:\n ",
+                            paste0(error_procs, collapse = "  "),
+                            "\n\n See vignette for details."))
+            stop(msg)
+        }
+        error_smp <- process_differences(smp, diff_mthd)
+    }
     
-    return(0)
+    ## ## Estimate scale parameter from error_smp if required.
+    ## if(is.null())
+    ## if(error_dist == 3){                # Normal errors
+        
+    ## }
+    
+    return(error_smp/3)
 }
