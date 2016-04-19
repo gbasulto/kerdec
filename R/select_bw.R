@@ -18,14 +18,15 @@
 ##'     details and examples. Flat-top kernel is the default.
 ##' @param h0 Optional argument used as initial value to look for the
 ##'     optimal value.
-##' @param error_smp 
+##' @param error_smp Optional vector errors. It is necessary to
+##'     approximate the error distribution if it is unknown.
 ##' @param error_dist Three possible values are accepted. c("Normal",
 ##'     "Laplace", "None") fcwef
-##' @param error_scale_par 
-##' @param resolution 
-##' @param error_proc 
-##' @param panel_proc 
-##' @param truncation_bound 
+##' @param error_scale_par
+##' @param resolution
+##' @param error_proc
+##' @param panel_proc
+##' @param truncation_bound
 ##' @return A list
 ##' @author Guillermo Basulto-Elias
 ##' @export
@@ -99,5 +100,16 @@ select_bw <- function(smp,
         stop(msg)
     }
 
+    ## Check that the error sample is numeric. If it is a vector, cast
+    ## it to a matrix.
+    if(is.numeric(error_smp)){
+        if(is.vector(error_smp)) error_smp <- matrix(error_smp)
+    } else{
+        if(!is.null(error_smp)){
+            stop("smp must be numeric.")
+        }
+    }
+
+    
     return(0)
 }
