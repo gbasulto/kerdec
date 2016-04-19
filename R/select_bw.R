@@ -18,13 +18,14 @@
 ##'     details and examples. Flat-top kernel is the default.
 ##' @param h0 Optional argument used as initial value to look for the
 ##'     optimal value.
-##' @param error_dist Three possible values are accepted. c("Normal", "Laplace", "None")
-##' @param error_scale_par
-##' @param error_smp
-##' @param resolution
-##' @param error_proc
-##' @param panel_proc
-##' @param truncation_bound
+##' @param error_smp 
+##' @param error_dist Three possible values are accepted. c("Normal",
+##'     "Laplace", "None") fcwef
+##' @param error_scale_par 
+##' @param resolution 
+##' @param error_proc 
+##' @param panel_proc 
+##' @param truncation_bound 
 ##' @return A list
 ##' @author Guillermo Basulto-Elias
 ##' @export
@@ -32,15 +33,22 @@ select_bw <- function(smp,
                       method = c("CV", "NR")[1],
                       kernel = "flat",
                       h0 = NULL,
+                      error_smp = NULL,
                       error_dist = "None",
                       error_scale_par = NULL,
-                      error_smp = NULL,
                       resolution = 128,
                       error_proc = c("all", "vs_first",
                                      "indep_pairs")[1],
                       panel_proc = c("keep_first", "take_aver")[1],
                       truncation_bound = NULL){
 
+    ## Let us first state all the implemented distributions. We will
+    ## check later that the arguments are valid.
+    bw_methods <- c("cv", "nr")
+    kernels <- c("sinc", "vp", "triw", "tric", "flat")
+    error_dists <- c("none", "laplace", "normal")
+    
+    
     ## Check that the sample is numeric. If it is a vector, cast it to
     ## a matrix.
     if(is.numeric(smp)){
@@ -56,7 +64,6 @@ select_bw <- function(smp,
     ## Convert to lower case the argument "method" and then it is
     ## implemented.
     method <- tolower(method)
-    bw_methods <- c("cv", "nr")
     if(!(method %in% bw_methods)){
         msg <- paste0(c("\n Method ", method,
                         " is not implemented. ",
@@ -67,7 +74,6 @@ select_bw <- function(smp,
 
     ## Check 'kernel' is numeric, if not, assign it a numerica value
     ## and then verify it is in the list of implemented kernels.
-    kernels <- c("sinc", "vp", "triw", "tric", "flat")
     kernel0 <- kernel
     if(is.character(kernel)) kernel <- match(kernel, kernels)
     if(!(kernel %in% 1:length(kernels))){
@@ -78,5 +84,20 @@ select_bw <- function(smp,
                         "\n\n See vignette for details."))
         stop(msg)
     }
+    
+    ## Check that the error distribution is valid and convert it to
+    ## numeric argument.
+    error_dist0 <- error_dist           # Create copy to display msg
+    error_dist <- tolower(error_dist)   # To lower case
+    error_dist <- match(error_dist, error_dists) # To numetric value
+    if(!(error_dist %in% 1:length(error_dists))){
+        msg <- paste0(c("\nError distribution '",
+                        error_dist0, "' is not implemented. ",
+                        "The current error distributions are:\n ",
+                        paste0(error_dists, collapse = "  "),
+                        "\n\n See vignette for details."))
+        stop(msg)
+    }
+
     return(0)
 }
