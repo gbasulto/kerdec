@@ -127,8 +127,15 @@ select_bw <- function(smp,
         error_smp <- process_differences(smp, diff_mthd)
     }
     
-    ## ## Estimate scale parameter from error_smp if required.
-    ## if(is.null())
+    ## Estimate scale parameter from error_smp if required.
+    if(is.null(error_smp)){
+        if(is.null(error_scale_par) | error_dist == 1){
+            stop(paste0("If a panel data structured are not given",
+                        ", nor a sample of errors, then the error",
+                        "distribution must be specified as well ",
+                        "as its scale parameter"))
+        }
+    }
     ## if(error_dist == 3){                # Normal errors
         
     ## }
