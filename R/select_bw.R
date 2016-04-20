@@ -78,8 +78,8 @@ select_bw <- function(smp,
     ## Check 'kernel' is numeric, if not, assign it a numerica value
     ## and then verify it is in the list of implemented kernels.
     kernel0 <- kernel
-    if(is.character(kernel)) kernel <- match(kernel, kernels)
-    if(!(kernel %in% 1:length(kernels))){
+    if (is.character(kernel)) kernel <- match(kernel, kernels)
+    if (!(kernel %in% 1:length(kernels))) {
         msg <- paste0(c("\nKernel ",
                         kernel0, " is not implemented. ",
                         "The current kernels are:\n ",
@@ -93,7 +93,7 @@ select_bw <- function(smp,
     error_dist0 <- error_dist           # Create copy to display msg
     error_dist <- tolower(error_dist)   # To lower case
     error_dist <- match(error_dist, error_dists) # To numetric value
-    if(!(error_dist %in% 1:length(error_dists))){
+    if (!(error_dist %in% 1:length(error_dists))) {
         msg <- paste0(c("\nError distribution '",
                         error_dist0, "' is not implemented. ",
                         "The current error distributions are:\n ",
@@ -104,19 +104,19 @@ select_bw <- function(smp,
 
     ## Check that the error sample is numeric. If it is a vector, cast
     ## it to a matrix.
-    if(is.numeric(error_smp)){
-        if(is.vector(error_smp)) error_smp <- matrix(error_smp)
-    } else{
-        if(!is.null(error_smp)){
+    if (is.numeric(error_smp)) {
+        if (is.vector(error_smp)) error_smp <- matrix(error_smp)
+    } else {
+        if (!is.null(error_smp)) {
             stop("'error_smp' must be numeric.")
         }
     }
 
     ## If data are provided in a panel structure, compute differences
     ## of errors to approximate the error distribution.
-    if(k > 1){
+    if (k > 1) {
         diff_mthd <- match(error_proc, error_procs)
-        if(!(diff_mthd %in% 1:length(error_procs))){
+        if (!(diff_mthd %in% 1:length(error_procs))) {
             msg <- paste0(c("\nerror_proc '",
                             error_proc, "' is not implemented. ",
                             "The current error_procs are:\n ",
@@ -128,17 +128,24 @@ select_bw <- function(smp,
     }
     
     ## Estimate scale parameter from error_smp if required.
-    if(is.null(error_smp)){
-        if(is.null(error_scale_par) | error_dist == 1){
+    if (is.null(error_smp)){
+        ## Display error message if error distribution is not given
+        ## and it cannot be approximated.
+        if (is.null(error_scale_par) | error_dist == 1){
             stop(paste0("If a panel data structured are not given",
                         ", nor a sample of errors, then the error",
                         "distribution must be specified as well ",
                         "as its scale parameter"))
         }
+    } else {
+        if(error_dist == 3){            # Normal errors
+            if(k == 1){                 # Pure errors
+                error_scale_par <- sd(error_smp)
+            } else {                    # Panel data 
+                error_scale_par <- sd(error_smp)/sqrt(2)
+            }
+        }        
     }
-    ## if(error_dist == 3){                # Normal errors
-        
-    ## }
     
-    return(error_smp/3)
+    return(error_scale_par)
 }
