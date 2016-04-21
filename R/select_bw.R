@@ -138,14 +138,39 @@ select_bw <- function(smp,
                         "as its scale parameter"))
         }
     } else {
-        if(error_dist == 3){            # Normal errors
-            if(k == 1){                 # Pure errors
-                error_scale_par <- sd(error_smp)
-            } else {                    # Panel data 
-                error_scale_par <- sd(error_smp)/sqrt(2)
-            }
-        }        
+        switch(error_dist,
+               '1' = {                  # ecf will be used, thus no
+                                        # par. ir required
+                   error_scale_par = -1
+               },
+               '2' = {                  # Laplace case
+                   if (k == 1) {        # Pure sample of errors
+                   } else {             # Panel
+                   }
+               },
+               '3' = {                  # Normal case
+                   if (k == 1) {        #Pure sample of errors
+                       error_scale_par <- sd(error_smp)
+                   } else {             # Panel data
+                       error_scale_par <- sd(error_smp)/sqrt(2)
+                   }
+               }
+               )
+        ## if(error_dist == 3){            # Normal errors
+        ##     if(k == 1){                 # Pure errors
+        ##         error_scale_par <- sd(error_smp)
+        ##     } else {                    # Panel data 
+        ##         error_scale_par <- sd(error_smp)/sqrt(2)
+        ##     }
+        ## } else if (error_dist == 2) {
+        ## } else if (k == 1) {            # No scale par. required due
+        ##                                 # to the use of ecf
+        ##     error_scale_par = -1
+        ## }
+        
     }
     
     return(error_scale_par)
 }
+
+##
