@@ -72,3 +72,76 @@ cflaplace <- function(t, mean = 0, sd = 1){
 cfnorm <- function(t, mean = 0, sd = 1){
     return(exp(1i*mu*t - 0.5*sd^2*t^2))
 }
+
+##' Log-likelihood of Laplace Convolution
+##'
+##' Negative value of the log-likelihood of the difference of two
+##' independent Laplace random variables.
+##' @param sigma Value or vector of positive values where the this
+##'     function will be evaluated.
+##' @param smp Sample of differences of Laplace random variables.
+##' @return A vector of values of the log-likelihood.
+##' @author Guillermo Basulto-Elias
+laplace_convol_loglik <- function(sigma, smp){
+                                        # Adapt function to receive
+                                        # vectors
+    if(length(sigma) > 1){
+        out <- sapply(sigma, function(sig)
+            laplace_convol_loglik(sig, smp))
+        return(out)
+    }
+
+    n <- length(smp)
+    x <- abs(smp)
+    b <- sqrt(2)/sigma
+    out <- n*log(b) + sum(log(1 + b*x)) - b*sum(x)
+    return(-out)
+}
+
+##' Gradient of Log-likelihood of Laplace Convolution
+##'
+##' Negative value of the gradient of log-likelihood of the difference
+##' of two independent Laplace random variables.
+##' @param sigma Value or vector of positive values where the this
+##'     function will be evaluated.
+##' @param smp Sample of differences of Laplace random variables.
+##' @return A vector of values of the gradient of the log-likelihood.
+##' @author Guillermo Basulto-Elias
+dlaplace_convol_loglik <- function(sigma, smp){
+                                        # Adapt function to receive
+                                        # vectors
+    if(length(sigma) > 1){
+        out <- sapply(sigma, function(sig)
+            dlaplace_convol_loglik(sig, smp))
+        return(out)
+    }
+
+    n <- length(smp)
+    x <- sqrt(2)*abs(smp)
+    s <- sigma
+    
+    out <- n/s + sum(x/(s^2 + s*x)) - sum(x)/s^2
+    return(out)
+}
+
+##' MLE of the std. dev. for Laplace convolution
+##'
+##' Compute the maximum likelihood estimator for the standard
+##' deviation of the difference of two independent Laplace random
+##' variables.
+##' @param smp Sample of differences of Laplace random variables.
+##' @return The MLE of the standard deviation
+##' @author Guillermo Basulto-Elias
+mle_laplace_diffs <- function(smp){
+    sig0 <- sd(smp)/sqrt(2)             # Use sample std. deviation as
+                                        # initial value
+
+    ## Minimize using L-BFGS-B providing the function to minimize and
+    ## its gradient
+    opt <- optim(par = sig0,
+                 fn = laplace_convol_loglik,
+                 gr = dlaplace_convol_loglik,
+                 lower = .Machine$double.eps, method = "L-BFGS-B",
+                 smp = smp)
+    return(out$par)
+}
