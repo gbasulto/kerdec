@@ -63,25 +63,3 @@ select_bw(
           truncation_bound = NULL)
 
 
-nn <- 100
-sig <- 50
-smp <- rlaplace(nn, 0, sig) - rlaplace(nn, 0, sig)
-
-sig0 <- sd(smp)/sqrt(2); sig0
-
-microbenchmark::microbenchmark(
-    optim(par = sig0, fn = laplace_convol_loglik,
-          lower = .Machine$double.eps, method = "L-BFGS-B",
-          smp = smp),    
-    optim(par = sig0,
-          fn = laplace_convol_loglik,
-          gr = dlaplace_convol_loglik,
-          lower = .Machine$double.eps, method = "L-BFGS-B",
-          smp = smp)
-    )
-
-plot(function(t) laplace_convol_loglik(t, smp), 0.35, 0.7)
-plot(function(t) dlaplace_convol_loglik(t, smp), 0.35, 0.7)
-
-numDeriv::grad(laplace_convol_loglik, .5, smp = smp)
-dlaplace_convol_loglik(.5, smp)

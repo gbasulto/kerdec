@@ -31,6 +31,49 @@ There are two popular `R` packages that provide functions to do this, `decon` an
 
 The package `kerdec` provides functions to handle univariate and bivariate kdde with unknown error distribution, by using the empirical characteristic function, or knwon errors, which can be Laplace or Gaussian. Also functions are provided to estimate the parameters based on a sample of errors or panel data structured data.  
 
+# Univariate kernel density deconvolution examples
+
+```{r}
+library(kerdec)                         # Load package
+
+## Settings and samples for all the cases
+n <- 150                                # Sample size
+l <- 5                                  # Number of columns
+m <- n + 10                             # Error sample size
+shape <- 5                              # X distr. shape par.
+rate <- 5                               # X distr. rate par.
+sd_error <- .2                          # std. error of error distr.
+X <- rgamma(n, shape, rate)             # Uncontaminated sample
+eps_panel <- matrix(rlaplace(n*l, sd = sd_error),
+                    n, l)               # Panel of errors
+eps <- rlaplace(m, sd = sd_error)       # Pure errors
+Y <- X + eps_panel[, 1]                 # Contaminated sample
+Y_panel <- sweep(x = eps_panel, MARGIN = 1,
+                 STATS = X, FUN = "+")  # Contaminated in panel
+
+
+plot(function(x) dgamma(x, shape, rate), 0, 4)
+
+## ------------------------------------------------------------
+##           Case 1: Normal error known
+
+select_bw(Y,
+          method = c("CV", "NR")[1],
+          kernel = c("sinc", "vp", "triw", "tric",
+                     "flat")[5],
+          h0 = NULL,
+          error_dist = c("Normal", "Laplace", "None")[1],
+          error_scale_par = NULL,
+          error_smp = rnorm(1000, 0, 3^2),
+          resolution = 128,
+          error_proc = c("all", "vs_first",
+                                     "indep_pairs")[1],
+          panel_proc = c("keep_first", "take_aver")[1],
+          truncation_bound = NULL)
+
+
+
+```
 
 # Density Estimation
 
