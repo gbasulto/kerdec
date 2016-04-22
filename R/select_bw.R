@@ -1,4 +1,24 @@
-##' Bandwidth Selection
+
+compute_scale_par <- function(error_dist, error_smp, k){
+    if (k == 1) {                         # Pure sample of errors
+        sigma <- switch(
+            error_dist,
+            -1,             # ecf
+            sqrt(2)*mean(abs(error_smp)), # Laplace
+            sqrt(mean((error_smp)^2))     # Normal
+        )
+    } else {
+        sigma <- switch(
+            error_dist,
+            -1,                         #
+            mle_laplace_diffs(smp),
+            sqrt(mean((error_smp)^2)/2)
+        )
+    }
+    return(sigma)
+}
+
+##' Kernel Deconvolution Density Estimation
 ##'
 ##' This function provides a bandwidth for kernel denvolvolution
 ##' density estimator. This works for several deconvolution scenarios,
@@ -21,10 +41,17 @@
 ##' @param error_smp Optional vector errors. It is necessary to
 ##'     approximate the error distribution if it is unknown.
 ##' @param error_dist Three possible values are accepted. c("Normal",
-##'     "Laplace", "None") fcwef
-##' @param error_scale_par
-##' @param resolution
-##' @param error_proc
+##'     "Laplace", "None").
+##' @param error_scale_par Scale parameter matching the standard
+##'     deviation. It is NULL by default and it is required if
+##'     error_dist is normal or Laplace and no sample of error is
+##'     provided nor contaminated sample comes in panel structure.
+##' @param resolution Number of points to approximate integral in
+##'     inversion formula, also to estimate the density (if grid was
+##'     not given).
+##' @param error_proc This is required only for panel data
+##'     structure. It refers to the way errors are processed. See
+##'     \code{\link{process_differences}} for further details.
 ##' @param panel_proc
 ##' @param truncation_bound
 ##' @return A list
@@ -48,8 +75,8 @@ select_bw <- function(smp,
     kernels <- c("sinc", "vp", "triw", "tric", "flat")
     error_dists <- c("none", "laplace", "normal")
     error_procs <- c("all", "vs_first", "indep_pairs")
-    
-    
+
+
     ## Check that the sample is numeric. If it is a vector, cast it to
     ## a matrix.
     if(is.numeric(smp)){
@@ -87,7 +114,7 @@ select_bw <- function(smp,
                         "\n\n See vignette for details."))
         stop(msg)
     }
-    
+
     ## Check that the error distribution is valid and convert it to
     ## numeric argument.
     error_dist0 <- error_dist           # Create copy to display msg
@@ -126,7 +153,7 @@ select_bw <- function(smp,
         }
         error_smp <- process_differences(smp, diff_mthd)
     }
-    
+
     ## Estimate scale parameter from error_smp if required.
     if (is.null(error_smp)){
         ## Display error message if error distribution is not given
@@ -138,38 +165,9 @@ select_bw <- function(smp,
                         "as its scale parameter"))
         }
     } else {
-        switch(error_dist,
-               '1' = {                  # ecf will be used, thus no
-                                        # par. ir required
-                   error_scale_par = -1
-               },
-               '2' = {                  # Laplace case
-                   if (k == 1) {        # Pure sample of errors
-                   } else {             # Panel
-                   }
-               },
-               '3' = {                  # Normal case
-                   if (k == 1) {        #Pure sample of errors
-                       error_scale_par <- sd(error_smp)
-                   } else {             # Panel data
-                       error_scale_par <- sd(error_smp)/sqrt(2)
-                   }
-               }
-               )
-        ## if(error_dist == 3){            # Normal errors
-        ##     if(k == 1){                 # Pure errors
-        ##         error_scale_par <- sd(error_smp)
-        ##     } else {                    # Panel data 
-        ##         error_scale_par <- sd(error_smp)/sqrt(2)
-        ##     }
-        ## } else if (error_dist == 2) {
-        ## } else if (k == 1) {            # No scale par. required due
-        ##                                 # to the use of ecf
-        ##     error_scale_par = -1
-        ## }
-        
+        error_scale_par <- compute_scale_par(error_dist, error_smp, k)
     }
-    
+
     return(error_scale_par)
 }
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/select_bw.R
 \name{select_bw}
 \alias{select_bw}
-\title{Bandwidth Selection}
+\title{Kernel Deconvolution Density Estimation}
 \usage{
 select_bw(smp, method = c("CV", "NR")[1], kernel = "flat", h0 = NULL,
   error_smp = NULL, error_dist = "None", error_scale_par = NULL,
@@ -29,7 +29,20 @@ optimal value.}
 approximate the error distribution if it is unknown.}
 
 \item{error_dist}{Three possible values are accepted. c("Normal",
-"Laplace", "None") fcwef}
+"Laplace", "None").}
+
+\item{error_scale_par}{Scale parameter matching the standard
+deviation. It is NULL by default and it is required if
+error_dist is normal or Laplace and no sample of error is
+provided nor contaminated sample comes in panel structure.}
+
+\item{resolution}{Number of points to approximate integral in
+inversion formula, also to estimate the density (if grid was
+not given).}
+
+\item{error_proc}{This is required only for panel data
+structure. It refers to the way errors are processed. See
+\code{\link{process_differences}} for further details.}
 }
 \value{
 A list
