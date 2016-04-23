@@ -75,7 +75,7 @@ select_bw <- function(smp,
     kernels <- c("sinc", "vp", "triw", "tric", "flat")
     error_dists <- c("none", "laplace", "normal")
     error_procs <- c("all", "vs_first", "indep_pairs")
-
+    panel_procs <- c("keep_first", "take_aver")
 
     ## Check that the sample is numeric. If it is a vector, cast it to
     ## a matrix.
@@ -143,6 +143,7 @@ select_bw <- function(smp,
     ## of errors to approximate the error distribution.
     if (k > 1) {
         diff_mthd <- match(error_proc, error_procs)
+        smp_mthd <- match(panel_proc, panel_procs)
         if (!(diff_mthd %in% 1:length(error_procs))) {
             msg <- paste0(c("\nerror_proc '",
                             error_proc, "' is not implemented. ",
@@ -151,7 +152,23 @@ select_bw <- function(smp,
                             "\n\n See vignette for details."))
             stop(msg)
         }
+        if (!(smp_mthd %in% 1:length(panel_procs))) {
+            msg <- paste0(c("\npanel_proc '",
+                            panel_proc, "' is not implemented. ",
+                            "The current panel_procs are:\n ",
+                            paste0(panel_procs, collapse = "  "),
+                            "\n\n See vignette for details."))
+            stop(msg)
+        }
+                                        # Rename vars. once we checked
+                                        # they're valid
+        panel_proc <- smp_mthd
+        error_proc <- diff_method
+                                        # Compute differences for
+                                        # errors and compute the
+                                        # sample to be used for decon.
         error_smp <- process_differences(smp, diff_mthd)
+        smp <- ifelse(smp_mthd == 1, smp[, 1], rowMeans(smp))
     }
 
     ## Estimate scale parameter from error_smp if required.
@@ -167,7 +184,7 @@ select_bw <- function(smp,
     } else {
         error_scale_par <- compute_scale_par(error_dist, error_smp, k)
     }
-
+    
     return(error_scale_par)
 }
 
