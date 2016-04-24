@@ -253,6 +253,47 @@ arma::cx_vec ecf_cpp(const arma::mat & t, const arma::mat & smp)
 
    -----------------------------------------------------------------*/
 
+// -------------------------------------------------------------------
+// Pure error sample (independent from contaminated sample)
+// -------------------------------------------------------------------
+
+//' @export
+//[[Rcpp::export]]
+arma::vec dens_denominator(const arma::vec & t,
+			   const arma::vec & smp,
+			   double sigma, int k,
+			   int error_dist,
+			   int panel_proc,
+			   double cutoff,
+			   bool differences)
+{
+
+  int m = t.n_rows, i;
+  arma::vec out(m);
+
+  
+  switch(error_dist)
+  {
+  case 1:			// Nonparametric case
+    out = ecf_mod_cpp(t, smp);
+    break;
+  case 2:			// Laplace case
+    out.print("out = ");
+    break;
+  // case 3:			// Normal case
+  //   out = std::pow(1 - t*t, 3.0);
+  //   break;
+  default:
+    Rcpp::stop("Kernel not defined.");
+  }
+
+  
+  
+  return out;
+}
+
+
+
 
 // -------------------------------------------------------------------
 // Pure error sample (independent from contaminated sample)
