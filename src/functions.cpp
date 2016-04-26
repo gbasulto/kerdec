@@ -280,7 +280,7 @@ arma::vec dens_denominator(const arma::vec & t,
     out = 1.0/(1 + t*t*sigma*sigma/2.0);
     break;
   case 3:			// Normal case
-    out = exp(-sigma*sigma*t*t);
+    out = exp(-sigma*sigma*t*t/2.0);
     break;
   default:
     Rcpp::stop("Error distribution not defined.");
