@@ -67,8 +67,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // dens_denominator
-arma::vec dens_denominator(const arma::vec& t, const arma::vec& smp, double sigma, int k, int error_dist, int panel_proc, bool differences);
-RcppExport SEXP kerdec_dens_denominator(SEXP tSEXP, SEXP smpSEXP, SEXP sigmaSEXP, SEXP kSEXP, SEXP error_distSEXP, SEXP panel_procSEXP, SEXP differencesSEXP) {
+arma::vec dens_denominator(const arma::vec& t, const arma::vec& smp, double sigma, int k, int error_dist, int panel_proc);
+RcppExport SEXP kerdec_dens_denominator(SEXP tSEXP, SEXP smpSEXP, SEXP sigmaSEXP, SEXP kSEXP, SEXP error_distSEXP, SEXP panel_procSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
@@ -78,8 +78,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type k(kSEXP);
     Rcpp::traits::input_parameter< int >::type error_dist(error_distSEXP);
     Rcpp::traits::input_parameter< int >::type panel_proc(panel_procSEXP);
-    Rcpp::traits::input_parameter< bool >::type differences(differencesSEXP);
-    __result = Rcpp::wrap(dens_denominator(t, smp, sigma, k, error_dist, panel_proc, differences));
+    __result = Rcpp::wrap(dens_denominator(t, smp, sigma, k, error_dist, panel_proc));
     return __result;
 END_RCPP
 }

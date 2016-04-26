@@ -16,7 +16,7 @@ ft_kernel_cpp <- function(t, ker) {
 #'
 #' This function must receive matrices. Vectors or values are not
 #' accepted.
-#' 
+#'
 #' @param t mxd matrix where the function will be evaluated.
 #' @param smp nxd matrix with sample size if size n.
 #'
@@ -37,7 +37,7 @@ ecf_re_cpp <- function(t, smp) {
 #'
 #' This function must receive matrices. Vectors or values are not
 #' accepted.
-#' 
+#'
 #' @param t mxd matrix where the function will be evaluated.
 #' @param smp nxd matrix with sample size if size n.
 #'
@@ -55,7 +55,7 @@ ecf_im_cpp <- function(t, smp) {
 #'
 #' This function must receive matrices. Vectors or values are not
 #' accepted.
-#' 
+#'
 #' @param t mxd matrix where the function will be evaluated.
 #' @param smp nxd matrix with sample size if size n.
 #'
@@ -73,7 +73,7 @@ ecf_mod_cpp <- function(t, smp) {
 #'
 #' This function must receive matrices. Vectors or values are not
 #' accepted.
-#' 
+#'
 #' @param t mxd matrix where the function will be evaluated.
 #' @param smp nxd matrix with sample size if size n.
 #'
@@ -84,8 +84,8 @@ ecf_cpp <- function(t, smp) {
 }
 
 #' @export
-dens_denominator <- function(t, smp, sigma, k, error_dist, panel_proc, differences) {
-    .Call('kerdec_dens_denominator', PACKAGE = 'kerdec', t, smp, sigma, k, error_dist, panel_proc, differences)
+dens_denominator <- function(t, smp, sigma, k, error_dist, panel_proc) {
+    .Call('kerdec_dens_denominator', PACKAGE = 'kerdec', t, smp, sigma, k, error_dist, panel_proc)
 }
 
 #' @export
@@ -100,7 +100,7 @@ kerdec_dens_pure_1d_cpp <- function(smp, error_smp, h, lower, upper, resolution,
 #' individual. This way is not unique when there are more than two
 #' replicates per individual. This function allows to do it in
 #' several ways.
-#' 
+#'
 #' @param smp n x d matrix
 #' @param method Integer specifying method to process differences.
 #'        1, all pairwise differences.

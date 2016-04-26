@@ -33,11 +33,11 @@ using namespace arma;
 double ft_kernel_cpp(double t, int ker)
 {
   double out;			// Output number
-  
+
   t = std::abs(t);		// Only the abs. value is required.
   if(t >= 1) return 0;		// Ft of kernel must have [-1, 1] as
   // their support
-  
+
   switch(ker)
   {
   case 1:			// Sinc kernel
@@ -59,7 +59,7 @@ double ft_kernel_cpp(double t, int ker)
   default:
     Rcpp::stop("Kernel not defined.");
   }
-  
+
   return out;
 }
 
@@ -75,15 +75,15 @@ arma::vec ft_kernel_cpp(const arma::mat & t, int ker)
 {
   int i, j, n = t.n_rows, d = t.n_cols;
   arma::vec out(n);
-  
+
   out.ones();			// Start out with ones.
-  
+
   for(i = 0; i < n; i++)
     for(j = 0; j < d; j++)
     {
       out(i) *= ft_kernel_cpp(t(i, j), ker);
     }
-    
+
     return out;
 }
 
@@ -95,7 +95,7 @@ arma::vec ft_kernel_cpp(const arma::mat & t, int ker)
    characteristic function as well as its modulus and the empirical
    characteristic function itself. All of this for univariate and
    multivariate cases.
-   
+
    The purpose of doing it separately it is just for avoiding
    unnecesary computations or use of complex numbers.
 
@@ -113,7 +113,7 @@ arma::vec ft_kernel_cpp(const arma::mat & t, int ker)
 //'
 //' This function must receive matrices. Vectors or values are not
 //' accepted.
-//' 
+//'
 //' @param t mxd matrix where the function will be evaluated.
 //' @param smp nxd matrix with sample size if size n.
 //'
@@ -132,12 +132,12 @@ arma::vec ecf_re_cpp(const arma::mat & t,
   {
     Rcpp::stop("t and smp must have the same number of columns");
   }
-  
+
   return mean(cos(t * trans(smp)), 1);
 }
 
 // ------------------------------------------------------------------
-//           Imaginary part of ecf 
+//           Imaginary part of ecf
 // ------------------------------------------------------------------
 
 //' Imaginary part of empirical characteristic function
@@ -148,7 +148,7 @@ arma::vec ecf_re_cpp(const arma::mat & t,
 //'
 //' This function must receive matrices. Vectors or values are not
 //' accepted.
-//' 
+//'
 //' @param t mxd matrix where the function will be evaluated.
 //' @param smp nxd matrix with sample size if size n.
 //'
@@ -164,7 +164,7 @@ arma::vec ecf_im_cpp(const arma::mat & t,
   {
     Rcpp::stop("t and smp must have the same number of columns");
   }
-  
+
   return mean(sin(t * trans(smp)), 1);
 }
 
@@ -180,7 +180,7 @@ arma::vec ecf_im_cpp(const arma::mat & t,
 //'
 //' This function must receive matrices. Vectors or values are not
 //' accepted.
-//' 
+//'
 //' @param t mxd matrix where the function will be evaluated.
 //' @param smp nxd matrix with sample size if size n.
 //'
@@ -191,18 +191,18 @@ arma::vec ecf_mod_cpp(const arma::mat & t, const arma::mat & smp)
 {
   arma::vec real, imag;
   arma::mat arg;
-  
+
   //  Display error dimensions are different in sample and
   //  eval. points.
   if(t.n_cols != smp.n_cols)
   {
     Rcpp::stop("t and smp must have the same number of columns");
   }
-  
+
   arg = t * trans(smp);
   real = mean(cos(arg), 1);
   imag = mean(sin(arg), 1);
-  
+
   return sqrt(real % real + imag % imag);
 }
 
@@ -218,7 +218,7 @@ arma::vec ecf_mod_cpp(const arma::mat & t, const arma::mat & smp)
 //'
 //' This function must receive matrices. Vectors or values are not
 //' accepted.
-//' 
+//'
 //' @param t mxd matrix where the function will be evaluated.
 //' @param smp nxd matrix with sample size if size n.
 //'
@@ -229,24 +229,24 @@ arma::cx_vec ecf_cpp(const arma::mat & t, const arma::mat & smp)
 {
   arma::vec real, imag;
   arma::mat arg;
-  
+
   //  Display error dimensions are different in sample and
   //  eval. points.
   if(t.n_cols != smp.n_cols)
   {
     Rcpp::stop("t and smp must have the same number of columns");
   }
-  
+
   arg = t * trans(smp);
   real = mean(cos(arg), 1);
   imag = mean(sin(arg), 1);
-  
+
   return arma::cx_vec(real, imag);
 }
 
 /* -------------------------------------------------------------------
 
-   UNIVARIATE KERNEL DECONVOLUTION FORMULAS 
+   UNIVARIATE KERNEL DECONVOLUTION FORMULAS
 
    We include here functions for univariate kdde for knwon Gaussian or
    Lpalce errors, pure samples errors and panel data.
@@ -263,12 +263,19 @@ arma::vec dens_denominator(const arma::vec & t,
 			   const arma::vec & smp,
 			   double sigma, int k,
 			   int error_dist,
-			   int panel_proc,
-			   bool differences)
+			   int panel_proc)
 {
 
   int m = t.n_rows;
   arma::vec out(m);
+
+  // Include case where \bar{Y}_{\cdot\cdot} is being taken as the
+  // sample.
+  if(panel_proc == 2)
+    {
+      out = dens_denominator(t/k, smp, sigma, k, error_dist, 1);
+      out = arma::pow(out, k);
+    }
 
   switch(error_dist)
   {
@@ -285,8 +292,6 @@ arma::vec dens_denominator(const arma::vec & t,
   default:
     Rcpp::stop("Error distribution not defined.");
   }
-
-  
 
   return out;
 }
@@ -309,7 +314,7 @@ arma::cx_vec kerdec_dens_pure_1d_cpp(const arma::vec & smp,
 				     double cutoff = 999)
 {
   int m = resolution, i;
-  arma::vec t(m), denom(m); 
+  arma::vec t(m), denom(m);
   arma::cx_vec fun_vals(m), out(m);
 
   // If no cutoff is given, it is set to the one suggested by Neumann
@@ -324,12 +329,12 @@ arma::cx_vec kerdec_dens_pure_1d_cpp(const arma::vec & smp,
 
   for(i = 0; i < m; i++)
     {
-      if(denom[i] < cutoff) fun_vals[i] = 0; 
+      if(denom[i] < cutoff) fun_vals[i] = 0;
     }
-  
+
   out = fourierin::fourierin_cx_1d_cpp(fun_vals, -1/h, 1/h,
 				    lower, upper, -1.0, -1.0);
-  
+
   return out;
 }
 
@@ -340,7 +345,7 @@ arma::cx_vec kerdec_dens_pure_1d_cpp(const arma::vec & smp,
 //' individual. This way is not unique when there are more than two
 //' replicates per individual. This function allows to do it in
 //' several ways.
-//' 
+//'
 //' @param smp n x d matrix
 //' @param method Integer specifying method to process differences.
 //'        1, all pairwise differences.
@@ -354,15 +359,15 @@ arma::vec process_differences(const arma::mat & smp, int method)
   // and idx index tro fill out output vector. The rest are indices
   // for loops.
   int n, d, i, j, k, l, idx;
-  
+
   n = smp.n_rows;
   d = smp.n_cols;
-  
+
   if(d == 1)
     {
       Rcpp::stop("smp must be a matrix with at least two columns.");
     }
-  
+
   // Select vector size based on the selected method.
   switch(method)
     {
@@ -412,7 +417,7 @@ arma::vec process_differences(const arma::mat & smp, int method)
     default:
       Rcpp::stop("Differences method not defined.");
     }
-  
+
   return out;
 }
 
@@ -429,7 +434,7 @@ arma::vec error_cf_approx(const arma::vec & t,
   out = arma::pow(out, k/2.0);
 
   return out;
-    
+
 }
 
 //' @export
@@ -444,15 +449,15 @@ arma::cx_vec kerdec_dens_panel_1d_cpp(const arma::mat & smp,
 {
   // n in the sample size and l is the number of repetitions.
   int m = resolution, i, n;
-  arma::vec t(m), denom(m); 
+  arma::vec t(m), denom(m);
   arma::cx_vec fun_vals(m), out(m);
-  
+
   n = smp.n_rows;
 
   // If no cutoff is given, it is set to the one suggested by Neumann
   // (1997).
   if(cutoff == 999) cutoff = 1/sqrt(n);
-  
+
   // Define grid where the integrand will be evaluated.
   t = arma::linspace<arma::mat>(-1.0/h, 1.0/h - 2.0/h/m, m);
 
@@ -462,12 +467,12 @@ arma::cx_vec kerdec_dens_panel_1d_cpp(const arma::mat & smp,
   // Find values taking averaged obs. by row.
   fun_vals = ecf_cpp(t, mean(smp, 1)) % ft_kernel_cpp(h*t, ker)/denom;
 
-  // Set integrand value to zero if the denominator is small. 
+  // Set integrand value to zero if the denominator is small.
   for(i = 0; i < m; i++)
     {
-      if(denom[i] < cutoff) fun_vals[i] = 0; 
+      if(denom[i] < cutoff) fun_vals[i] = 0;
     }
-  
+
   out = fourierin::fourierin_cx_1d_cpp(fun_vals, -1/h, 1/h,
   				    lower, upper, -1.0, -1.0);
 
@@ -483,6 +488,6 @@ arma::cx_vec kerdec_dens(const arma::vec & smp)
 {
   arma::cx_vec out(smp.n_rows);
   out = fourierin::fourierin_1d_cpp(smp, 0, 1, 0, 1, 0, 0);
-  
+
   return out;
 }
