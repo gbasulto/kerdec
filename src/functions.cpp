@@ -264,7 +264,6 @@ arma::vec dens_denominator(const arma::vec & t,
 			   double sigma, int k,
 			   int error_dist,
 			   int panel_proc,
-			   double cutoff,
 			   bool differences)
 {
 
@@ -284,7 +283,7 @@ arma::vec dens_denominator(const arma::vec & t,
     out = exp(-sigma*sigma*t*t);
     break;
   default:
-    Rcpp::stop("Kernel not defined.");
+    Rcpp::stop("Error distribution not defined.");
   }
 
   

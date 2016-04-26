@@ -84,8 +84,8 @@ ecf_cpp <- function(t, smp) {
 }
 
 #' @export
-dens_denominator <- function(t, smp, sigma, k, error_dist, panel_proc, cutoff, differences) {
-    .Call('kerdec_dens_denominator', PACKAGE = 'kerdec', t, smp, sigma, k, error_dist, panel_proc, cutoff, differences)
+dens_denominator <- function(t, smp, sigma, k, error_dist, panel_proc, differences) {
+    .Call('kerdec_dens_denominator', PACKAGE = 'kerdec', t, smp, sigma, k, error_dist, panel_proc, differences)
 }
 
 #' @export
