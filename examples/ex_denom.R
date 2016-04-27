@@ -2,12 +2,12 @@
 library(kerdec)
 
 ## Settings and samples
-n <- 100                                # Sample size
+n <- 150                                # Sample size
 l <- 5                                  # Number of columns
 m <- n + 10                             # Error sample size
 shape <- 5                              # X distr. shape par.
 rate <- 5                               # X distr. rate par.
-sd_error <- .2                          # std. error of error distr.
+sd_error <- 0.2                          # std. error of error distr.
 X <- rgamma(n, shape, rate)             # Uncontaminated sample
 eps_panel <- matrix(rlaplace(n*l, sd = sd_error),
                     n, l)               # Panel of errors
@@ -19,8 +19,9 @@ Y_panel <- sweep(x = eps_panel, MARGIN = 1,
 
 
 
-t <- seq(0, 20, .05)
-out0 <- sqrt(ecf_mod(t, del))
+t <- seq(0, 50, .1)
+## out0 <- dens_denominator(t = t, smp = eps, sigma = sd(eps),
+##                          k = 1, error_dist = 2, panel_proc = 1)
 out1 <- dens_denominator(t = t, smp = eps, sigma = sd_error,
                          k = 1, error_dist = 1, panel_proc = 1)
 out2 <- dens_denominator(t = t, smp = eps, sigma = sd_error,
@@ -30,8 +31,24 @@ out3 <- dens_denominator(t = t, smp = del, sigma = sd_error,
 out4 <- dens_denominator(t = t, smp = eps, sigma = sd_error,
                          k = 1, error_dist = 3, panel_proc = 1)
 plot(range(t), range(c(out1, out2)), type = "n")
-lines(t, out1, col = 2)
-lines(t, out2, col = 3)
-lines(t, out3, col = 4)
-lines(t, out4, col = "orange")
-lines(t, out0, col = 1)
+## lines(t, out0, col = 1, lty = 1, lwd = 1.5)
+lines(t, out1, col = 2, lty = 1, lwd = 1.5)
+lines(t, out2, col = 3, lty = 2, lwd = 1.5)
+lines(t, out3, col = 4, lty = 3, lwd = 1.5)
+lines(t, out4, col = "magenta", lty = 4, lwd = 1.5)
+legend("topright",
+       legend = c("ecf", "param", "ecf_diffs", "param_normal"),
+       col = c("red", "green", "blue", "magenta"),
+       lty = 1:4)
+
+
+microbenchmark::microbenchmark(
+dens_denominator(t = t, smp = eps, sigma = sd_error,
+                         k = 1, error_dist = 1, panel_proc = 1),
+dens_denominator(t = t, smp = eps, sigma = sd_error,
+                         k = 1, error_dist = 2, panel_proc = 1),
+dens_denominator(t = t, smp = del, sigma = sd_error,
+                         k = 2, error_dist = 1, panel_proc = 1),
+dens_denominator(t = t, smp = eps, sigma = sd_error,
+            k = 1, error_dist = 3, panel_proc = 1)
+)
