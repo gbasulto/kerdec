@@ -143,14 +143,3 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
-// kerdec_dens
-arma::cx_vec kerdec_dens(const arma::vec& smp);
-RcppExport SEXP kerdec_kerdec_dens(SEXP smpSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< const arma::vec& >::type smp(smpSEXP);
-    __result = Rcpp::wrap(kerdec_dens(smp));
-    return __result;
-END_RCPP
-}
