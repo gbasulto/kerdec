@@ -57,17 +57,17 @@ compute_scale_par <- function(error_dist, error_smp, k){
 ##' @return A list
 ##' @author Guillermo Basulto-Elias
 ##' @export
-select_bw <- function(smp,
-                      method = c("CV", "NR")[1],
-                      kernel = "flat",
-                      h0 = NULL,
-                      error_smp = NULL,
-                      error_dist = "None",
-                      error_scale_par = NULL,
-                      resolution = 128,
-                      error_proc = "all",
-                      panel_proc = "keep_first",
-                      truncation_bound = NULL){
+kerdec_dens <- function(smp,
+                        method = c("CV", "NR")[1],
+                        kernel = "flat",
+                        h0 = NULL,
+                        error_smp = NULL,
+                        error_dist = "None",
+                        error_scale_par = NULL,
+                        resolution = 128,
+                        error_proc = "all",
+                        panel_proc = "keep_first",
+                        truncation_bound = NULL){
 
     ## Let us first state all the implemented distributions. We will
     ## check later that the arguments are valid.
@@ -191,7 +191,7 @@ select_bw <- function(smp,
                               resolution = resolution, ker = kernel,
                               sigma = error_scale_par, k = k,
                               error_dist = error_dist, panel_proc = panel_proc)
-    
+
     return(f_vals)
 }
 
