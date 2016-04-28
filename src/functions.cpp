@@ -275,6 +275,7 @@ arma::vec dens_denominator(const arma::vec & t,
     {
       out = dens_denominator(t/k, smp, sigma, k, error_dist, 1);
       out = arma::pow(out, k);
+      return out;
     }
 
   switch(error_dist)
