@@ -82,6 +82,24 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// kerdec_dens_cpp
+arma::cx_vec kerdec_dens_cpp(const arma::vec& smp, const arma::vec& error_smp, double h, double lower, double upper, int resolution, int ker, double cutoff);
+RcppExport SEXP kerdec_kerdec_dens_cpp(SEXP smpSEXP, SEXP error_smpSEXP, SEXP hSEXP, SEXP lowerSEXP, SEXP upperSEXP, SEXP resolutionSEXP, SEXP kerSEXP, SEXP cutoffSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< const arma::vec& >::type smp(smpSEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type error_smp(error_smpSEXP);
+    Rcpp::traits::input_parameter< double >::type h(hSEXP);
+    Rcpp::traits::input_parameter< double >::type lower(lowerSEXP);
+    Rcpp::traits::input_parameter< double >::type upper(upperSEXP);
+    Rcpp::traits::input_parameter< int >::type resolution(resolutionSEXP);
+    Rcpp::traits::input_parameter< int >::type ker(kerSEXP);
+    Rcpp::traits::input_parameter< double >::type cutoff(cutoffSEXP);
+    __result = Rcpp::wrap(kerdec_dens_cpp(smp, error_smp, h, lower, upper, resolution, ker, cutoff));
+    return __result;
+END_RCPP
+}
 // kerdec_dens_pure_1d_cpp
 arma::cx_vec kerdec_dens_pure_1d_cpp(const arma::vec& smp, const arma::vec& error_smp, double h, double lower, double upper, int resolution, int ker, double cutoff);
 RcppExport SEXP kerdec_kerdec_dens_pure_1d_cpp(SEXP smpSEXP, SEXP error_smpSEXP, SEXP hSEXP, SEXP lowerSEXP, SEXP upperSEXP, SEXP resolutionSEXP, SEXP kerSEXP, SEXP cutoffSEXP) {

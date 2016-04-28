@@ -263,7 +263,7 @@ arma::vec dens_denominator(const arma::vec & t,
 			   const arma::vec & smp,
 			   double sigma, int k,
 			   int error_dist,
-			   int panel_proc)
+			   int panel_proc = 1)
 {
 
   int m = t.n_rows;
@@ -296,7 +296,44 @@ arma::vec dens_denominator(const arma::vec & t,
   return out;
 }
 
+// -------------------------------------------------------------------
+//    Density estimation
+// -------------------------------------------------------------------
 
+//' @export
+//[[Rcpp::export]]
+arma::cx_vec kerdec_dens_cpp(const arma::vec & smp,
+			     const arma::vec & error_smp,
+			     double h,
+			     double lower, double upper,
+			     int resolution,
+			     int ker,
+			     double cutoff = 999)
+{
+  int m = resolution, i;
+  arma::vec t(m), denom(m);
+  arma::cx_vec fun_vals(m), out(m);
+
+  // If no cutoff is given, it is set to the one suggested by Neumann
+  // (1997).
+  if(cutoff == 999) cutoff = 1/sqrt(smp.n_rows);
+
+  // Define grid where the integrand will be evaluated.
+  t = arma::linspace<arma::mat>(-1.0/h, 1.0/h - 2.0/h/m, m);
+
+  denom = ecf_mod_cpp(t, error_smp);
+  fun_vals = ecf_cpp(t, smp) % ft_kernel_cpp(h*t, ker)/denom;
+
+  for(i = 0; i < m; i++)
+    {
+      if(denom[i] < cutoff) fun_vals[i] = 0;
+    }
+
+  out = fourierin::fourierin_cx_1d_cpp(fun_vals, -1/h, 1/h,
+				    lower, upper, -1.0, -1.0);
+
+  return out;
+}
 
 
 // -------------------------------------------------------------------
@@ -480,14 +517,3 @@ arma::cx_vec kerdec_dens_panel_1d_cpp(const arma::mat & smp,
 }
 
 
-//' Multivariate kernel deconvolution density estimator
-//'
-//' @export
-//[[Rcpp::export]]
-arma::cx_vec kerdec_dens(const arma::vec & smp)
-{
-  arma::cx_vec out(smp.n_rows);
-  out = fourierin::fourierin_1d_cpp(smp, 0, 1, 0, 1, 0, 0);
-
-  return out;
-}

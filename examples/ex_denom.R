@@ -2,7 +2,7 @@
 library(kerdec)
 
 ## Settings and samples
-n <- 150                                # Sample size
+n <- 100                                # Sample size
 l <- 5                                  # Number of columns
 m <- n + 10                             # Error sample size
 shape <- 5                              # X distr. shape par.
@@ -42,7 +42,10 @@ legend("topright",
        lty = 1:4)
 
 
+
+
 microbenchmark::microbenchmark(
+    Mod(sapply(t, function(tt) mvdeconvolution::ecf(matrix(tt), matrix(eps)))),
 dens_denominator(t = t, smp = eps, sigma = sd_error,
                          k = 1, error_dist = 1, panel_proc = 1),
 dens_denominator(t = t, smp = eps, sigma = sd_error,
