@@ -66,7 +66,7 @@ select_bw <- function(smp,
                       error_scale_par = NULL,
                       resolution = 128,
                       error_proc = "all",
-                      panel_proc = c("keep_first", "take_aver")[1],
+                      panel_proc = "keep_first",
                       truncation_bound = NULL){
 
     ## Let us first state all the implemented distributions. We will
@@ -143,7 +143,6 @@ select_bw <- function(smp,
     ## of errors to approximate the error distribution.
     if (k > 1) {
         diff_mthd <- match(error_proc, error_procs)
-        smp_mthd <- match(panel_proc, panel_procs)
         if (!(diff_mthd %in% 1:length(error_procs))) {
             msg <- paste0(c("\nerror_proc '",
                             error_proc, "' is not implemented. ",
@@ -169,6 +168,8 @@ select_bw <- function(smp,
                                         # sample to be used for decon.
         error_smp <- process_differences(smp, diff_mthd)
         smp <- ifelse(smp_mthd == 1, smp[, 1], rowMeans(smp))
+    } else {
+        panel_proc = 1
     }
 
     ## Estimate scale parameter from error_smp if required.
@@ -184,8 +185,14 @@ select_bw <- function(smp,
     } else {
         error_scale_par <- compute_scale_par(error_dist, error_smp, k)
     }
+
+    f_vals <- kerdec_dens_cpp(smp = smp, error_smp = error_smp,
+                              h = 0.1, lower = -2.0, upper = 6.0,
+                              resolution = resolution, ker = kernel,
+                              sigma = error_scale_par, k = k,
+                              error_dist = error_dist, panel_proc = panel_proc)
     
-    return(error_scale_par)
+    return(f_vals)
 }
 
 ##
