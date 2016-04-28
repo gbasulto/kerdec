@@ -263,11 +263,10 @@ arma::vec dens_denominator(const arma::vec & t,
 			   const arma::vec & smp,
 			   double sigma, int k,
 			   int error_dist,
-			   int panel_proc = 1)
+			   int panel_proc)
 {
 
-  int m = t.n_rows;
-  arma::vec out(m);
+  arma::vec out(t.n_rows);
 
   // Include case where \bar{Y}_{\cdot\cdot} is being taken as the
   // sample.
@@ -284,7 +283,7 @@ arma::vec dens_denominator(const arma::vec & t,
     if (k > 1) out = sqrt(ecf_mod_cpp(t, smp));
     else out = ecf_mod_cpp(t, smp);
     break;
-  case 2:			// Laplace case
+  case 2:			// Laplace casee
     out = 1.0/(1 + (t % t)*sigma*sigma/2.0);
     break;
   case 3:			// Normal case
@@ -309,6 +308,9 @@ arma::cx_vec kerdec_dens_cpp(const arma::vec & smp,
 			     double lower, double upper,
 			     int resolution,
 			     int ker,
+			     double sigma, int k,
+			     int error_dist,
+			     int panel_proc,
 			     double cutoff = 999)
 {
   int m = resolution, i;
@@ -322,8 +324,8 @@ arma::cx_vec kerdec_dens_cpp(const arma::vec & smp,
   // Define grid where the integrand will be evaluated.
   t = arma::linspace<arma::mat>(-1.0/h, 1.0/h - 2.0/h/m, m);
 
-  denom = ecf_mod_cpp(t, error_smp);
-  fun_vals = ecf_cpp(t, smp) % ft_kernel_cpp(h*t, ker)/denom;
+  denom = dens_denominator(t, error_smp, sigma, k, error_dist, panel_proc);
+  fun_vals = (ecf_cpp(t, smp) % ft_kernel_cpp(h*t, ker))/denom;
 
   for(i = 0; i < m; i++)
     {
