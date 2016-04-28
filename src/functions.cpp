@@ -332,7 +332,7 @@ arma::cx_vec kerdec_dens_cpp(const arma::vec & smp,
       if(denom[i] < cutoff) fun_vals[i] = 0;
     }
 
-  out = fourierin::fourierin_cx_1d_cpp(fun_vals, -1/h, 1/h,
+  out = fourierin::fourierin_cx_1d_cpp(fun_vals, -1.0/h, 1.0/h,
 				    lower, upper, -1.0, -1.0);
 
   return out;
