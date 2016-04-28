@@ -5,7 +5,7 @@
 \title{Kernel Deconvolution Density Estimation}
 \usage{
 kerdec_dens(smp, method = c("CV", "NR")[1], kernel = "flat", lower, upper,
-  h, h0 = NULL, error_smp = NULL, error_dist = "None",
+  h = NULL, h0 = NULL, error_smp = NULL, error_dist = "None",
   error_scale_par = NULL, resolution = 128, error_proc = "all",
   panel_proc = "keep_first", truncation_bound = NULL)
 }
@@ -21,6 +21,13 @@ reference). Cross-validation is the default.}
 support. There are currently 5 kernel programmed: "sinc",
 "vp", "triw", "tric" and "flat". See vignette for further
 details and examples. Flat-top kernel is the default.}
+
+\item{lower}{Lower limit where the density will be evaluated.}
+
+\item{upper}{Upper limit where the density will be evaluated.}
+
+\item{h}{Bandwidth parameter which is only required if method =
+NULL.}
 
 \item{h0}{Optional argument used as initial value to look for the
 optimal value.}
@@ -43,6 +50,15 @@ not given).}
 \item{error_proc}{This is required only for panel data
 structure. It refers to the way errors are processed. See
 \code{\link{process_differences}} for further details.}
+
+\item{panel_proc}{It defined what will be the contaminated sample
+(only) for panel data. "keep_first" will use the first column
+as sample while "take_aver" will take the average of
+contaminated samples per individual.}
+
+\item{truncation_bound}{It truncates the integrand in
+deconvolution formula when the denominator is smaller than
+this bound.}
 }
 \value{
 A list

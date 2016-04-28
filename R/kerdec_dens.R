@@ -36,6 +36,10 @@ compute_scale_par <- function(error_dist, error_smp, k){
 ##'     support. There are currently 5 kernel programmed: "sinc",
 ##'     "vp", "triw", "tric" and "flat". See vignette for further
 ##'     details and examples. Flat-top kernel is the default.
+##' @param lower Lower limit where the density will be evaluated.
+##' @param upper Upper limit where the density will be evaluated.
+##' @param h Bandwidth parameter which is only required if method =
+##'     NULL.
 ##' @param h0 Optional argument used as initial value to look for the
 ##'     optimal value.
 ##' @param error_smp Optional vector errors. It is necessary to
@@ -52,15 +56,20 @@ compute_scale_par <- function(error_dist, error_smp, k){
 ##' @param error_proc This is required only for panel data
 ##'     structure. It refers to the way errors are processed. See
 ##'     \code{\link{process_differences}} for further details.
-##' @param panel_proc
-##' @param truncation_bound
+##' @param panel_proc It defined what will be the contaminated sample
+##'     (only) for panel data. "keep_first" will use the first column
+##'     as sample while "take_aver" will take the average of
+##'     contaminated samples per individual.
+##' @param truncation_bound It truncates the integrand in
+##'     deconvolution formula when the denominator is smaller than
+##'     this bound.
 ##' @return A list
 ##' @author Guillermo Basulto-Elias
 ##' @export
 kerdec_dens <- function(smp,
                         method = c("CV", "NR")[1],
                         kernel = "flat",
-                        lower, upper, h,
+                        lower, upper, h = NULL,
                         h0 = NULL,
                         error_smp = NULL,
                         error_dist = "None",
