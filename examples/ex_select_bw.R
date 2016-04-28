@@ -2,7 +2,7 @@
 library(kerdec)
 
 ## Settings and samples
-n <- 150                                # Sample size
+n <- 250                                # Sample size
 l <- 5                                  # Number of columns
 m <- n + 10                             # Error sample size
 shape <- 5                              # X distr. shape par.
@@ -17,21 +17,27 @@ Y_panel <- sweep(x = eps_panel, MARGIN = 1,
                  STATS = X, FUN = "+")  # Contaminated in panel
 
 
+## Real density
 plot(function(x) dgamma(x, shape, rate), 0, 4)
+hist(Y)
 
+aaa <-
 select_bw(Y,
           method = c("CV", "NR")[1],
           kernel = c("sinc", "vp", "triw", "tric",
                      "flat")[5],
           h0 = NULL,
-          error_dist = c("Normal", "Laplace", "None")[1],
+          error_dist = c("Normal", "Laplace", "None")[3],
           error_scale_par = NULL,
-          error_smp = rnorm(1000, 0, 3^2),
+          error_smp = eps,
           resolution = 128,
           error_proc = c("all", "vs_first",
                                      "indep_pairs")[1],
           panel_proc = c("keep_first", "take_aver")[1],
           truncation_bound = NULL)
+
+plot(Re(aaa), type = "l")
+
 
 select_bw(Y,
           method = c("CV", "NR")[1],

@@ -60,6 +60,7 @@ compute_scale_par <- function(error_dist, error_smp, k){
 kerdec_dens <- function(smp,
                         method = c("CV", "NR")[1],
                         kernel = "flat",
+                        lower, upper, h,
                         h0 = NULL,
                         error_smp = NULL,
                         error_dist = "None",
@@ -187,7 +188,7 @@ kerdec_dens <- function(smp,
     }
 
     f_vals <- kerdec_dens_cpp(smp = smp, error_smp = error_smp,
-                              h = 0.1, lower = -2.0, upper = 6.0,
+                              h = h, lower = lower, upper = upper,
                               resolution = resolution, ker = kernel,
                               sigma = error_scale_par, k = k,
                               error_dist = error_dist, panel_proc = panel_proc)

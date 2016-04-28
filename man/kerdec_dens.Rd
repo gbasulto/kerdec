@@ -4,10 +4,10 @@
 \alias{kerdec_dens}
 \title{Kernel Deconvolution Density Estimation}
 \usage{
-kerdec_dens(smp, method = c("CV", "NR")[1], kernel = "flat", h0 = NULL,
-  error_smp = NULL, error_dist = "None", error_scale_par = NULL,
-  resolution = 128, error_proc = "all", panel_proc = "keep_first",
-  truncation_bound = NULL)
+kerdec_dens(smp, method = c("CV", "NR")[1], kernel = "flat", lower, upper,
+  h, h0 = NULL, error_smp = NULL, error_dist = "None",
+  error_scale_par = NULL, resolution = 128, error_proc = "all",
+  panel_proc = "keep_first", truncation_bound = NULL)
 }
 \arguments{
 \item{smp}{It is either a vector of size n or a nxl matrix (for
