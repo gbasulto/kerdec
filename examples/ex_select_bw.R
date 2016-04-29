@@ -1,8 +1,10 @@
 
 library(kerdec)
+detach(package:kerdec)
+library(kerdec)
 
 ## Settings and samples
-n <- 250                                # Sample size
+n <- 1500                                # Sample size
 l <- 5                                  # Number of columns
 m <- n + 10                             # Error sample size
 shape <- 5                              # X distr. shape par.
@@ -19,53 +21,50 @@ Y_panel <- sweep(x = eps_panel, MARGIN = 1,
 
 ## Real density
 plot(function(x) dgamma(x, shape, rate), 0, 4)
-hist(Y)
+#hist(Y)
 
-aaa <-
-select_bw(Y,
-          method = c("CV", "NR")[1],
-          kernel = c("sinc", "vp", "triw", "tric",
-                     "flat")[5],
-          h0 = NULL,
-          error_dist = c("Normal", "Laplace", "None")[3],
-          error_scale_par = NULL,
-          error_smp = eps,
-          resolution = 128,
-          error_proc = c("all", "vs_first",
-                                     "indep_pairs")[1],
-          panel_proc = c("keep_first", "take_aver")[1],
-          truncation_bound = NULL)
+## Parameters to perform estimation
+lower <- -2
+upper <- 7
 
-plot(Re(aaa), type = "l")
+## Case 1: normal error with known variance (misspecified
+## distribution)
+case1 <-
+    kerdec_dens(Y, method = "CV", kernel = "flat",
+                lower = lower, upper = upper, h = 0.2,
+                error_dist = "Normal",
+                error_scale_par = sd_error)
+with(case1, plot(x, f_vals, type = "l"))
 
+## Case 2: Laplace error with known variance
+case2 <-
+    kerdec_dens(Y, method = "CV", kernel = "flat",
+                lower = lower, upper = upper, h = 0.2,
+                error_dist = "Laplace",
+                error_scale_par = sd_error)
+with(case2, plot(x, f_vals, type = "l"))
 
-select_bw(Y,
-          method = c("CV", "NR")[1],
-          kernel = c("sinc", "vp", "triw", "tric",
-                     "flat")[5],
-          h0 = NULL,
-          error_dist = c("Normal", "Laplace", "None")[2],
-          error_scale_par = NULL,
-          error_smp = rlaplace(1000, 0, 3^2),
-          resolution = 128,
-          error_proc = c("all", "vs_first",
-                                     "indep_pairs")[1],
-          panel_proc = c("keep_first", "take_aver")[1],
-          truncation_bound = NULL)
+## Case 3: normal error with unknown variance and sample of errors
+## given (misspecified distribution)
+case3 <-
+    kerdec_dens(Y, method = "CV", kernel = "flat",
+                lower = lower, upper = upper, h = 0.2,
+                error_dist = "Normal", error_smp = eps)
+with(case3, plot(x, f_vals, type = "l"))
 
+## Case 4: Laplace error with known variance and sample of errors
+## given
+case4 <-
+    kerdec_dens(Y, method = "CV", kernel = "flat",
+                lower = lower, upper = upper, h = 0.2,
+                error_dist = "Laplace", error_smp = eps)
+with(case4, plot(x, f_vals, type = "l"))
 
-
-select_bw(
-    matrix(1:12, 3, 3),
-          method = "nR",
-          kernel = "flat",
-          h0 = NULL,
-          error_dist = "normal",
-          error_scale_par = NULL,
-          error_smp = NULL,
-          resolution = 128,
-          error_proc = "all",
-          panel_proc = c("keep_first", "take_aver")[1],
-          truncation_bound = NULL)
-
+## Case 4: ecf to approximate errors based on sample of errors
+## given
+case5 <-
+    kerdec_dens(Y, method = "CV", kernel = "flat",
+                lower = lower, upper = upper, h = 0.2,
+                error_smp = eps)
+with(case5, plot(x, f_vals, type = "l"))
 
