@@ -154,6 +154,7 @@ kerdec_dens <- function(smp,
     ## of errors to approximate the error distribution.
     if (k > 1) {
         diff_mthd <- match(error_proc, error_procs)
+        smp_mthd <- match(panel_proc, panel_procs)
         if (!(diff_mthd %in% 1:length(error_procs))) {
             msg <- paste0(c("\nerror_proc '",
                             error_proc, "' is not implemented. ",
@@ -173,7 +174,7 @@ kerdec_dens <- function(smp,
                                         # Rename vars. once we checked
                                         # they're valid
         panel_proc <- smp_mthd
-        error_proc <- diff_method
+        error_proc <- diff_mthd
                                         # Compute differences for
                                         # errors and compute the
                                         # sample to be used for decon.
