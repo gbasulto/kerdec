@@ -47,9 +47,10 @@ compute_scale_par <- function(error_dist, error_smp, k){
 ##' @param error_dist Three possible values are accepted. c("Normal",
 ##'     "Laplace", "None").
 ##' @param error_scale_par Scale parameter matching the standard
-##'     deviation. It is NULL by default and it is required if
-##'     error_dist is normal or Laplace and no sample of error is
-##'     provided nor contaminated sample comes in panel structure.
+##'     deviation. It is NULL by default and it is required if (and
+##'     only if) error_dist is normal or Laplace and no sample of
+##'     error is provided nor contaminated sample comes in panel
+##'     structure.
 ##' @param resolution Number of points to approximate integral in
 ##'     inversion formula, also to estimate the density (if grid was
 ##'     not given).
