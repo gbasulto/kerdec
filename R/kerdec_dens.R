@@ -193,16 +193,29 @@ kerdec_dens <- function(smp,
                         "as its scale parameter"))
         }
     } else {
-        error_scale_par <- compute_scale_par(error_dist, error_smp, k)
+        error_scale_par <-
+            compute_scale_par(error_dist, error_smp, k)
     }
 
-    f_vals <- kerdec_dens_cpp(smp = smp, error_smp = error_smp,
-                              h = h, lower = lower, upper = upper,
-                              resolution = resolution, ker = kernel,
-                              sigma = error_scale_par, k = k,
-                              error_dist = error_dist, panel_proc = panel_proc)
+    ## If error_smp was null, the error distribution must have been
+    ## given and that was already verified above. Thus we can set
+    ## other random values to it (such values will NOT be used within
+    ## kerdec_dens_cpp since error_dist is either 1 or 2)
+    if(is.null(error_smp)) error_smp <- matrix(0, 5, 1)
 
-    return(f_vals)
+    f_vals <-
+        kerdec_dens_cpp(smp = smp, error_smp = error_smp, h = h,
+                        lower = lower, upper = upper,
+                        resolution = resolution, ker = kernel,
+                        sigma = error_scale_par, k = k,
+                        error_dist = error_dist,
+                        panel_proc = panel_proc)
+
+    x <- seq(lower, upper, length.out = resolution + 1)[-resolution]
+
+        return(list(f_vals = Re(f_vals),
+                x = x,
+                h = h))
 }
 
 ##
