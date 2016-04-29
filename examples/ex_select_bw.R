@@ -3,8 +3,11 @@ library(kerdec)
 detach(package:kerdec)
 library(kerdec)
 
+## Seed
+set.seed(666)
+
 ## Settings and samples
-n <- 1500                                # Sample size
+n <- 150                                # Sample size
 l <- 5                                  # Number of columns
 m <- n + 10                             # Error sample size
 shape <- 5                              # X distr. shape par.
@@ -67,4 +70,10 @@ case5 <-
                 lower = lower, upper = upper, h = 0.2,
                 error_smp = eps)
 with(case5, plot(x, f_vals, type = "l"))
+
+## Case 6: Panel data with normal errors (unknown variances)
+case6 <- 
+  kerdec_dens(Y_panel, method = "CV", kernel = "flat",
+              lower = lower, upper = upper, h = 0.2, 
+              error_dist = "normal")
 
