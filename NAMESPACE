@@ -2,6 +2,7 @@
 
 export(cflaplace)
 export(cfnorm)
+export(cv)
 export(dens_denominator)
 export(dlaplace)
 export(ecf)

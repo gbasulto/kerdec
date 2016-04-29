@@ -94,6 +94,11 @@ kerdec_dens_cpp <- function(smp, error_smp, h, lower, upper, resolution, ker, si
 }
 
 #' @export
+cv <- function(smp, error_smp, h, lower, upper, resolution, ker, sigma, k, error_dist, panel_proc, cutoff = 999) {
+    .Call('kerdec_cv', PACKAGE = 'kerdec', smp, error_smp, h, lower, upper, resolution, ker, sigma, k, error_dist, panel_proc, cutoff)
+}
+
+#' @export
 kerdec_dens_pure_1d_cpp <- function(smp, error_smp, h, lower, upper, resolution, ker, cutoff = 999) {
     .Call('kerdec_kerdec_dens_pure_1d_cpp', PACKAGE = 'kerdec', smp, error_smp, h, lower, upper, resolution, ker, cutoff)
 }
