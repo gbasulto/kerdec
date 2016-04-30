@@ -11,7 +11,7 @@ compute_scale_par <- function(error_dist, error_smp, k){
         sigma <- switch(
             error_dist,
             -1,                         #
-            mle_laplace_diffs(smp),
+            mle_laplace_diffs(error_smp),
             sqrt(mean((error_smp)^2)/2)
         )
     }
@@ -96,8 +96,6 @@ kerdec_dens <- function(smp,
         stop("smp must be numeric.")
     }
 
-    cat("hi!\n")
-    
     ## Ask the sample size to be at least three and also obtain the
     ## number of repetitions.
     n <- nrow(smp)
@@ -142,6 +140,7 @@ kerdec_dens <- function(smp,
         stop(msg)
     }
 
+    
     ## Check that the error sample is numeric. If it is a vector, cast
     ## it to a matrix.
     if (is.numeric(error_smp)) {
@@ -202,8 +201,6 @@ kerdec_dens <- function(smp,
     }
 
 
-    cat("Hello!\n")
-    
     ## If error_smp was null, the error distribution must have been
     ## given and that was already verified above. Thus we can set
     ## other random values to it (such values will NOT be used within

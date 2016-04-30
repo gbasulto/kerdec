@@ -138,7 +138,7 @@ mle_laplace_diffs <- function(smp){
 
     ## Minimize using L-BFGS-B providing the function to minimize and
     ## its gradient
-    opt <- optim(par = sig0,
+    out <- optim(par = sig0,
                  fn = laplace_convol_loglik,
                  gr = dlaplace_convol_loglik,
                  lower = .Machine$double.eps, method = "L-BFGS-B",
