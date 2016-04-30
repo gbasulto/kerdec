@@ -96,6 +96,8 @@ kerdec_dens <- function(smp,
         stop("smp must be numeric.")
     }
 
+    cat("hi!\n")
+    
     ## Ask the sample size to be at least three and also obtain the
     ## number of repetitions.
     n <- nrow(smp)
@@ -199,16 +201,15 @@ kerdec_dens <- function(smp,
             compute_scale_par(error_dist, error_smp, k)
     }
 
+
+    cat("Hello!\n")
+    
     ## If error_smp was null, the error distribution must have been
     ## given and that was already verified above. Thus we can set
     ## other random values to it (such values will NOT be used within
     ## kerdec_dens_cpp since error_dist is either 1 or 2)
     if(is.null(error_smp)) error_smp <- matrix(0, 5, 1)
 
-    cat("smp:\n")
-    print(str(smp))
-    cat("error_smp:\n")
-    print(str(error_smp))
     f_vals <-
         kerdec_dens_cpp(smp = smp, error_smp = error_smp, h = h,
                         lower = lower, upper = upper,
