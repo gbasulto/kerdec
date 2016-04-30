@@ -179,7 +179,7 @@ kerdec_dens <- function(smp,
                                         # errors and compute the
                                         # sample to be used for decon.
         error_smp <- process_differences(smp, diff_mthd)
-        smp <- ifelse(smp_mthd == 1, smp[, 1], rowMeans(smp))
+        smp <- switch(smp_mthd, smp[, 1], matrix(rowMeans(smp)))
     } else {
         panel_proc = 1
     }
@@ -205,6 +205,10 @@ kerdec_dens <- function(smp,
     ## kerdec_dens_cpp since error_dist is either 1 or 2)
     if(is.null(error_smp)) error_smp <- matrix(0, 5, 1)
 
+    cat("smp:\n")
+    print(str(smp))
+    cat("error_smp:\n")
+    print(str(error_smp))
     f_vals <-
         kerdec_dens_cpp(smp = smp, error_smp = error_smp, h = h,
                         lower = lower, upper = upper,
