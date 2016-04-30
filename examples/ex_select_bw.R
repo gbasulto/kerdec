@@ -74,6 +74,42 @@ with(case5, plot(x, f_vals, type = "l"))
 ## Case 6: Panel data with normal errors (unknown variances)
 case6 <- 
   kerdec_dens(Y_panel, method = "CV", kernel = "flat",
-              lower = lower, upper = upper, h = 0.2, 
+              lower = lower, upper = upper, h = 0.15, 
               error_dist = "normal")
+with(case6, plot(x, f_vals, type = "l"))
+
+## Case 7: Panel data with Laplace errors (unknown variances)
+case7 <- 
+  kerdec_dens(smp = Y_panel, method = "CV", kernel = "flat",
+              lower = lower, upper = upper, h = 0.15, 
+              error_dist = "laplace")
+with(case7, plot(x, f_vals, type = "l"))
+
+## Case 8: Panel data with Laplace errors (unknown variances)
+case8 <- 
+  kerdec_dens(smp = Y_panel, method = "CV", kernel = "flat",
+              lower = lower, upper = upper, h = 0.15, 
+              error_dist = "none")
+with(case8, plot(x, f_vals, type = "l"))
+
+## Case 9: Panel data with normal errors (unknown variances)
+case9 <- 
+  kerdec_dens(Y_panel, method = "CV", kernel = "flat",
+              lower = lower, upper = upper, h = 0.15, 
+              error_dist = "normal", panel_proc = "take_aver")
+with(case9, plot(x, f_vals, type = "l"))
+
+## Case 10: Panel data with Laplace errors (unknown variances)
+case10 <- 
+  kerdec_dens(smp = Y_panel, method = "CV", kernel = "flat",
+              lower = lower, upper = upper, h = 0.15, 
+              error_dist = "laplace")
+with(case10, plot(x, f_vals, type = "l"), panel_proc = "take_aver")
+
+## Case 11: Panel data with Laplace errors (unknown variances)
+case11 <- 
+  kerdec_dens(smp = Y_panel, method = "CV", kernel = "flat",
+              lower = lower, upper = upper, h = 0.15, 
+              error_dist = "none")
+with(case11, plot(x, f_vals, type = "l"), panel_proc = "take_aver")
 
