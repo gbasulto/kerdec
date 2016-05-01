@@ -343,38 +343,32 @@ arma::cx_vec kerdec_dens_cpp(const arma::vec & smp,
 
 //' @export
 //[[Rcpp::export]]
-arma::vec amise(double h,
-		const arma::vec & smp,
-		const arma::vec & error_smp,
-		double lower, double upper,
-		int resolution,
-		int ker,
-		double sigma, int k,
-		int error_dist,
-		int panel_proc,
-		double cutoff = 999)
+double amise(double h,
+	     const arma::vec & smp,
+	     const arma::vec & error_smp,
+	     double lower, double upper,
+	     int resolution,
+	     int ker,
+	     double sigma, int k,
+	     int error_dist,
+	     int panel_proc,
+	     double cutoff = 999)
 {
-  int m = resolution, i;
-  arma::vec t(m), denom(m);
-  arma::cx_vec fun_vals(m), out(m);
+  double out, delta;
+  int m = resolution, n = smp.n_rows;
+  arma::vec aux(m);
 
-  // If no cutoff is given, it is set to the one suggested by Neumann
-  // (1997).
-  if(cutoff == 999) cutoff = 1/sqrt(smp.n_rows);
+  // aux is the m-sized grid vector
+  delta = 2.0/m;
+  aux = arma::linspace<arma::mat>(-1.0/h, 1.0/h - delta, m);
 
-  // Define grid where the integrand will be evaluated.
-  t = arma::linspace<arma::mat>(-1.0/h, 1.0/h - 2.0/h/m, m);
+  // aux is now the integrand in (3.1), Delaigle & Gijbels (2004)
+  aux = ft_kernel_cpp(aux, ker)/
+    dens_denominator(aux/h, error_smp, sigma, k, error_dist, panel_proc);
+  aux = arma::abs(aux);
+  aux = (aux % aux);
 
-  denom = dens_denominator(t, error_smp, sigma, k, error_dist, panel_proc);
-  fun_vals = (ecf_cpp(t, smp) % ft_kernel_cpp(h*t, ker))/denom;
-
-  for(i = 0; i < m; i++)
-    {
-      if(denom[i] < cutoff) fun_vals[i] = 0;
-    }
-
-  out = fourierin::fourierin_cx_1d_cpp(fun_vals, -1.0/h, 1.0/h,
-				    lower, upper, -1.0, -1.0);
+  out = delta*arma::sum(aux)/(2*datum::pi*n*h);
 
   return out;
 }
