@@ -265,7 +265,6 @@ arma::vec dens_denominator(const arma::vec & t,
 			   int error_dist,
 			   int panel_proc)
 {
-
   arma::vec out(t.n_rows);
 
   // Include case where \bar{Y}_{\cdot\cdot} is being taken as the
@@ -338,16 +337,15 @@ arma::cx_vec kerdec_dens_cpp(const arma::vec & smp,
   return out;
 }
 
-
 // -------------------------------------------------------------------
-//    Bandwidth Selection: CV
+//    Bandwidth selection: Normal reference
 // -------------------------------------------------------------------
 
 //' @export
 //[[Rcpp::export]]
-arma::cx_vec cv(const arma::vec & smp,
+arma::vec amise(double h,
+		const arma::vec & smp,
 		const arma::vec & error_smp,
-		double h,
 		double lower, double upper,
 		int resolution,
 		int ker,
@@ -380,7 +378,6 @@ arma::cx_vec cv(const arma::vec & smp,
 
   return out;
 }
-
 
 
 // -------------------------------------------------------------------
