@@ -94,8 +94,8 @@ kerdec_dens_cpp <- function(smp, error_smp, h, lower, upper, resolution, ker, si
 }
 
 #' @export
-amise <- function(h, smp, error_smp, lower, upper, resolution, ker, sigma, k, error_dist, panel_proc, cutoff = 999) {
-    .Call('kerdec_amise', PACKAGE = 'kerdec', h, smp, error_smp, lower, upper, resolution, ker, sigma, k, error_dist, panel_proc, cutoff)
+amise <- function(h, mu2K2, R, error_smp, resolution, ker, n, sigma, k, error_dist, panel_proc) {
+    .Call('kerdec_amise', PACKAGE = 'kerdec', h, mu2K2, R, error_smp, resolution, ker, n, sigma, k, error_dist, panel_proc)
 }
 
 #' @export

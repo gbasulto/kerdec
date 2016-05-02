@@ -344,18 +344,16 @@ arma::cx_vec kerdec_dens_cpp(const arma::vec & smp,
 //' @export
 //[[Rcpp::export]]
 double amise(double h,
-	     const arma::vec & smp,
+	     double mu2K2, double R,
 	     const arma::vec & error_smp,
-	     double lower, double upper,
 	     int resolution,
-	     int ker,
+	     int ker, int n,
 	     double sigma, int k,
 	     int error_dist,
-	     int panel_proc,
-	     double cutoff = 999)
+	     int panel_proc)
 {
-  double out, delta;
-  int m = resolution, n = smp.n_rows;
+  double out, delta, h4 = h*h*h*h;
+  int m = resolution;
   arma::vec aux(m);
 
   // aux is the m-sized grid vector
@@ -364,11 +362,16 @@ double amise(double h,
 
   // aux is now the integrand in (3.1), Delaigle & Gijbels (2004)
   aux = ft_kernel_cpp(aux, ker)/
-    dens_denominator(aux/h, error_smp, sigma, k, error_dist, panel_proc);
+    dens_denominator(aux/h, error_smp, sigma, k, error_dist,
+		     panel_proc);
   aux = arma::abs(aux);
   aux = (aux % aux);
 
+  // out is equal to the term with the integral
   out = delta*arma::sum(aux)/(2*datum::pi*n*h);
+
+  // Now we add the second term
+  out += h4*mu2K2*R;
 
   return out;
 }

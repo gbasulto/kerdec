@@ -206,7 +206,7 @@ kerdec_dens <- function(smp,
     ## other random values to it (such values will NOT be used within
     ## kerdec_dens_cpp since error_dist is either 1 or 2)
     if(is.null(error_smp)) error_smp <- matrix(0, 5, 1)
-
+    
     f_vals <-
         kerdec_dens_cpp(smp = smp, error_smp = error_smp, h = h,
                         lower = lower, upper = upper,

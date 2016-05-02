@@ -1,4 +1,3 @@
-
 library(kerdec)
 
 ## Settings and samples
@@ -19,7 +18,7 @@ Y_panel <- sweep(x = eps_panel, MARGIN = 1,
 
 
 
-t <- seq(0, 50, .1)
+t <- seq(0, 50, .2)
 ## out0 <- dens_denominator(t = t, smp = eps, sigma = sd(eps),
 ##                          k = 1, error_dist = 2, panel_proc = 1)
 out1 <- dens_denominator(t = t, smp = eps, sigma = sd_error,
