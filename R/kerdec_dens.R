@@ -217,7 +217,7 @@ kerdec_dens <- function(smp,
         if(panel_proc == 2) sigE*sqrt(k)
         sig_hat <- sigY - sigE
         R <- 0.37/(sqrt(pi)*sig_hat^5)
-        hh <- seq(0.03, 0.06, length.out = 100)
+        hh <- seq(h0[1], h0[2], length.out = 100)
         amise_vals <-
           sapply(hh, function(hhh)
             amise(hhh, mu2K2, R, error_smp, resolution,

@@ -1,7 +1,5 @@
 
 library(kerdec)
-detach(package:kerdec)
-library(kerdec)
 
 ## Seed
 set.seed(666)
@@ -115,8 +113,10 @@ with(case11, plot(x, f_vals, type = "l"), panel_proc = "take_aver")
 
 
 case0 <-
-  kerdec_dens(Y, method = "NR", kernel = "triw",
-              lower = lower, upper = upper, h = 0.2,
+  kerdec_dens(Y, method = "NR", kernel = "tric",
+              lower = lower, upper = upper, h = 0.225,
+              h0 = c(.03, .8),
               error_dist = "laplace",
               error_scale_par = sd_error)
-with(case1, plot(x, f_vals, type = "l"))
+
+with(case0, plot(x, f_vals, type = "l"))
