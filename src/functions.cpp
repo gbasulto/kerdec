@@ -371,7 +371,7 @@ double amise(double h,
   out = delta*arma::sum(aux)/(2*datum::pi*n*h);
 
   // Now we add the second term
-  out += h4*mu2K2*R;
+  out += h4*mu2K2*R/4.0;
 
   return out;
 }
