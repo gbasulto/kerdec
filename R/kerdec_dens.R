@@ -211,7 +211,8 @@ kerdec_dens <- function(smp,
         if(!(kernel %in% 3:4)){
             stop("'nr' does not work for that kernel")
         }
-        mu2K2 <- ifelse(kernel == 3, 6^2, 0.0327219^2)
+        mu2K2 <-
+            ifelse(kernel == 3, 6^2, (4.822182e-05)^2)
         sigY <- sd(smp)
         sigE <- error_scale_par
         if(panel_proc == 2) sigE*sqrt(k)
