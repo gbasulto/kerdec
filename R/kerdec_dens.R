@@ -206,6 +206,26 @@ kerdec_dens <- function(smp,
     ## other random values to it (such values will NOT be used within
     ## kerdec_dens_cpp since error_dist is either 1 or 2)
     if(is.null(error_smp)) error_smp <- matrix(0, 5, 1)
+
+    if(method == "nr"){
+        if(!(kernel %in% 2:3)){
+            stop("'nr' does not work for that kernel")
+        }
+        m2K2 <- ifelse(kernel == 3, 6, 0.0327219)
+        sigY <- sd(smp)
+        aux <- sd(error_smp)
+        sigE <- ifelse(k == 1, aux,
+                ifelse(panel_proc == 1,
+                       aux/sqrt(2),
+                       aux^(k /2)))
+        sig_hat <- sigY - sigE
+        R <- 0.37/(sqrt(pi)*sig_hat^5)
+        amise_vals <-
+            amise(.5, mu2K2, R, error_smp, resolution,
+                  ker, n, error_scale_par, k, error_dist,
+                  panel_proc)
+        cat(paste0("amise = ", amise_vals))
+    }
     
     f_vals <-
         kerdec_dens_cpp(smp = smp, error_smp = error_smp, h = h,
