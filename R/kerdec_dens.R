@@ -3,14 +3,14 @@ compute_scale_par <- function(error_dist, error_smp, k){
     if (k == 1) {                         # Pure sample of errors
         sigma <- switch(
             error_dist,
-            -1,             # ecf
+            sd(error_smp),             # ecf
             sqrt(2)*mean(abs(error_smp)), # Laplace
             sqrt(mean((error_smp)^2))     # Normal
         )
     } else {
         sigma <- switch(
             error_dist,
-            -1,                         #
+            sd(error_smp)/sqrt(2),                         #
             mle_laplace_diffs(error_smp),
             sqrt(mean((error_smp)^2)/2)
         )
@@ -208,23 +208,23 @@ kerdec_dens <- function(smp,
     if(is.null(error_smp)) error_smp <- matrix(0, 5, 1)
 
     if(method == "nr"){
-        if(!(kernel %in% 2:3)){
+        if(!(kernel %in% 3:4)){
             stop("'nr' does not work for that kernel")
         }
-        mu2K2 <- ifelse(kernel == 3, 6, 0.0327219)
+        mu2K2 <- ifelse(kernel == 3, 6^2, 0.0327219^2)
         sigY <- sd(smp)
-        aux <- sd(error_smp)
-        sigE <- ifelse(k == 1, aux,
-                ifelse(panel_proc == 1,
-                       aux/sqrt(2),
-                       aux^(k /2)))
+        sigE <- error_scale_par
+        if(panel_proc == 2) sigE*sqrt(k)
         sig_hat <- sigY - sigE
         R <- 0.37/(sqrt(pi)*sig_hat^5)
+        hh <- seq(0.03, 0.06, length.out = 100)
         amise_vals <-
-            amise(.5, mu2K2, R, error_smp, resolution,
+          sapply(hh, function(hhh)
+            amise(hhh, mu2K2, R, error_smp, resolution,
                   kernel, n, error_scale_par, k, error_dist,
-                  panel_proc)
-        cat(paste0("amise = ", amise_vals))
+                  panel_proc))
+        plot(hh, amise_vals, type = "l")
+        # cat(paste0("amise = ", amise_vals))
     }
     
     f_vals <-

@@ -33,9 +33,9 @@ upper <- 7
 ## Case 1: normal error with known variance (misspecified
 ## distribution)
 case1 <-
-    kerdec_dens(Y, method = "NR", kernel = "triw",
+    kerdec_dens(Y, method = "CV", kernel = "flat",
                 lower = lower, upper = upper, h = 0.2,
-                error_dist = "Normal",
+                error_dist = "normal",
                 error_scale_par = sd_error)
 with(case1, plot(x, f_vals, type = "l"))
 
@@ -113,3 +113,10 @@ case11 <-
               error_dist = "none")
 with(case11, plot(x, f_vals, type = "l"), panel_proc = "take_aver")
 
+
+case0 <-
+  kerdec_dens(Y, method = "NR", kernel = "triw",
+              lower = lower, upper = upper, h = 0.2,
+              error_dist = "laplace",
+              error_scale_par = sd_error)
+with(case1, plot(x, f_vals, type = "l"))
