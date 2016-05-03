@@ -112,11 +112,20 @@ case11 <-
 with(case11, plot(x, f_vals, type = "l"), panel_proc = "take_aver")
 
 
+
 case0 <-
   kerdec_dens(Y, method = "NR", kernel = "triw",
               lower = lower, upper = upper, h = 0.2,
-              h0 = c(.1, 3),
+              h0 = c(.04, 0.15),
               error_dist = "laplace",
               error_scale_par = sd_error)
+
+case0 <-
+  kerdec_dens(Y, method = "NR", kernel = "tric",
+              lower = lower, upper = upper, h = 0.2,
+              h0 = c(2, 10),
+              error_dist = "laplace",
+              error_scale_par = sd_error)
+
 
 with(case0, plot(x, f_vals, type = "l"))

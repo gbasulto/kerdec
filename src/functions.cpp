@@ -358,7 +358,7 @@ double amise(double h,
 
   // aux is the m-sized grid vector
   delta = 2.0/m;
-  aux = arma::linspace<arma::mat>(-1.0/h, 1.0/h - delta, m);
+  aux = arma::linspace<arma::mat>(-1.0, 1.0 - delta, m);
 
   // aux is now the integrand in (3.1), Delaigle & Gijbels (2004)
   aux = ft_kernel_cpp(aux, ker)/
