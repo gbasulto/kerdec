@@ -211,7 +211,7 @@ kerdec_dens <- function(smp,
         if(!(kernel %in% 2:3)){
             stop("'nr' does not work for that kernel")
         }
-        m2K2 <- ifelse(kernel == 3, 6, 0.0327219)
+        mu2K2 <- ifelse(kernel == 3, 6, 0.0327219)
         sigY <- sd(smp)
         aux <- sd(error_smp)
         sigE <- ifelse(k == 1, aux,
@@ -222,7 +222,7 @@ kerdec_dens <- function(smp,
         R <- 0.37/(sqrt(pi)*sig_hat^5)
         amise_vals <-
             amise(.5, mu2K2, R, error_smp, resolution,
-                  ker, n, error_scale_par, k, error_dist,
+                  kernel, n, error_scale_par, k, error_dist,
                   panel_proc)
         cat(paste0("amise = ", amise_vals))
     }

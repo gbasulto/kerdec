@@ -33,7 +33,7 @@ upper <- 7
 ## Case 1: normal error with known variance (misspecified
 ## distribution)
 case1 <-
-    kerdec_dens(Y, method = "CV", kernel = "flat",
+    kerdec_dens(Y, method = "NR", kernel = "triw",
                 lower = lower, upper = upper, h = 0.2,
                 error_dist = "Normal",
                 error_scale_par = sd_error)
