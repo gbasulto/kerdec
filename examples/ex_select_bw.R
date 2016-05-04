@@ -31,16 +31,16 @@ upper <- 7
 ## Case 1: normal error with known variance (misspecified
 ## distribution)
 case1 <-
-    kerdec_dens(Y, method = "CV", kernel = "flat",
-                lower = lower, upper = upper, h = 0.2,
+    kerdec_dens(Y, method = "NR", kernel = "triw", h0 = c(.06, 0.10),
+                lower = lower, upper = upper, h = 0.08,
                 error_dist = "normal",
                 error_scale_par = sd_error)
 with(case1, plot(x, f_vals, type = "l"))
 
 ## Case 2: Laplace error with known variance
 case2 <-
-    kerdec_dens(Y, method = "CV", kernel = "flat",
-                lower = lower, upper = upper, h = 0.2,
+    kerdec_dens(Y, method = "NR", kernel = "triw", h0 = c(.05, 0.1),
+                lower = lower, upper = upper, h = 0.068,
                 error_dist = "Laplace",
                 error_scale_par = sd_error)
 with(case2, plot(x, f_vals, type = "l"))
@@ -115,17 +115,17 @@ with(case11, plot(x, f_vals, type = "l"), panel_proc = "take_aver")
 
 case0 <-
   kerdec_dens(Y, method = "NR", kernel = "triw",
-              lower = lower, upper = upper, h = 0.2,
-              h0 = c(.04, 0.15),
+              lower = lower, upper = upper, h = 0.07,
+              h0 = c(0.03, 0.2),
+              ## h0 = c(.04, 0.15),
               error_dist = "laplace",
               error_scale_par = sd_error)
-
-case0 <-
-  kerdec_dens(Y, method = "NR", kernel = "tric",
-              lower = lower, upper = upper, h = 0.2,
-              h0 = c(2, 10),
-              error_dist = "laplace",
-              error_scale_par = sd_error)
-
 
 with(case0, plot(x, f_vals, type = "l"))
+
+kerdec_dens(Y, method = "NR", kernel = "triw",
+            lower = lower, upper = upper, h = 0.07,
+            h0 = c(0.05, 0.2),
+            ## h0 = c(.04, 0.15),
+            error_dist = "normal",
+            error_scale_par = sd_error)
