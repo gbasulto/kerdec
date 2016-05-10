@@ -57,22 +57,6 @@ plot(function(x) dgamma(x, shape, rate), 0, 4)
 ## ------------------------------------------------------------
 ##           Case 1: Normal error known
 
-select_bw(Y,
-          method = c("CV", "NR")[1],
-          kernel = c("sinc", "vp", "triw", "tric",
-                     "flat")[5],
-          h0 = NULL,
-          error_dist = c("Normal", "Laplace", "None")[1],
-          error_scale_par = NULL,
-          error_smp = rnorm(1000, 0, 3^2),
-          resolution = 128,
-          error_proc = c("all", "vs_first",
-                                     "indep_pairs")[1],
-          panel_proc = c("keep_first", "take_aver")[1],
-          truncation_bound = NULL)
-
-
-
 ```
 
 # Density Estimation
