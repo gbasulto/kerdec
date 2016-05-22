@@ -35,6 +35,7 @@ case1 <-
                 lower = lower, upper = upper, h = 0.08,
                 error_dist = "normal",
                 error_scale_par = sd_error)
+
 with(case1, plot(x, f_vals, type = "l"))
 
 ## Case 2: Laplace error with known variance

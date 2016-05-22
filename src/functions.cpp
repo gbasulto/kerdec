@@ -323,7 +323,8 @@ arma::cx_vec kerdec_dens_cpp(const arma::vec & smp,
   // Define grid where the integrand will be evaluated.
   t = arma::linspace<arma::mat>(-1.0/h, 1.0/h - 2.0/h/m, m);
 
-  denom = dens_denominator(t, error_smp, sigma, k, error_dist, panel_proc);
+  denom = dens_denominator(t, error_smp, sigma, k, error_dist,
+			   panel_proc);
   fun_vals = (ecf_cpp(t, smp) % ft_kernel_cpp(h*t, ker))/denom;
 
   for(i = 0; i < m; i++)
