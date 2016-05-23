@@ -7,6 +7,8 @@
 ft_kernel(t, ker)
 }
 \arguments{
+\item{t}{Matri}
+
 \item{ker}{}
 
 \item{mat}{nxp matrix or vector of size n.}

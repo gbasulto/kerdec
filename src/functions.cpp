@@ -257,8 +257,6 @@ arma::cx_vec ecf_cpp(const arma::mat & t, const arma::mat & smp)
 // Denominator
 // -------------------------------------------------------------------
 
-//' @export
-//[[Rcpp::export]]
 arma::vec dens_denominator(const arma::vec & t,
 			   const arma::vec & smp,
 			   double sigma, int k,

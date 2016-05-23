@@ -6,9 +6,9 @@
 ##' this package have a bounded support, as it is usual in kernel
 ##' deconvolution methods.
 ##'
+##' @param t Matri
+##' @param ker 
 ##' @param mat nxp matrix or vector of size n.
-##' @param ker
-##'
 ##' @return A vector of size n.
 ##' @export
 ft_kernel <- function(t, ker){
