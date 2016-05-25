@@ -7,11 +7,24 @@
 ft_kernel(t, ker)
 }
 \arguments{
-\item{t}{Matri}
+\item{t}{A vector of size n of a nxd matrix where the Fourier
+transform of a kernel or a d-product kernel (if t is a matrix)
+will be evaluated.}
 
-\item{ker}{}
-
-\item{mat}{nxp matrix or vector of size n.}
+\item{ker}{Character or number specifying the kernel. All the
+kernels are symmetric and they have a FT supported on [-1, 1].
+The possible choices
+are:
+\itemize{
+  \item{1 or "sinc"}{ Sinc kernel}
+  \item{2 or "triangular"}{ Kernel whose FT is a triangle}
+  \item{3 or "triweight"}{ Kernel whose FT is proportional to
+                          triweight kernel}
+  \item{4 or "tricube"}{ Kernel whose FT is proportional to
+                          tricube kernel}
+  \item{5 or "flat-top"}{ A kernel with FT equal to one around
+                         zero and decreasing linearly to zero
+                         at -1/2 and 1/2 }}}
 }
 \value{
 A vector of size n.
@@ -20,8 +33,10 @@ A vector of size n.
 Compute Fourier transform of product kernels.
 }
 \details{
-The Fourier transform of all the kernel functions considered for
-this package have a bounded support, as it is usual in kernel
+The Fourier transform (FT) of all the kernel functions considered
+for this package have a bounded support, as it is usual in kernel
 deconvolution methods.
+
+See vignette for detailed examples.
 }
 

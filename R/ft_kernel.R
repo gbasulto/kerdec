@@ -1,15 +1,32 @@
 ##' Fourier transform of kernel
 ##'
-##' Compute Fourier transform of product kernels.
+##' Evaluate Fourier transform of kernels and product kernels.
 ##'
-##' The Fourier transform of all the kernel functions considered for
-##' this package have a bounded support, as it is usual in kernel
-##' deconvolution methods.
+##' The Fourier transform (FT) of all the kernel functions considered
+##' for this package have a bounded support, as it is usual in kernel
+##' deconvolution methods. All the kernels are symmetric.
 ##'
-##' @param t Matri
-##' @param ker 
-##' @param mat nxp matrix or vector of size n.
+##' See vignette for detailed examples.
+##' @param t A vector of size n of a nxd matrix where the Fourier
+##'     transform of a kernel or a d-product kernel (if t is a matrix)
+##'     will be evaluated.
+##' @param ker Character or number specifying the kernel. All the
+##'     kernels are symmetric and they have a FT supported on [-1, 1].
+##'     The possible choices
+##'     are:
+##'     \itemize{
+##'       \item{1 or "sinc"}{ Sinc kernel}
+##'       \item{2 or "triangular"}{ Kernel whose FT is a triangle}
+##'       \item{3 or "triweight"}{ Kernel whose FT is proportional to
+##'                               triweight kernel}
+##'       \item{4 or "tricube"}{ Kernel whose FT is proportional to
+##'                               tricube kernel}
+##'       \item{5 or "flat-top"}{ A kernel with FT equal to one around
+##'                              zero and decreasing linearly to zero
+##'                              at -1/2 and 1/2 }}
 ##' @return A vector of size n.
+##' @examples
+##' plot(function(t) ft_kernel(t, "flat"), -1.5, 1.5)
 ##' @export
 ft_kernel <- function(t, ker){
   ## If t is dataframe, convert it to matrix
