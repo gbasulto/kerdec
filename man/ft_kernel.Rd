@@ -30,13 +30,18 @@ are:
 A vector of size n.
 }
 \description{
-Compute Fourier transform of product kernels.
+Evaluate Fourier transform of kernels and product kernels.
 }
 \details{
 The Fourier transform (FT) of all the kernel functions considered
 for this package have a bounded support, as it is usual in kernel
-deconvolution methods.
+deconvolution methods. All the kernels are symmetric.
 
 See vignette for detailed examples.
+}
+\examples{
+t <- seq(-1.5, 1.5, 0.05)
+vals <- ft_kernel(t, "flat-top")
+plot(t, vals, type = "l")
 }
 

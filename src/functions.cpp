@@ -67,9 +67,6 @@ double ft_kernel_cpp(double t, int ker)
 //             Evaluate at only at vectors or matrices
 // ------------------------------------------------------------------
 
-//' Fourier transforms of kernels
-//'
-//' See ft_kernel
 //[[Rcpp::export]]
 arma::vec ft_kernel_cpp(const arma::mat & t, int ker)
 {
