@@ -17,8 +17,15 @@ NULL
 #' @return A vector of size m with the real part of the empirical
 #' characteristic function.
 #'
-#' @example
-#' examples/ex_ecf.R
+#' @examples
+#' ## See complete examples in the vignette:
+#' ## browseVignettes(package = "fourierin")
+#'
+#' library(kerdec)
+#' t <- seq(-3, 3, 0.05)
+#' X <- rnorm(150)
+#' vals <- ecf_real(t, X)
+#' plot(t, vals, type = "l")
 #'
 #' @export
 ecf_real <- function(t, smp){
