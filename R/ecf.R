@@ -6,8 +6,7 @@ NULL
 #'
 #'
 #' Real part of empirical characteristic function of a d-dimensional
-#' random variable. This function is evaluated at m vectors of size
-#' d.
+#' random variable. This function is evaluated at m vectors of size d.
 #'
 #' This function must receive matrices or vectors. It is a wrapper
 #' function that allows more general inputs.

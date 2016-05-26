@@ -102,23 +102,6 @@ arma::vec ft_kernel_cpp(const arma::mat & t, int ker)
 //           Real part of ecf
 // ------------------------------------------------------------------
 
-//' Real part of empirical characteristic function
-//'
-//' Real part of empirical characteristic function of a d-dimensional
-//' random variable. This function is evaluated at m vectors of size
-//' d.
-//'
-//' This function must receive matrices. Vectors or values are not
-//' accepted.
-//'
-//' @param t mxd matrix where the function will be evaluated.
-//' @param smp nxd matrix with sample size if size n.
-//'
-//' @return A vector of size m with the real part of the empirical
-//' characteristic function.
-//'
-//' @example
-//' examples/ex_ecf.R
 //[[Rcpp::export]]
 arma::vec ecf_re_cpp(const arma::mat & t,
 		     const arma::mat & smp)
@@ -137,20 +120,6 @@ arma::vec ecf_re_cpp(const arma::mat & t,
 //           Imaginary part of ecf
 // ------------------------------------------------------------------
 
-//' Imaginary part of empirical characteristic function
-//'
-//' Imaginary part of empirical characteristic function of a
-//' d-dimensional random variable. This function is evaluated at m
-//' vectors of size d.
-//'
-//' This function must receive matrices. Vectors or values are not
-//' accepted.
-//'
-//' @param t mxd matrix where the function will be evaluated.
-//' @param smp nxd matrix with sample size if size n.
-//'
-//' @return A vector of size m with the imaginary part of the
-//' empirical characteristic function.
 //[[Rcpp::export]]
 arma::vec ecf_im_cpp(const arma::mat & t,
 		     const arma::mat & smp)
@@ -169,20 +138,6 @@ arma::vec ecf_im_cpp(const arma::mat & t,
 //           Modulus of ecf
 // ------------------------------------------------------------------
 
-//' Modulus of empirical characteristic function
-//'
-//' Modulus of empirical characteristic function of a d-dimensional
-//' random variable. This function is evaluated at m vectors of size
-//' d.
-//'
-//' This function must receive matrices. Vectors or values are not
-//' accepted.
-//'
-//' @param t mxd matrix where the function will be evaluated.
-//' @param smp nxd matrix with sample size if size n.
-//'
-//' @return A complex of size m with the modulus of the
-//' empirical characteristic function.
 //[[Rcpp::export]]
 arma::vec ecf_mod_cpp(const arma::mat & t, const arma::mat & smp)
 {
@@ -207,20 +162,6 @@ arma::vec ecf_mod_cpp(const arma::mat & t, const arma::mat & smp)
 /*                ecf                                              */
 /* --------------------------------------------------------------- */
 
-//' Empirical characteristic function
-//'
-//' Empirical characteristic function of a d-dimensional
-//' random variable. This function is evaluated at m vectors of size
-//' d.
-//'
-//' This function must receive matrices. Vectors or values are not
-//' accepted.
-//'
-//' @param t mxd matrix where the function will be evaluated.
-//' @param smp nxd matrix with sample size if size n.
-//'
-//' @return A complex vector of size m with the empirical
-//' characteristic function evaluated at t.
 //[[Rcpp::export]]
 arma::cx_vec ecf_cpp(const arma::mat & t, const arma::mat & smp)
 {

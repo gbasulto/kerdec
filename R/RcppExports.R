@@ -5,77 +5,18 @@ ft_kernel_cpp <- function(t, ker) {
     .Call('kerdec_ft_kernel_cpp', PACKAGE = 'kerdec', t, ker)
 }
 
-#' Real part of empirical characteristic function
-#'
-#' Real part of empirical characteristic function of a d-dimensional
-#' random variable. This function is evaluated at m vectors of size
-#' d.
-#'
-#' This function must receive matrices. Vectors or values are not
-#' accepted.
-#'
-#' @param t mxd matrix where the function will be evaluated.
-#' @param smp nxd matrix with sample size if size n.
-#'
-#' @return A vector of size m with the real part of the empirical
-#' characteristic function.
-#'
-#' @example
-#' examples/ex_ecf.R
 ecf_re_cpp <- function(t, smp) {
     .Call('kerdec_ecf_re_cpp', PACKAGE = 'kerdec', t, smp)
 }
 
-#' Imaginary part of empirical characteristic function
-#'
-#' Imaginary part of empirical characteristic function of a
-#' d-dimensional random variable. This function is evaluated at m
-#' vectors of size d.
-#'
-#' This function must receive matrices. Vectors or values are not
-#' accepted.
-#'
-#' @param t mxd matrix where the function will be evaluated.
-#' @param smp nxd matrix with sample size if size n.
-#'
-#' @return A vector of size m with the imaginary part of the
-#' empirical characteristic function.
 ecf_im_cpp <- function(t, smp) {
     .Call('kerdec_ecf_im_cpp', PACKAGE = 'kerdec', t, smp)
 }
 
-#' Modulus of empirical characteristic function
-#'
-#' Modulus of empirical characteristic function of a d-dimensional
-#' random variable. This function is evaluated at m vectors of size
-#' d.
-#'
-#' This function must receive matrices. Vectors or values are not
-#' accepted.
-#'
-#' @param t mxd matrix where the function will be evaluated.
-#' @param smp nxd matrix with sample size if size n.
-#'
-#' @return A complex of size m with the modulus of the
-#' empirical characteristic function.
 ecf_mod_cpp <- function(t, smp) {
     .Call('kerdec_ecf_mod_cpp', PACKAGE = 'kerdec', t, smp)
 }
 
-#' Empirical characteristic function
-#'
-#' Empirical characteristic function of a d-dimensional
-#' random variable. This function is evaluated at m vectors of size
-#' d.
-#'
-#' This function must receive matrices. Vectors or values are not
-#' accepted.
-#'
-#' @param t mxd matrix where the function will be evaluated.
-#' @param smp nxd matrix with sample size if size n.
-#'
-#' @return A complex vector of size m with the empirical
-#' characteristic function evaluated at t.
 ecf_cpp <- function(t, smp) {
     .Call('kerdec_ecf_cpp', PACKAGE = 'kerdec', t, smp)
 }
