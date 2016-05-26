@@ -275,10 +275,10 @@ c(vec3)
 
 Panel data structure $Y_{ij}$ for individual $i = 1, \ldots, n$ and occasion $j = 1, \ldots, l$.
 
-# ECF
+# Empirical Characteristic Function
 
 
-The empirical characteristic function of the random sample $\boldsymbol{X}_1, \ldots, \boldsymbol{X}_n$, where $\boldsymbol{X}_i$'s  are random vectors of size $d$ is defined as 
+The empirical characteristic function (ecf) of the random sample $\boldsymbol{X}_1, \ldots, \boldsymbol{X}_n$, where $\boldsymbol{X}_i$'s  are random vectors of size $d$ is defined as 
 $$
 \frac{1}{n}\sum_{j=1}^{n}\exp 
 \left( \imath \langle \boldsymbol{X}_j, \boldsymbol{t}\rangle\right),
@@ -312,7 +312,7 @@ part.
 library(kerdec)
 
 ## Generate sample and define two points to evaluate the functions
-smp <- rpois(5, lambda = 100)
+smp <- rpois(50, lambda = 100)
 t <- c(-1, 1)
 
 ## Evaluate the functions and arrange them in a dataframe.
@@ -325,6 +325,20 @@ dat <-
 
 ## kable function is used for displaying the table nicely.
 knitr::kable(dat)
+
+## We may also test the speed:
+if(require(microbenchmark)){
+    ctimes <- microbenchmark(
+        kerdec:::ecf_im_cpp(matrix(t), matrix(smp)),
+        ecf_imag(t, smp),
+        Im(ecf(t, smp))
+    )
+
+    ctimes
+}
+
+
+
 ```
 
 ## Univariate empirical characteristic function
@@ -506,7 +520,7 @@ Finally we show a minimal example of how to use the function `ft_kernel` to find
 ```{r}
 
 ## Load package 
-ylibrary(fourierin)
+library(fourierin)
 
 ## Define grid
 t1 <- seq(-1.1, 1.1, length.out = 150)
