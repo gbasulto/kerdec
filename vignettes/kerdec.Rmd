@@ -195,7 +195,7 @@ $$
 \left[\hat{\phi}_{\epsilon}(t/k)\right]^k
 $$
 
-```{r, fig.width= 8, fig.height= 6}
+```{r}
 library(kerdec)
 
 set.seed(1810)
@@ -331,7 +331,8 @@ knitr::kable(dat)
 
 This is a brief demonstration of the use of univariate functions for empirical characteristic functions. Observe that they all can be evaluated in vectors.
 
-```{r, fig.height= 6, fig.width= 7}
+```{r}
+
 library(kerdec)
 
 ## Parameters of Poisson distribution, sample size and grid size
@@ -424,7 +425,7 @@ The explicit expressions of kernel functions are not required in kernel deconvol
 
 The five kernel functions considered have boundedly supported Fourier transforms, specifically on $[-1, 1]$. We abuse on the nomenclature of the kernels, since "triangular", "tricube" and "triweight" do not correspond to the kernel functions with these names, but to the fact that their Fourier transform is proportional to these kernels. In the same manner, "flat-top" refers to a kernel whose Fourier transform is flat around zero.
 
-```{r, fig.width= 7, fig.height= 5}
+```{r}
 ## Load package
 library(kerdec)
 
@@ -447,7 +448,7 @@ legend("topright", ker, col = 2:6, lty = 1:5, lwd = 2)
 
 Now we obtain the values of the kernel functions from their Fourier transforms.
 
-```{r, fig.width= 7, fig.height= 5}
+```{r}
 ## Load package
 library(kerdec)
 
@@ -481,7 +482,7 @@ legend("topright", ker, col = 2:6, lty = 1:5, lwd = 2)
 
 Although in the previous section we showed how to use the function that provides the Fourier transform of a particular set of kernel functions, we show a bare minimum example to illustrate how to use these function.
 
-```{r, fig.width= 7, fig.height=5}
+```{r}
 ## Load package 
 library(fourierin)
 
@@ -502,9 +503,10 @@ plot(t, values, main = "Triangular kernel", lwd = 2,
 
 Finally we show a minimal example of how to use the function `ft_kernel` to find the Fourier transform of a product kernel. Observe that the grid has to be introduced as a matrix with $d$ columns and not as a $d$-dimensional array. 
 
-```{r, fig.width= 7, fig.height=5}
+```{r}
+
 ## Load package 
-library(fourierin)
+ylibrary(fourierin)
 
 ## Define grid
 t1 <- seq(-1.1, 1.1, length.out = 150)
@@ -527,7 +529,6 @@ persp(x = t1, y = t2, z = values,
 contour(x = t1, y = t2, z = values, nlevels = 10)
 
 ```
-
 
 # Thrash
 
