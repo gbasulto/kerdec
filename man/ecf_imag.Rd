@@ -25,109 +25,14 @@ This function must receive matrices or vectors. It is a wrapper
 function that allows more general inputs.
 }
 \examples{
-## ---------------------------------------------------------------- ##
-##      Different functions to find the same
-## ---------------------------------------------------------------- ##
+## See complete examples in the html vignette:
+## browseVignettes(package = "fourierin")
 
 library(kerdec)
-
-smp <- rpois(5, lambda = 100)
-t <- c(-1, 1)
-
-## - ecf_im_cpp: is the fastest, but it requires arguments to be
-## matrices with the appropriate arguments.
-## - ecf_imag: is almost as fast as the function above, but it allows
-## vectors when it applies (either when the random sample is
-## unidimensional or the characteristic function is evaluated at only
-## one point).
-## - ecf_cpp: takes twice the time, but it also computes the real
-## part.
-kerdec:::ecf_im_cpp(matrix(t), matrix(smp))
-ecf_imag(t, smp)
-Im(ecf(t, smp))
-
-## ---------------------------------------------------------------- ##
-##       Univariate empirical characteristic function
-## ---------------------------------------------------------------- ##
-
-library(kerdec)
-
-## Parameters of Poisson distribution, sample size and grid size
-lambda <- 10
-n <- 150                                # Sample size
-m <- 200                                # Grid size
-t <- seq(-5, 5, length.out = m)         # Evaluation grid
-smp <- rpois(n, lambda)                 # Random sample
-
-## Compute empirical characteristic values and characteristic function
-## values
-real <- ecf_real(t, smp)
-imag <- ecf_imag(t, smp)
-modu <- ecf_mod(t, smp)
-true <- exp(lambda*(exp(1i*t) - 1))
-
-## Make plots
-                                        # Real
-plot(t, real, type = "l", col = 3)
-lines(t, Re(true), col = 4)
-title("Real part of empirical and true characteristic functions")
-legend("topleft", legend = c("ecf", "cf"), col = 3:4, lwd = 2)
-
-                                        # Imaginary
-plot(t, imag, type = "l", col = 3)
-lines(t, Im(true), col = 4)
-title("Imaginary part of empirical and true characteristic functions")
-legend("topleft", legend = c("ecf", "cf"), col = 3:4, lwd = 2)
-
-                                        # Modulus
-plot(t, modu, type = "l", col = 3)
-lines(t, Mod(true), col = 4)
-title("Modulus of empirical and true characteristic functions")
-legend("topleft", legend = c("ecf", "cf"), col = 3:4, lwd = 2)
-
-## ---------------------------------------------------------------- ##
-##  Empirical characteristic function of random vectors
-## ---------------------------------------------------------------- ##
-
-library(kerdec)
-
-## Parameters of bivariate normal distribution
-mu <- c(-1, 0, 1)
-sig <- diag(1:3)
-
-## Characteristic function
-## s is n x d
-phi <- function(s) {
-    complex(modulus = exp(- 0.5*rowSums(s*(s \%*\% sig))),
-            argument = s \%*\% mu)
-}
-
-## Random sample of dimension 3.
-rndm <- function(n) {
-    cbind(rnorm(n, mu[1], sig[1, 1]),
-          rnorm(n, mu[2], sig[2, 2]),
-          rnorm(n, mu[3], sig[3, 3]))
-}
-
-## Create evaluation grid.
-grid_1d <- seq(-3, 3, length.out = 10)
-grid <- as.matrix(expand.grid(t1 = grid_1d,
-                              t2 = grid_1d,
-                              t3 = grid_1d))
-
-## Compute absolute error of modules
-n <- seq(500, 5000, by = 500)
-abs_error <- sapply(n, function(nn)
-    sum(abs(Mod(phi(grid)) - ecf_mod(t = grid, smp = rndm(nn)))))
-
-## Generate plot
-plot(n, abs_error, type = "b")
-
-
-
-
-
-
+t <- seq(-10, 10, 0.05)
+X <- rnorm(150, mean = 1)
+vals <- ecf_imag(t, X)
+plot(t, vals, type = "l")
 
 }
 

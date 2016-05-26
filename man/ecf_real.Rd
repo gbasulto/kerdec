@@ -24,11 +24,11 @@ This function must receive matrices or vectors. It is a wrapper
 function that allows more general inputs.
 }
 \examples{
-## See complete examples in the vignette:
+## See complete examples in the html vignette:
 ## browseVignettes(package = "fourierin")
 
 library(kerdec)
-t <- seq(-3, 3, 0.05)
+t <- seq(-10, 10, 0.05)
 X <- rnorm(150)
 vals <- ecf_real(t, X)
 plot(t, vals, type = "l")

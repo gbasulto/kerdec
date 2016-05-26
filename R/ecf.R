@@ -18,11 +18,11 @@ NULL
 #' characteristic function.
 #'
 #' @examples
-#' ## See complete examples in the vignette:
+#' ## See complete examples in the html vignette:
 #' ## browseVignettes(package = "fourierin")
 #'
 #' library(kerdec)
-#' t <- seq(-3, 3, 0.05)
+#' t <- seq(-10, 10, 0.05)
 #' X <- rnorm(150)
 #' vals <- ecf_real(t, X)
 #' plot(t, vals, type = "l")
@@ -82,8 +82,15 @@ ecf_real <- function(t, smp){
 #' @return A vector of size m with the imaginary part of the empirical
 #'     characteristic function.
 #'
-#' @example
-#' examples/ex_ecf.R
+#' @examples
+#' ## See complete examples in the html vignette:
+#' ## browseVignettes(package = "fourierin")
+#'
+#' library(kerdec)
+#' t <- seq(-10, 10, 0.05)
+#' X <- rnorm(150, mean = 1)
+#' vals <- ecf_imag(t, X)
+#' plot(t, vals, type = "l")
 #'
 #' @export
 ecf_imag <- function(t, smp){
