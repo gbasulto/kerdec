@@ -19,6 +19,11 @@ A vector with pdf values
 \description{
 Evaluate a Laplace pdf in a vector
 }
+\examples{
+x <- seq(-2, 4, 0.05)
+vals <- dlaplace(x, mean = 1, sd = 0.99)
+plot(x, vals, type = "l")
+}
 \author{
 Guillermo Basulto-Elias
 }
