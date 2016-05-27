@@ -25,7 +25,7 @@ function that allows more general inputs.
 }
 \examples{
 ## See complete examples in the html vignette:
-## browseVignettes(package = "fourierin")
+## browseVignettes(package = "kerdec")
 
 library(kerdec)
 t <- seq(-10, 10, 0.05)
