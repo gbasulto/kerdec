@@ -29,6 +29,6 @@ Guillermo Basulto-Elias
 }
 \seealso{
 \code{\link{plaplace}} for cumulative distribution
-    function, \code{\link{rlaplace}} for random number generation.
+    function and \code{\link{rlaplace}} for random number generation.
 }
 

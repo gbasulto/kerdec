@@ -19,7 +19,17 @@ A vector with random values
 \description{
 Generate Laplace random sample
 }
+\examples{
+x <- seq(-2, 4, 0.05)
+vals <- plaplace(x, mean = 1, sd = 0.99)
+plot(x, vals, type = "l")
+}
 \author{
 Guillermo Basulto-Elias
+}
+\seealso{
+\code{\link{dlaplace}} for probability density
+    function and \code{\link{plaplace}} for cumulative distribution
+    function.
 }
 
