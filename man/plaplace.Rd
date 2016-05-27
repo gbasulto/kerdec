@@ -19,6 +19,11 @@ A vector with cdf values
 \description{
 Evaluate a Laplace cdf in a vector
 }
+\examples{
+x <- seq(-2, 4, 0.05)
+vals <- plaplace(x, mean = 1, sd = 0.99)
+plot(x, vals, type = "l")
+}
 \author{
 Guillermo Basulto-Elias
 }

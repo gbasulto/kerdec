@@ -25,6 +25,10 @@ dlaplace <- function(x, mean = 0, sd = 1){
 ##' @param sd Standard deviation of Laplace distribution
 ##' @return A vector with cdf values
 ##' @author Guillermo Basulto-Elias
+##' @examples
+##' x <- seq(-2, 4, 0.05)
+##' vals <- plaplace(x, mean = 1, sd = 0.99)
+##' plot(x, vals, type = "l")
 ##' @export
 plaplace <- function(x, mean = 0, sd = 1){
     b <- sd/sqrt(2)
