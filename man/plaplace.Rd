@@ -27,4 +27,8 @@ plot(x, vals, type = "l")
 \author{
 Guillermo Basulto-Elias
 }
+\seealso{
+\code{\link{dlaplace}} for probability distribution
+    function, \code{\link{rlaplace}} for random number generation.
+}
 
