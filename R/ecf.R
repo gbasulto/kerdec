@@ -209,8 +209,16 @@ ecf_mod <- function(t, smp){
 #' @return A complex vector of size m with the empirical
 #'     characteristic function.
 #'
-#' @example
-#' examples/ex_ecf.R
+#' @examples
+#' ## See complete examples in the html vignette:
+#' ## browseVignettes(package = "kerdec")
+#'
+#' library(kerdec)
+#' t <- seq(-10, 10, 0.05)
+#' X <- rnorm(150, mean = 1)
+#' vals <- ecf(t, X)
+#' plot(t, Re(vals), type = "l", main = "real part")
+#' plot(t, Im(vals), type = "l", main = "imaginary part")
 #'
 #' @export
 ecf <- function(t, smp){
