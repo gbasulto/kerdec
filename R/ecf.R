@@ -19,7 +19,7 @@ NULL
 #'
 #' @examples
 #' ## See complete examples in the html vignette:
-#' ## browseVignettes(package = "fourierin")
+#' ## browseVignettes(package = "kerdec")
 #'
 #' library(kerdec)
 #' t <- seq(-10, 10, 0.05)
@@ -84,7 +84,7 @@ ecf_real <- function(t, smp){
 #'
 #' @examples
 #' ## See complete examples in the html vignette:
-#' ## browseVignettes(package = "fourierin")
+#' ## browseVignettes(package = "kerdec")
 #'
 #' library(kerdec)
 #' t <- seq(-10, 10, 0.05)
@@ -146,8 +146,15 @@ ecf_imag <- function(t, smp){
 #' @return A vector of size m with the modulus of the empirical
 #' characteristic function.
 #'
-#' @example
-#' examples/ex_ecf.R
+#' @examples
+#' ## See complete examples in the html vignette:
+#' ## browseVignettes(package = "kerdec")
+#'
+#' library(kerdec)
+#' t <- seq(-10, 10, 0.05)
+#' X <- rnorm(150)
+#' vals <- ecf_mod(t, X)
+#' plot(t, vals, type = "l")
 #'
 #' @export
 ecf_mod <- function(t, smp){
