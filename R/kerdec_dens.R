@@ -1,4 +1,30 @@
-
+##' Compute scale parameter for error in kdde
+##'
+##' This function computes the maximum likelihood estimator of the
+##' standard deviation for the error distribution provided as long as
+##' this error is normal or Laplace and the sample is either a sample
+##' or errors or a sample of differeces of errors (which arises in
+##' panel data).
+##'
+##' This function also computes the standard deviation when the error
+##' is approximated with the enpirical charcteristic function, since
+##' it is useful for bandwidth selection.
+##' 
+##' @param error_dist An integer specifying the error distribution: 1
+##'     if non-parametric, 2 if Laplace, 3 if normal.
+##' @param error_smp Vector of sample of errors or differences of
+##'     errors.
+##' @param k An integer specifying what is being provided as sample of
+##'     errors: '1' for pure sample of errors and otherwise for
+##'     differences of errors.
+##' @return The (positive) standard deviation
+##'
+##' @examples
+##' ## Difference of Laplace errors is provided:
+##' sigma <- 5
+##' smp <- rlaplace(n = 100, sd = sigma) - rlaplace(n = 100, sd = sigma)
+##' kerdec:::compute_scale_par(2, smp, 2)
+##' @author Guillermo Basulto-Elias
 compute_scale_par <- function(error_dist, error_smp, k){
     if (k == 1) {                         # Pure sample of errors
         sigma <- switch(
