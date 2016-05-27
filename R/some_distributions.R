@@ -7,6 +7,8 @@
 ##' @param sd Standard deviation of Laplace distribution
 ##' @return A vector with pdf values
 ##' @author Guillermo Basulto-Elias
+##' @seealso \code{\link{plaplace}} for cumulative distribution
+##'     function, \code{\link{rlaplace}} for random number generation.
 ##' @examples
 ##' x <- seq(-2, 4, 0.05)
 ##' vals <- dlaplace(x, mean = 1, sd = 0.99)
