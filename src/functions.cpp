@@ -235,7 +235,6 @@ arma::vec dens_denominator(const arma::vec & t,
 //    Density estimation
 // -------------------------------------------------------------------
 
-//' @export
 //[[Rcpp::export]]
 arma::cx_vec kerdec_dens_cpp(const arma::vec & smp,
 			     const arma::vec & error_smp,
