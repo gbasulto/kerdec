@@ -252,7 +252,18 @@ kerdec_dens <- function(smp,
                   panel_proc))
         plot(hh, amise_vals, type = "l")
         # cat(paste0("amise = ", amise_vals))
+    } else if (method == "cv") {
+        Z <- process_differences(matrix(smp, nrow = 1), method = 1)
+        hh <- seq(h0[1], h0[2], length.out = 100)
+        cv_vals <-
+            sapply(hh, function(hhh)
+                CV(h, Z, smp,
+                   error_smp,
+                   resolution, kernel, error_scale_par, k, error_dist,
+                   panel_proc))
+        plot(hh, cv, type = "l")
     }
+    
     
     f_vals <-
         kerdec_dens_cpp(smp = smp, error_smp = error_smp, h = h,
