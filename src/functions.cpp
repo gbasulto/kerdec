@@ -319,9 +319,8 @@ double amise(double h,
 
 //[[Rcpp::export]]
 double CV(double h, const arma::vec & Z, const arma::vec & smp,
-	  const arma::vec & error_smp, double lower, double upper,
-	  int resolution, int ker, double sigma, int k, int error_dist,
-	  int panel_proc)
+	  const arma::vec & error_smp, int resolution, int ker,
+	  double sigma, int k, int error_dist, int panel_proc)
 {
   /* 
      This function in the one involved in formula (1.7) from Youndje &
@@ -349,7 +348,7 @@ double CV(double h, const arma::vec & Z, const arma::vec & smp,
 
   // ST_hat in formula (1.7)
   st = sum(fun_vals)*delta/(2*datum::pi);
-
+ 
   // Integral of sqrd. f using Parseval's identity.
   cv_aux = ecf_mod_cpp(t, smp)*kernel_vals;
   cv_aux = cv_aux*cv_aux;	// square numerator
