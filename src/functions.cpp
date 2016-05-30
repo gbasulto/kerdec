@@ -277,7 +277,6 @@ arma::cx_vec kerdec_dens_cpp(const arma::vec & smp,
 //    Bandwidth selection: Normal reference
 // -------------------------------------------------------------------
 
-//' @export
 //[[Rcpp::export]]
 double amise(double h,
 	     double mu2K2, double R,
