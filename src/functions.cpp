@@ -316,14 +316,38 @@ double amise(double h,
 //    Cross-validation bandwidth
 // -------------------------------------------------------------------
 
-//[[Rcpp::export]]
-arma::vec ST(const arma::vec & z)
+double ST(const arma::vec & Z,
+    const arma::vec & error_smp,
+    double h,
+    double lower, double upper,
+    int resolution,
+    int ker,
+    double sigma, int k,
+    int error_dist,
+    int panel_proc)
 {
-  /* This function in the one involved in formula (1.7) from Youndje &
+  /* 
+     This function in the one involved in formula (1.7) from Youndje &
      Wells (2007), required by the cross-validation formula.
-   */
-
+  */
   
+  int m = resolution;
+  arma::vec t(m), denom(m), fun_vals(m);
+  double out, delta = 2.0/h/m;	// Gridsize
+  
+  // Define grid where the integrand will be evaluated.
+  t = arma::linspace<arma::mat>(-1.0/h, 1.0/h - delta, m);
+
+  // ST_hat has the denominator squared.
+  denom = dens_denominator(t, error_smp, sigma, k, error_dist,
+			   panel_proc);
+  denom = denom % denom;
+
+  fun_vals = (ecf_re_cpp(t, Z) % ft_kernel_cpp(h*t, ker))/denom;
+
+  out = sum(fun_vals)*delta/(2*datum::pi);
+
+  return out;
 }
 
 
