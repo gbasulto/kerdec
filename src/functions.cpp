@@ -313,6 +313,22 @@ double amise(double h,
 
 
 // -------------------------------------------------------------------
+//    Cross-validation bandwidth
+// -------------------------------------------------------------------
+
+//[[Rcpp::export]]
+arma::vec ST(const arma::vec & z)
+{
+  /* This function in the one involved in formula (1.7) from Youndje &
+     Wells (2007), required by the cross-validation formula.
+   */
+
+  
+}
+
+
+
+// -------------------------------------------------------------------
 // Pure error sample (independent from contaminated sample)
 // -------------------------------------------------------------------
 
