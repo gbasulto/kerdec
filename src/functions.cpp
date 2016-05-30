@@ -350,8 +350,8 @@ double CV(double h, const arma::vec & Z, const arma::vec & smp,
   st = sum(fun_vals)*delta/(2*datum::pi);
  
   // Integral of sqrd. f using Parseval's identity.
-  cv_aux = ecf_mod_cpp(t, smp)*kernel_vals;
-  cv_aux = cv_aux*cv_aux;	// square numerator
+  cv_aux = ecf_mod_cpp(t, smp) % kernel_vals;
+  cv_aux = cv_aux % cv_aux;	// square numerator
   cv_aux = cv_aux/denom;	// ... And divide by sq. denominator.
   fvals = sum(cv_aux)*delta/(2*datum::pi);
 
