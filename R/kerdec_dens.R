@@ -261,7 +261,7 @@ kerdec_dens <- function(smp,
                    error_smp,
                    resolution, kernel, error_scale_par, k, error_dist,
                    panel_proc))
-        plot(hh, cv, type = "l")
+        plot(hh, cv_vals, type = "l")
     }
     
     
