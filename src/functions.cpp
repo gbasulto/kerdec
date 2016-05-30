@@ -273,9 +273,10 @@ arma::cx_vec kerdec_dens_cpp(const arma::vec & smp,
   return out;
 }
 
-// -------------------------------------------------------------------
+// --------------------------------------------------------------------
 //    Bandwidth selection: Normal reference
-// -------------------------------------------------------------------
+// --------------------------------------------------------------------
+
 
 //[[Rcpp::export]]
 double amise(double h,
@@ -312,19 +313,14 @@ double amise(double h,
 }
 
 
-// -------------------------------------------------------------------
+// --------------------------------------------------------------------
 //    Cross-validation bandwidth
-// -------------------------------------------------------------------
+// --------------------------------------------------------------------
 
-double ST(const arma::vec & Z,
-    const arma::vec & error_smp,
-    double h,
-    double lower, double upper,
-    int resolution,
-    int ker,
-    double sigma, int k,
-    int error_dist,
-    int panel_proc)
+double CV(double h, const arma::vec & Z, const arma::vec & smp,
+	  const arma::vec & error_smp, double lower, double upper,
+	  int resolution, int ker, double sigma, int k, int error_dist,
+	  int panel_proc)
 {
   /* 
      This function in the one involved in formula (1.7) from Youndje &
@@ -332,8 +328,8 @@ double ST(const arma::vec & Z,
   */
   
   int m = resolution;
-  arma::vec t(m), denom(m), fun_vals(m);
-  double out, delta = 2.0/h/m;	// Gridsize
+  arma::vec t(m), denom(m), fun_vals(m), cv_aux(m), kernel_vals(m);
+  double st, fvals, out, delta = 2.0/h/m;	// Gridsize
   
   // Define grid where the integrand will be evaluated.
   t = arma::linspace<arma::mat>(-1.0/h, 1.0/h - delta, m);
@@ -343,13 +339,39 @@ double ST(const arma::vec & Z,
 			   panel_proc);
   denom = denom % denom;
 
-  fun_vals = (ecf_re_cpp(t, Z) % ft_kernel_cpp(h*t, ker))/denom;
+  // kernel values are common for ST and the integral in (1.7) after
+  // using Parseval's identity.
+  kernel_vals = ft_kernel_cpp(h*t, ker);
 
-  out = sum(fun_vals)*delta/(2*datum::pi);
+  // ST integrand values
+  fun_vals = (ecf_re_cpp(t, Z) % kernel_vals)/denom;
 
+  // ST_hat in formula (1.7)
+  st = sum(fun_vals)*delta/(2*datum::pi);
+
+  // Integral of sqrd. f using Parseval's identity.
+  cv_aux = ecf_mod_cpp(t, smp)*kernel_vals;
+  cv_aux = cv_aux*cv_aux;	// square numerator
+  cv_aux = cv_aux/denom;	// ... And divide by sq. denominator.
+  fvals = sum(cv_aux)*delta/(2*datum::pi);
+
+  out = (fvals - 2.0*st);
+  
   return out;
 }
 
+double CV(double h,
+	  const arma::vec & smp,
+	  const arma::vec & error_smp,double lower, double upper,
+	  int resolution,
+	  int ker,
+	  double sigma, int k,
+	  int error_dist,
+	  int panel_proc)
+{
+  
+}
+  
 
 
 // -------------------------------------------------------------------
