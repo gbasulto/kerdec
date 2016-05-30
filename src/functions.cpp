@@ -317,6 +317,7 @@ double amise(double h,
 //    Cross-validation bandwidth
 // --------------------------------------------------------------------
 
+//[[Rcpp::export]]
 double CV(double h, const arma::vec & Z, const arma::vec & smp,
 	  const arma::vec & error_smp, double lower, double upper,
 	  int resolution, int ker, double sigma, int k, int error_dist,
@@ -359,20 +360,6 @@ double CV(double h, const arma::vec & Z, const arma::vec & smp,
   
   return out;
 }
-
-double CV(double h,
-	  const arma::vec & smp,
-	  const arma::vec & error_smp,double lower, double upper,
-	  int resolution,
-	  int ker,
-	  double sigma, int k,
-	  int error_dist,
-	  int panel_proc)
-{
-  
-}
-  
-
 
 // -------------------------------------------------------------------
 // Pure error sample (independent from contaminated sample)
