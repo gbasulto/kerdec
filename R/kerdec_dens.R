@@ -257,7 +257,7 @@ kerdec_dens <- function(smp,
         hh <- seq(h0[1], h0[2], length.out = 100)
         cv_vals <-
             sapply(hh, function(hhh)
-                CV(h, Z, smp,
+                CV(hhh, Z, smp,
                    error_smp,
                    resolution, kernel, error_scale_par, k, error_dist,
                    panel_proc))
