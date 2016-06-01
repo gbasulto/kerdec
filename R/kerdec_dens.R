@@ -217,7 +217,7 @@ kerdec_dens <- function(smp,
         ## and it cannot be approximated.
         if (is.null(error_scale_par) | error_dist == 1){
             stop(paste0("If a panel data structured are not given",
-                        ", nor a sample of errors, then the error",
+                        ", nor a sample of errors, then the error ",
                         "distribution must be specified as well ",
                         "as its scale parameter"))
         }
