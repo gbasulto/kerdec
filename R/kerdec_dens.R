@@ -280,4 +280,4 @@ kerdec_dens <- function(smp,
                 h = h))
 }
 
-##
+

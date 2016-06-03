@@ -110,8 +110,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // CV
-double CV(double h, const arma::vec& Z, const arma::vec& smp, const arma::vec& error_smp, int resolution, int ker, double sigma, int k, int error_dist, int panel_proc);
-RcppExport SEXP kerdec_CV(SEXP hSEXP, SEXP ZSEXP, SEXP smpSEXP, SEXP error_smpSEXP, SEXP resolutionSEXP, SEXP kerSEXP, SEXP sigmaSEXP, SEXP kSEXP, SEXP error_distSEXP, SEXP panel_procSEXP) {
+double CV(double h, const arma::vec& Z, const arma::vec& smp, const arma::vec& error_smp, int resolution, int ker, double sigma, int k, int error_dist, int panel_proc, double cutoff);
+RcppExport SEXP kerdec_CV(SEXP hSEXP, SEXP ZSEXP, SEXP smpSEXP, SEXP error_smpSEXP, SEXP resolutionSEXP, SEXP kerSEXP, SEXP sigmaSEXP, SEXP kSEXP, SEXP error_distSEXP, SEXP panel_procSEXP, SEXP cutoffSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
@@ -125,7 +125,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type k(kSEXP);
     Rcpp::traits::input_parameter< int >::type error_dist(error_distSEXP);
     Rcpp::traits::input_parameter< int >::type panel_proc(panel_procSEXP);
-    __result = Rcpp::wrap(CV(h, Z, smp, error_smp, resolution, ker, sigma, k, error_dist, panel_proc));
+    Rcpp::traits::input_parameter< double >::type cutoff(cutoffSEXP);
+    __result = Rcpp::wrap(CV(h, Z, smp, error_smp, resolution, ker, sigma, k, error_dist, panel_proc, cutoff));
     return __result;
 END_RCPP
 }

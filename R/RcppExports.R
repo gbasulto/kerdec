@@ -29,8 +29,8 @@ amise <- function(h, mu2K2, R, error_smp, resolution, ker, n, sigma, k, error_di
     .Call('kerdec_amise', PACKAGE = 'kerdec', h, mu2K2, R, error_smp, resolution, ker, n, sigma, k, error_dist, panel_proc)
 }
 
-CV <- function(h, Z, smp, error_smp, resolution, ker, sigma, k, error_dist, panel_proc) {
-    .Call('kerdec_CV', PACKAGE = 'kerdec', h, Z, smp, error_smp, resolution, ker, sigma, k, error_dist, panel_proc)
+CV <- function(h, Z, smp, error_smp, resolution, ker, sigma, k, error_dist, panel_proc, cutoff = 999) {
+    .Call('kerdec_CV', PACKAGE = 'kerdec', h, Z, smp, error_smp, resolution, ker, sigma, k, error_dist, panel_proc, cutoff)
 }
 
 #' @export

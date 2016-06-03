@@ -262,6 +262,7 @@ arma::cx_vec kerdec_dens_cpp(const arma::vec & smp,
 			   panel_proc);
   fun_vals = (ecf_cpp(t, smp) % ft_kernel_cpp(h*t, ker))/denom;
 
+  // Truncate integrand if denominator is very small.
   for(i = 0; i < m; i++)
     {
       if(denom[i] < cutoff) fun_vals[i] = 0;
@@ -320,17 +321,22 @@ double amise(double h,
 //[[Rcpp::export]]
 double CV(double h, const arma::vec & Z, const arma::vec & smp,
 	  const arma::vec & error_smp, int resolution, int ker,
-	  double sigma, int k, int error_dist, int panel_proc)
+	  double sigma, int k, int error_dist, int panel_proc,
+	  double cutoff = 999)
 {
   /* 
      This function in the one involved in formula (1.7) from Youndje &
      Wells (2007), required by the cross-validation formula.
   */
   
-  int m = resolution;
+  int m = resolution, i;
   arma::vec t(m), denom(m), fun_vals(m), cv_aux(m), kernel_vals(m);
-  double st, fvals, out, delta = 2.0/h/m;	// Gridsize
+  double st, fvals, out, sqrt_cutoff, delta = 2.0/h/m;	// Gridsize
   
+  // If no cutoff is given, it is set to the one suggested by Neumann
+  // (1997).
+  if(cutoff == 999) cutoff = 1/sqrt(smp.n_rows);
+
   // Define grid where the integrand will be evaluated.
   t = arma::linspace<arma::mat>(-1.0/h, 1.0/h - delta, m);
 
@@ -345,16 +351,30 @@ double CV(double h, const arma::vec & Z, const arma::vec & smp,
 
   // ST integrand values
   fun_vals = (ecf_re_cpp(t, Z) % kernel_vals)/denom;
-
-  // ST_hat in formula (1.7)
-  st = sum(fun_vals)*delta/(2*datum::pi);
  
   // Integral of sqrd. f using Parseval's identity.
   cv_aux = ecf_mod_cpp(t, smp) % kernel_vals;
   cv_aux = cv_aux % cv_aux;	// square numerator
   cv_aux = cv_aux/denom;	// ... And divide by sq. denominator.
-  fvals = sum(cv_aux)*delta/(2*datum::pi);
 
+  // Truncate integrand if denominator is very small.
+  sqrt_cutoff = sqrt(cutoff);
+  for(i = 0; i < m; i++)
+    {
+      if(denom[i] < sqrt_cutoff)
+	{
+	  fun_vals[i] = 0;
+	  cv_aux[i] = 0;
+	}
+    }
+  
+
+  // ST_hat in formula (1.7)
+  st = sum(fun_vals)*delta/(2*datum::pi);
+
+  // Add sq. integral values.
+  fvals = sum(cv_aux)*delta/(2*datum::pi);
+  
   out = (fvals - 2.0*st);
   
   return out;
