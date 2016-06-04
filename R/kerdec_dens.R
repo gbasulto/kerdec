@@ -251,7 +251,7 @@ kerdec_dens <- function(smp,
         R <- 0.37/(sqrt(pi)*sig_hat^5)
         h_grid <- seq(h0[1], h0[2], length.out = 100)
         amise_vals <-
-            sapply(hh, function(hhh)
+            sapply(h_grid, function(hhh)
               amise(hhh, mu2K2, R, error_smp, resolution,
                   kernel, n, error_scale_par, k, error_dist,
                   panel_proc))
@@ -270,7 +270,7 @@ kerdec_dens <- function(smp,
                    error_smp,
                    resolution, kernel, error_scale_par, k, error_dist,
                    panel_proc))
-            plot(hh, cv_vals, type = "l")
+            plot(h_grid, cv_vals, type = "l")
             h <- h_grid[which.min(amise_vals)]
             plot(hh, amise_vals, type = "l")
             abline(v = h, col = "red")
