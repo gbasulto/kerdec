@@ -110,7 +110,7 @@ kerdec_dens <- function(smp,
 
     ## Let us first state all the implemented distributions. We will
     ## check later that the arguments are valid.
-    bw_methods <- c("cv", "nr")
+    bw_methods <- c("cv", "nr", "none")
     kernels <- c("sinc", "vp", "triw", "tric", "flat")
     error_dists <- c("none", "laplace", "normal")
     error_procs <- c("all", "vs_first", "indep_pairs")
@@ -133,6 +133,8 @@ kerdec_dens <- function(smp,
     ## Convert to lower case the argument "method" and then it is
     ## implemented.
     method <- tolower(method)
+    if(!is.null(h)) method <- "none"    # Select "none" as bandwidth
+                                        # sel. if h was given.
     if(!(method %in% bw_methods)){
         msg <- paste0(c("\n Method ", method,
                         " is not implemented. ",
@@ -235,7 +237,8 @@ kerdec_dens <- function(smp,
     ## kerdec_dens_cpp since error_dist is either 1 or 2)
     if(is.null(error_smp)) error_smp <- matrix(0, 5, 1)
 
-    if(method == "nr"){
+    switch(method,
+           nr = {
         if(!(kernel %in% 3:4)){
             stop("'nr' does not work for that kernel")
         }
@@ -246,25 +249,34 @@ kerdec_dens <- function(smp,
         if(panel_proc == 2) sigE*sqrt(k)
         sig_hat <- sigY - sigE
         R <- 0.37/(sqrt(pi)*sig_hat^5)
-        hh <- seq(h0[1], h0[2], length.out = 100)
+        h_grid <- seq(h0[1], h0[2], length.out = 100)
         amise_vals <-
-          sapply(hh, function(hhh)
-            amise(hhh, mu2K2, R, error_smp, resolution,
+            sapply(hh, function(hhh)
+              amise(hhh, mu2K2, R, error_smp, resolution,
                   kernel, n, error_scale_par, k, error_dist,
                   panel_proc))
+        h <- h_grid[which.min(amise_vals)]
         plot(hh, amise_vals, type = "l")
-        # cat(paste0("amise = ", amise_vals))
-    } else if (method == "cv") {
-        Z <- process_differences(matrix(smp, nrow = 1), method = 1)
-        hh <- seq(h0[1], h0[2], length.out = 100)
-        cv_vals <-
-            sapply(hh, function(hhh)
-                CV(hhh, Z, smp,
+        abline(v = h, col = "red")
+        ## cat(paste0("amise = ", amise_vals))               
+           },
+        cv = {
+            Z <- process_differences(matrix(smp, nrow = 1), method = 1)
+            h_grid <- seq(h0[1], h0[2], length.out = 100)
+            
+            cv_vals <-
+                sapply(h_grid, function(hhh)
+                    CV(hhh, Z, smp,
                    error_smp,
                    resolution, kernel, error_scale_par, k, error_dist,
                    panel_proc))
-        plot(hh, cv_vals, type = "l")
-    }
+            plot(hh, cv_vals, type = "l")
+            h <- h_grid[which.min(amise_vals)]
+            plot(hh, amise_vals, type = "l")
+            abline(v = h, col = "red")
+            
+        },
+        none = {})
     
     
     f_vals <-
