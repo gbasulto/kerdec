@@ -90,6 +90,7 @@ compute_scale_par <- function(error_dist, error_smp, k){
 ##' @param truncation_bound It truncates the integrand in
 ##'     deconvolution formula when the denominator is smaller than
 ##'     this bound.
+##' @param bw_interval Do not modify it.
 ##' @return A list
 ##' @author Guillermo Basulto-Elias
 ##' @export
@@ -104,7 +105,8 @@ kerdec_dens <- function(smp,
                         resolution = 128,
                         error_proc = "all",
                         panel_proc = "keep_first",
-                        truncation_bound = NULL){
+                        truncation_bound = NULL,
+                        bw_interval = NULL){
 
     ## Let us first state all the implemented distributions. We will
     ## check later that the arguments are valid.
