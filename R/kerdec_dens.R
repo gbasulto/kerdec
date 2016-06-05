@@ -271,8 +271,8 @@ kerdec_dens <- function(smp,
                    resolution, kernel, error_scale_par, k, error_dist,
                    panel_proc))
             plot(h_grid, cv_vals, type = "l")
-            h <- h_grid[which.min(amise_vals)]
-            plot(hh, amise_vals, type = "l")
+            h <- h_grid[which.min(cv_vals)]
+            plot(h_grid, cv_vals, type = "l")
             abline(v = h, col = "red")
             
         },
