@@ -331,7 +331,10 @@ double CV(double h, const arma::vec & Z, const arma::vec & smp,
   
   int m = resolution, i;
   arma::vec t(m), denom(m), fun_vals(m), cv_aux(m), kernel_vals(m);
-  double st, fvals, out, sqrt_cutoff, delta = 2.0/h/m;	// Gridsize
+  double st, fvals, out, sqrt_cutoff, delta;
+
+  // Gridsize
+  delta = 2.0/h/m;		
   
   // If no cutoff is given, it is set to the one suggested by Neumann
   // (1997).
@@ -351,31 +354,32 @@ double CV(double h, const arma::vec & Z, const arma::vec & smp,
 
   // ST integrand values
   fun_vals = (ecf_re_cpp(t, Z) % kernel_vals)/denom;
+
+  // ST_hat in formula (1.7)
+  st = sum(fun_vals)*delta/(2.0*datum::pi);
  
   // Integral of sqrd. f using Parseval's identity.
   cv_aux = ecf_mod_cpp(t, smp) % kernel_vals;
   cv_aux = cv_aux % cv_aux;	// square numerator
   cv_aux = cv_aux/denom;	// ... And divide by sq. denominator.
 
-  // Truncate integrand if denominator is very small.
-  sqrt_cutoff = sqrt(cutoff);
-  for(i = 0; i < m; i++)
-    {
-      if(denom[i] < sqrt_cutoff)
-	{
-	  fun_vals[i] = 0;
-	  cv_aux[i] = 0;
-	}
-    }
+  // // Truncate integrand if denominator is very small.
+  // sqrt_cutoff = sqrt(cutoff);
+  // for(i = 0; i < m; i++)
+  //   {
+  //     if(denom[i] < sqrt_cutoff)
+  // 	{
+  // 	  fun_vals[i] = 0;
+  // 	  cv_aux[i] = 0;
+  // 	}
+  //   }
   
 
-  // ST_hat in formula (1.7)
-  st = sum(fun_vals)*delta/(2*datum::pi);
 
   // Add sq. integral values.
-  fvals = sum(cv_aux)*delta/(2*datum::pi);
+  fvals = sum(cv_aux)*delta/(2.0*datum::pi);
   
-  out = (fvals - 2.0*st);
+  out = fvals - 2.0*st;
   
   return out;
 }

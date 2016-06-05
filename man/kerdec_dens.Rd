@@ -7,7 +7,7 @@
 kerdec_dens(smp, method = c("CV", "NR")[1], kernel = "flat", lower, upper,
   h = NULL, h0 = NULL, error_smp = NULL, error_dist = "None",
   error_scale_par = NULL, resolution = 128, error_proc = "all",
-  panel_proc = "keep_first", truncation_bound = NULL)
+  panel_proc = "keep_first", truncation_bound = NULL, bw_interval = NULL)
 }
 \arguments{
 \item{smp}{It is either a vector of size n or a nxl matrix (for
@@ -60,6 +60,8 @@ contaminated samples per individual.}
 \item{truncation_bound}{It truncates the integrand in
 deconvolution formula when the denominator is smaller than
 this bound.}
+
+\item{bw_interval}{Do not modify it.}
 }
 \value{
 A list
