@@ -267,9 +267,9 @@ kerdec_dens <- function(smp,
             cv_vals <-
                 sapply(h_grid, function(hhh)
                     CV(hhh, Z, smp,
-                   error_smp,
-                   resolution, kernel, error_scale_par, k, error_dist,
-                   panel_proc))
+                       error_smp,
+                       resolution, kernel, error_scale_par, k, error_dist,
+                       panel_proc))
             plot(h_grid, cv_vals, type = "l")
             h <- h_grid[which.min(cv_vals)]
             plot(h_grid, cv_vals, type = "l")
