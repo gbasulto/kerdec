@@ -230,7 +230,13 @@ kerdec_dens <- function(smp,
             compute_scale_par(error_dist, error_smp, k)
     }
 
-
+    ## Now we select the initial h0, if it was not provided.
+    if(is.null(h0)){
+        h0 <- ifelse(error_dist == 2,
+        (5*error_scale_par^4/n)^(1/9),
+        error_scale_par/sqrt(log(n)/2))
+    }
+    
     ## If error_smp was null, the error distribution must have been
     ## given and that was already verified above. Thus we can set
     ## other random values to it (such values will NOT be used within
@@ -262,7 +268,8 @@ kerdec_dens <- function(smp,
            },
         cv = {
             Z <- process_differences(matrix(smp, nrow = 1), method = 1)
-            h_grid <- seq(h0[1], h0[2], length.out = 100)
+            h_grid <- seq(from = bw_interval[1],
+                          to = bw_interval[2], length.out = 100)
             
             cv_vals <-
                 sapply(h_grid, function(hhh)
@@ -274,7 +281,9 @@ kerdec_dens <- function(smp,
             h <- h_grid[which.min(cv_vals)]
             plot(h_grid, cv_vals, type = "l")
             abline(v = h, col = "red")
-            
+            abline(v = h0, col = "green")
+            cat("h0 = ", h0, "\n")
+            cat("h = ", h, "\n")
         },
         none = {})
     
