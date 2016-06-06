@@ -245,47 +245,95 @@ kerdec_dens <- function(smp,
 
     switch(method,
            nr = {
-        if(!(kernel %in% 3:4)){
-            stop("'nr' does not work for that kernel")
-        }
-        mu2K2 <-
-            ifelse(kernel == 3, 6^2, (4.822182e-05)^2)
-        sigY <- sd(smp)
-        sigE <- error_scale_par
-        if(panel_proc == 2) sigE*sqrt(k)
-        sig_hat <- sigY - sigE
-        R <- 0.37/(sqrt(pi)*sig_hat^5)
-        h_grid <- seq(h0[1], h0[2], length.out = 100)
-        amise_vals <-
-            sapply(h_grid, function(hhh)
-              amise(hhh, mu2K2, R, error_smp, resolution,
-                  kernel, n, error_scale_par, k, error_dist,
-                  panel_proc))
-        h <- h_grid[which.min(amise_vals)]
-        plot(hh, amise_vals, type = "l")
-        abline(v = h, col = "red")
-        ## cat(paste0("amise = ", amise_vals))               
+               if(!(kernel %in% 3:4)){
+                   stop("'nr' does not work for that kernel")
+               }
+               mu2K2 <-
+                   ifelse(kernel == 3, 6^2, (4.822182e-05)^2)
+               sigY <- sd(smp)
+               sigE <- error_scale_par
+               if(panel_proc == 2) sigE*sqrt(k)
+               sig_hat <- sigY - sigE
+               R <- 0.37/(sqrt(pi)*sig_hat^5)
+               h_grid <- seq(h0[1], h0[2], length.out = 100)
+               amise_vals <-
+                   sapply(h_grid, function(hhh)
+                       amise(hhh, mu2K2, R, error_smp, resolution,
+                             kernel, n, error_scale_par, k, error_dist,
+                             panel_proc))
+               h <- h_grid[which.min(amise_vals)]
+               plot(hh, amise_vals, type = "l")
+               abline(v = h, col = "red")
+               ## cat(paste0("amise = ", amise_vals))               
            },
-        cv = {
-            Z <- process_differences(matrix(smp, nrow = 1), method = 1)
-            h_grid <- seq(from = bw_interval[1],
-                          to = bw_interval[2], length.out = 100)
-            
-            cv_vals <-
-                sapply(h_grid, function(hhh)
-                    CV(hhh, Z, smp,
-                       error_smp,
-                       resolution, kernel, error_scale_par, k, error_dist,
-                       panel_proc))
-            plot(h_grid, cv_vals, type = "l")
-            h <- h_grid[which.min(cv_vals)]
-            plot(h_grid, cv_vals, type = "l")
-            abline(v = h, col = "red")
-            abline(v = h0, col = "green")
-            cat("h0 = ", h0, "\n")
-            cat("h = ", h, "\n")
-        },
-        none = {})
+           cv = {
+               ## Vector of differences required for CV in Youndje
+               ## (2007)
+               Z <- process_differences(matrix(smp, nrow = 1),
+                                        method = 1)
+
+               ## Function to be minimized and displayed.
+               cv_fun <- function(bw){
+                   cv_val <- 
+                       CV(bw, Z, smp, error_smp, resolution, kernel,
+                          error_scale_par, k, error_dist, panel_proc)
+                   if(is.nan(cv_val)) cv_val <- 1e20
+                   return(cv_val)
+               }
+
+
+               h_optim <- nlm(cv_fun, h0)
+
+               h <- h_optim$estimate
+
+               cat("code = ", h_optim$code, "\n")
+
+               ## if (h_optim$convergence != 0) {
+               ##     msg <- paste0("'optim' function was used to ",
+               ##                   "find the CV bandwidth. The ",
+               ##                   "convergence value was 0. We ",
+               ##                   "recommend to provide an interval",
+               ##                   " 'bw_interval' to check",
+               ##                   " convergence.")
+               ##     warning(msg)
+               ## }
+
+               ## h_optim <- optim(h0, cv_fun,
+               ##                  lower = .Machine$double.eps,
+               ##                  method = "L-BFGS-B")
+
+               ## h <- h_optim$par
+
+               ## if (h_optim$convergence != 0) {
+               ##     cat(h_optim$convergence)
+               ##     msg <- paste0("'optim' function was used to ",
+               ##                   "find the CV bandwidth. The ",
+               ##                   "convergence value was 0. We ",
+               ##                   "recommend to provide an interval",
+               ##                   " 'bw_interval' to check",
+               ##                   " convergence.")
+               ##     warning(msg)
+               ## }
+
+               if(!is.null(bw_interval)){
+
+                   h_grid <- seq(from = bw_interval[1],
+                                 to = bw_interval[2],
+                                 length.out = 100)
+                   
+                   cv_vals <-
+                       sapply(h_grid, cv_fun)
+                   
+                   plot(h_grid, cv_vals, type = "l")
+                   abline(v = h, col = "red")
+                   abline(v = h0, col = "green")
+                   cat("h0 = ", h0, "\n")
+                   cat("h = ", h, "\n")
+
+               }
+               
+           },
+           none = {})
     
     
     f_vals <-
