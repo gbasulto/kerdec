@@ -243,6 +243,9 @@ kerdec_dens <- function(smp,
     ## kerdec_dens_cpp since error_dist is either 1 or 2)
     if(is.null(error_smp)) error_smp <- matrix(0, 5, 1)
 
+    ## 
+    h_optim <- NULL
+
     switch(method,
            nr = {
                if(!(kernel %in% 3:4)){
@@ -288,33 +291,6 @@ kerdec_dens <- function(smp,
 
                cat("code = ", h_optim$code, "\n")
 
-               ## if (h_optim$convergence != 0) {
-               ##     msg <- paste0("'optim' function was used to ",
-               ##                   "find the CV bandwidth. The ",
-               ##                   "convergence value was 0. We ",
-               ##                   "recommend to provide an interval",
-               ##                   " 'bw_interval' to check",
-               ##                   " convergence.")
-               ##     warning(msg)
-               ## }
-
-               ## h_optim <- optim(h0, cv_fun,
-               ##                  lower = .Machine$double.eps,
-               ##                  method = "L-BFGS-B")
-
-               ## h <- h_optim$par
-
-               ## if (h_optim$convergence != 0) {
-               ##     cat(h_optim$convergence)
-               ##     msg <- paste0("'optim' function was used to ",
-               ##                   "find the CV bandwidth. The ",
-               ##                   "convergence value was 0. We ",
-               ##                   "recommend to provide an interval",
-               ##                   " 'bw_interval' to check",
-               ##                   " convergence.")
-               ##     warning(msg)
-               ## }
-
                if(!is.null(bw_interval)){
 
                    h_grid <- seq(from = bw_interval[1],
@@ -348,7 +324,9 @@ kerdec_dens <- function(smp,
 
         return(list(f_vals = Re(f_vals),
                 x = x,
-                h = h))
+                h = h,
+                h0 = h0,
+                h_optim = h_optim))
 }
 
 
