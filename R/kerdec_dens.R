@@ -1,49 +1,3 @@
-##' Compute scale parameter for error in kdde
-##'
-##' This function computes the maximum likelihood estimator of the
-##' standard deviation for the error distribution provided as long as
-##' this error is normal or Laplace and the sample is either a sample
-##' or errors or a sample of differeces of errors (which arises in
-##' panel data).
-##'
-##' This function also computes the standard deviation when the error
-##' is approximated with the enpirical charcteristic function, since
-##' it is useful for bandwidth selection.
-##' 
-##' @param error_dist An integer specifying the error distribution: 1
-##'     if non-parametric, 2 if Laplace, 3 if normal.
-##' @param error_smp Vector of sample of errors or differences of
-##'     errors.
-##' @param k An integer specifying what is being provided as sample of
-##'     errors: '1' for pure sample of errors and otherwise for
-##'     differences of errors.
-##' @return The (positive) standard deviation
-##'
-##' @examples
-##' ## Difference of Laplace errors is provided:
-##' sigma <- 5
-##' smp <- rlaplace(n = 100, sd = sigma) - rlaplace(n = 100, sd = sigma)
-##' kerdec:::compute_scale_par(2, smp, 2)
-##' @author Guillermo Basulto-Elias
-compute_scale_par <- function(error_dist, error_smp, k){
-    if (k == 1) {                         # Pure sample of errors
-        sigma <- switch(
-            error_dist,
-            sd(error_smp),             # ecf
-            sqrt(2)*mean(abs(error_smp)), # Laplace
-            sqrt(mean((error_smp)^2))     # Normal
-        )
-    } else {
-        sigma <- switch(
-            error_dist,
-            sd(error_smp)/sqrt(2),                         #
-            mle_laplace_diffs(error_smp),
-            sqrt(mean((error_smp)^2)/2)
-        )
-    }
-    return(sigma)
-}
-
 ##' Kernel Deconvolution Density Estimation
 ##'
 ##' This function provides a bandwidth for kernel denvolvolution
@@ -243,6 +197,9 @@ kerdec_dens <- function(smp,
     ## kerdec_dens_cpp since error_dist is either 1 or 2)
     if(is.null(error_smp)) error_smp <- matrix(0, 5, 1)
 
+    ## 
+    h_optim <- NULL
+
     switch(method,
            nr = {
                if(!(kernel %in% 3:4)){
@@ -288,33 +245,6 @@ kerdec_dens <- function(smp,
 
                cat("code = ", h_optim$code, "\n")
 
-               ## if (h_optim$convergence != 0) {
-               ##     msg <- paste0("'optim' function was used to ",
-               ##                   "find the CV bandwidth. The ",
-               ##                   "convergence value was 0. We ",
-               ##                   "recommend to provide an interval",
-               ##                   " 'bw_interval' to check",
-               ##                   " convergence.")
-               ##     warning(msg)
-               ## }
-
-               ## h_optim <- optim(h0, cv_fun,
-               ##                  lower = .Machine$double.eps,
-               ##                  method = "L-BFGS-B")
-
-               ## h <- h_optim$par
-
-               ## if (h_optim$convergence != 0) {
-               ##     cat(h_optim$convergence)
-               ##     msg <- paste0("'optim' function was used to ",
-               ##                   "find the CV bandwidth. The ",
-               ##                   "convergence value was 0. We ",
-               ##                   "recommend to provide an interval",
-               ##                   " 'bw_interval' to check",
-               ##                   " convergence.")
-               ##     warning(msg)
-               ## }
-
                if(!is.null(bw_interval)){
 
                    h_grid <- seq(from = bw_interval[1],
@@ -348,7 +278,9 @@ kerdec_dens <- function(smp,
 
         return(list(f_vals = Re(f_vals),
                 x = x,
-                h = h))
+                h = h,
+                h0 = h0,
+                h_optim = h_optim))
 }
 
 
