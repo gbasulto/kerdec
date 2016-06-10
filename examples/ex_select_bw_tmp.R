@@ -6,7 +6,7 @@ case1 <-
               error_dist = "laplace",
               error_scale_par = sd_error,
              # bw_interval = c(0.08, 0.5),
-              resolution = 64)
+              resolution = 128)
 
 with(case1, plot(x, f_vals, type = "l"))
 
@@ -15,8 +15,8 @@ case1 <-
               lower = lower, upper = upper,
               error_dist = "normal",
               error_scale_par = sd_error,
-              bw_interval = c(0.08, 0.5),
-              resolution = 64)
+#              bw_interval = c(0.08, 0.5),
+              resolution = 128)
 
 with(case1, plot(x, f_vals, type = "l"))
 
@@ -26,7 +26,7 @@ case1 <-
               error_dist = "normal",
               error_scale_par = sd_error,
               h0 = 0.19,
-              bw_interval = c(0.08, 0.5), 
+#              bw_interval = c(0.08, 0.5), 
               resolution = 128)
 
 with(case1, plot(x, f_vals, type = "l"))
@@ -35,8 +35,9 @@ case1 <-
   kerdec_dens(Y, method = "CV", kernel = "tric",
               lower = lower, upper = upper,
               error_dist = "normal",
-              error_scale_par = sd_error, resolution = 64,
-              bw_interval = c(0.08, 0.5))
+              error_scale_par = sd_error,
+              # bw_interval = c(0.08, 0.5), 
+              resolution = 128)
 
 with(case1, plot(x, f_vals, type = "l"))
 
@@ -44,7 +45,8 @@ case1 <-
   kerdec_dens(Y, method = "CV", kernel = "flat",
               lower = lower, upper = upper, h = NULL,
               error_dist = "normal",
-              error_scale_par = sd_error, resolution = 128,
-              bw_interval = c(0.08, 0.5))
+              error_scale_par = sd_error,
+#              bw_interval = c(0.08, 0.5), 
+              resolution = 128)
 
 with(case1, plot(x, f_vals, type = "l"))
