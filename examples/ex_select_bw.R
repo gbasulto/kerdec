@@ -21,7 +21,7 @@ Y_panel <- sweep(x = eps_panel, MARGIN = 1,
 
 
 ## Real density
-plot(function(x) dgamma(x, shape, rate), 0, 4)
+plot(function(x) dgamma(x, shape, rate), -2, 6)
 #hist(Y)
 
 ## Parameters to perform estimation
