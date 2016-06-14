@@ -242,6 +242,14 @@ kerdec_dens <- function(smp,
                h_optim <- nlm(cv_fun, h0)
 
                h <- h_optim$estimate
+               
+               if(!(h_optim$code %in% 1:2)){
+                 msg <- paste("The CV might have not found the optimal bandwidth.",
+                              "We recommend to provide the argument bw_interval",
+                              "(a vector of size 2 with the limits) to plot the",
+                              "function to minimize")
+                 warning(msg)
+               }
 
                cat("code = ", h_optim$code, "\n")
 
