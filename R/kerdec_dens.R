@@ -244,21 +244,10 @@ kerdec_dens <- function(smp,
         panel_proc = 1
     }
 
-    ## Estimate scale parameter from error_smp if required.
-    if (is.null(error_smp)){
-        ## Display error message if error distribution is not given
-        ## and it cannot be approximated.
-        if (is.null(error_scale_par) | error_dist == 1){
-            stop(paste0("If a panel data structured are not given",
-                        ", nor a sample of errors, then the error ",
-                        "distribution must be specified as well ",
-                        "as its scale parameter"))
-        }
-    } else {
-        error_scale_par <-
-            compute_scale_par(error_dist, error_smp, k)
-    }
-
+    ## Compute error scale parameter if it was not given.
+    error_scale_par <- compute_scale_par(error_dist, error_smp, k,
+                                         error_scale_par)
+    
     ## Now we select the initial h0, if it was not provided.
     if(is.null(h0)){
         h0 <- ifelse(error_dist == 2,
