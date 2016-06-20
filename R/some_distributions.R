@@ -184,8 +184,6 @@ mle_laplace_diffs <- function(smp){
 ##' @param k An integer specifying what is being provided as sample of
 ##'     errors: '1' for pure sample of errors and otherwise for
 ##'     differences of errors.
-##' @param error_scale_par NULL by default. It is is given, the
-##'     function does nothing but return this value.
 ##' @return The (positive) standard deviation
 ##'
 ##' @examples
@@ -194,21 +192,7 @@ mle_laplace_diffs <- function(smp){
 ##' smp <- rlaplace(n = 100, sd = sigma) - rlaplace(n = 100, sd = sigma)
 ##' kerdec:::compute_scale_par(2, smp, 2)
 ##' @author Guillermo Basulto-Elias
-compute_scale_par <- function(error_dist, error_smp, k, error_scale_par = NULL){
-
-    ## Estimate scale parameter from error_smp if required.
-    if (is.null(error_smp)){
-        ## Display error message if error distribution is not given
-        ## and it cannot be approximated.
-        if (is.null(error_scale_par) | error_dist == 1){
-            stop(paste0("If a panel data structured are not given",
-                        ", nor a sample of errors, then the error ",
-                        "distribution must be specified as well ",
-                        "as its scale parameter"))
-            return(error_scale_par)
-        }
-    }
-    
+compute_scale_par <- function(error_dist, error_smp, k){
     if (k == 1) {                         # Pure sample of errors
         sigma <- switch(
             error_dist,

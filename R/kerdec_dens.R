@@ -1,78 +1,3 @@
-
-
-# h_NR <- function(){
-#     {
-#                if(!(kernel %in% 3:4)){
-#                    stop("'nr' does not work for that kernel")
-#                }
-#                mu2K2 <-
-#                    ifelse(kernel == 3, 6^2, (4.822182e-05)^2)
-#                sigY <- sd(smp)
-#                sigE <- error_scale_par
-#                if(panel_proc == 2) sigE*sqrt(k)
-#                sig_hat <- sigY - sigE
-#                R <- 0.37/(sqrt(pi)*sig_hat^5)
-#                h_grid <- seq(h0[1], h0[2], length.out = 100)
-#                amise_vals <-
-#                    sapply(h_grid, function(hhh)
-#                        amise(hhh, mu2K2, R, error_smp, resolution,
-#                              kernel, n, error_scale_par, k, error_dist,
-#                              panel_proc))
-#                h <- h_grid[which.min(amise_vals)]
-#                plot(hh, amise_vals, type = "l")
-#                abline(v = h, col = "red")
-#                ## cat(paste0("amise = ", amise_vals))               
-#     }
-# }
-# 
-# h_CV <- function(){
-#     ## Vector of differences required for CV in Youndje
-#     ## (2007)
-#     Z <- process_differences(matrix(smp, nrow = 1),
-#                              method = 1)
-#     
-#     ## Function to be minimized and displayed.
-#     cv_fun <- function(bw){
-#         cv_val <- 
-#             CV(bw, Z, smp, error_smp, resolution, kernel,
-#                           error_scale_par, k, error_dist, panel_proc)
-#         if(is.nan(cv_val)) cv_val <- 1e20
-#         return(cv_val)
-#     }
-#     
-#     
-#     h_optim <- nlm(cv_fun, h0)
-#     
-#     h <- h_optim$estimate
-#     
-#     if(!(h_optim$code %in% 1:2)){
-#         msg <- paste("The CV might have not found the optimal bandwidth.",
-#                      "We recommend to provide the argument bw_interval",
-#                      "(a vector of size 2 with the limits) to plot the",
-#                      "function to minimize")
-#         warning(msg)
-#     }
-#     
-#     cat("code = ", h_optim$code, "\n")
-#     
-#     if(!is.null(bw_interval)){
-# 
-#         h_grid <- seq(from = bw_interval[1],
-#                       to = bw_interval[2],
-#                       length.out = 100)
-#         
-#         cv_vals <-
-#             sapply(h_grid, cv_fun)
-#         
-#         plot(h_grid, cv_vals, type = "l")
-#         abline(v = h, col = "red")
-#         abline(v = h0, col = "green")
-#         cat("h0 = ", h0, "\n")
-#         cat("h = ", h, "\n")
-#         
-#     }    
-# }
-
 ##' Kernel Deconvolution Density Estimation
 ##'
 ##' This function provides a bandwidth for kernel denvolvolution
@@ -244,10 +169,21 @@ kerdec_dens <- function(smp,
         panel_proc = 1
     }
 
-    ## Compute error scale parameter if it was not given.
-    error_scale_par <- compute_scale_par(error_dist, error_smp, k,
-                                         error_scale_par)
-    
+    ## Estimate scale parameter from error_smp if required.
+    if (is.null(error_smp)){
+        ## Display error message if error distribution is not given
+        ## and it cannot be approximated.
+        if (is.null(error_scale_par) | error_dist == 1){
+            stop(paste0("If a panel data structured are not given",
+                        ", nor a sample of errors, then the error ",
+                        "distribution must be specified as well ",
+                        "as its scale parameter"))
+        }
+    } else {
+        error_scale_par <-
+            compute_scale_par(error_dist, error_smp, k)
+    }
+
     ## Now we select the initial h0, if it was not provided.
     if(is.null(h0)){
         h0 <- ifelse(error_dist == 2,
@@ -265,8 +201,76 @@ kerdec_dens <- function(smp,
     h_optim <- NULL
 
     switch(method,
-           nr = ,
-           cv = ,
+           nr = {
+               if(!(kernel %in% 3:4)){
+                   stop("'nr' does not work for that kernel")
+               }
+               mu2K2 <-
+                   ifelse(kernel == 3, 6^2, (4.822182e-05)^2)
+               sigY <- sd(smp)
+               sigE <- error_scale_par
+               if(panel_proc == 2) sigE*sqrt(k)
+               sig_hat <- sigY - sigE
+               R <- 0.37/(sqrt(pi)*sig_hat^5)
+               h_grid <- seq(h0[1], h0[2], length.out = 100)
+               amise_vals <-
+                   sapply(h_grid, function(hhh)
+                       amise(hhh, mu2K2, R, error_smp, resolution,
+                             kernel, n, error_scale_par, k, error_dist,
+                             panel_proc))
+               h <- h_grid[which.min(amise_vals)]
+               plot(hh, amise_vals, type = "l")
+               abline(v = h, col = "red")
+               ## cat(paste0("amise = ", amise_vals))               
+           },
+           cv = {
+               ## Vector of differences required for CV in Youndje
+               ## (2007)
+               Z <- process_differences(matrix(smp, nrow = 1),
+                                        method = 1)
+
+               ## Function to be minimized and displayed.
+               cv_fun <- function(bw){
+                   cv_val <- 
+                       CV(bw, Z, smp, error_smp, resolution, kernel,
+                          error_scale_par, k, error_dist, panel_proc)
+                   if(is.nan(cv_val)) cv_val <- 1e20
+                   return(cv_val)
+               }
+
+
+               h_optim <- nlm(cv_fun, h0)
+
+               h <- h_optim$estimate
+               
+               if(!(h_optim$code %in% 1:2)){
+                 msg <- paste("The CV might have not found the optimal bandwidth.",
+                              "We recommend to provide the argument bw_interval",
+                              "(a vector of size 2 with the limits) to plot the",
+                              "function to minimize")
+                 warning(msg)
+               }
+
+               cat("code = ", h_optim$code, "\n")
+
+               if(!is.null(bw_interval)){
+
+                   h_grid <- seq(from = bw_interval[1],
+                                 to = bw_interval[2],
+                                 length.out = 100)
+                   
+                   cv_vals <-
+                       sapply(h_grid, cv_fun)
+                   
+                   plot(h_grid, cv_vals, type = "l")
+                   abline(v = h, col = "red")
+                   abline(v = h0, col = "green")
+                   cat("h0 = ", h0, "\n")
+                   cat("h = ", h, "\n")
+
+               }
+               
+           },
            none = {})
     
     
