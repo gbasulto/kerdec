@@ -1,20 +1,26 @@
 
 
-h_NR <- function(mu2K2, R, error_smp, resolution,
-                             kernel, n, error_scale_par, k, error_dist,
-                 panel_proc){
-    
+h_NR <- function(smp, error_smp, resolution, kernel, n, error_scale_par, k, error_dist, panel_proc, bw_interval){
+
+    ## Normal references works only for kernels with second moment. We
+    ## check that here.
     if(!(kernel %in% 3:4)){
-                   stop("'nr' does not work for that kernel")
+        stop("'nr' does not work for that kernel")
     }
+    
+    ## (1) Assign the corresponding kernel, (2) provide an estimate
+    ## for sigma_X and provide an approximation to the roughness of
+    ## the second derivative.
     mu2K2 <-
         ifelse(kernel == 3, 6^2, (4.822182e-05)^2)
-               sigY <- sd(smp)
+    sigY <- sd(smp)
     sigE <- error_scale_par
     if(panel_proc == 2) sigE*sqrt(k)
     sig_hat <- sigY - sigE
     R <- 0.37/(sqrt(pi)*sig_hat^5)
-    h_grid <- seq(h0[1], h0[2], length.out = 100)
+
+    ## Compute bandwidth and generate plot.
+    h_grid <- seq(bw_interval[1], bw_interval[2], length.out = 100)
     amise_vals <-
         sapply(h_grid, function(hhh)
             amise(hhh, mu2K2, R, error_smp, resolution,
@@ -23,11 +29,10 @@ h_NR <- function(mu2K2, R, error_smp, resolution,
     h <- h_grid[which.min(amise_vals)]
     plot(h_grid, amise_vals, type = "l")
     abline(v = h, col = "red")
-    ## cat(paste0("amise = ", amise_vals))               
     return(h)
 }
 
-h_CV <- function(){
+h_CV <- function(h0, smp, error_smp, resolution, kernel, error_scale_par, k, error_dist, panel_proc, bw_interval){
     ## Vector of differences required for CV in Youndje
     ## (2007)
     Z <- process_differences(matrix(smp, nrow = 1),
@@ -35,13 +40,14 @@ h_CV <- function(){
     
     ## Function to be minimized and displayed.
     cv_fun <- function(bw){
+        if(bw < 0) return (1e20)
+        
         cv_val <- 
             CV(bw, Z, smp, error_smp, resolution, kernel,
                           error_scale_par, k, error_dist, panel_proc)
         if(is.nan(cv_val)) cv_val <- 1e20
         return(cv_val)
     }
-    
     
     h_optim <- nlm(cv_fun, h0)
     
@@ -72,7 +78,9 @@ h_CV <- function(){
         cat("h0 = ", h0, "\n")
         cat("h = ", h, "\n")
         
-    }    
+    }
+
+    return(h_optim)
 }
 
 ##' Kernel Deconvolution Density Estimation
@@ -246,6 +254,11 @@ kerdec_dens <- function(smp,
         panel_proc = 1
     }
 
+    str(error_dist)
+    str(error_smp)
+    str(k)
+    str(error_scale_par)
+    
     ## Compute error scale parameter if it was not given.
     error_scale_par <- compute_scale_par(error_dist, error_smp, k,
                                          error_scale_par)
@@ -264,13 +277,12 @@ kerdec_dens <- function(smp,
     if(is.null(error_smp)) error_smp <- matrix(0, 5, 1)
 
     ## 
-    h_optim <- NULL
+    h_optim <- switch(method,
+                      nr = {},
+                      cv = h_CV(h0, smp, error_smp, resolution, kernel, error_scale_par, k, error_dist, panel_proc, bw_interval),
+                      none = NULL)
 
-    switch(method,
-           nr = ,
-           cv = ,
-           none = {})
-    
+    if(is.null(h)) h <- h_optim$estimate
     
     f_vals <-
         kerdec_dens_cpp(smp = smp, error_smp = error_smp, h = h,
