@@ -205,8 +205,8 @@ compute_scale_par <- function(error_dist, error_smp, k, error_scale_par = NULL){
                         ", nor a sample of errors, then the error ",
                         "distribution must be specified as well ",
                         "as its scale parameter"))
-            return(error_scale_par)
         }
+      return(error_scale_par)
     }
     
     if (k == 1) {                         # Pure sample of errors
