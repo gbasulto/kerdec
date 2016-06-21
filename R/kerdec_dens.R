@@ -1,6 +1,8 @@
 
 
-h_NR <- function(smp, error_smp, resolution, kernel, n, error_scale_par, k, error_dist, panel_proc, bw_interval){
+h_NR <- function(h0, smp, error_smp, resolution, kernel, n,
+                 error_scale_par, k, error_dist, panel_proc,
+                 bw_interval){
 
     ## Normal references works only for kernels with second moment. We
     ## check that here.
@@ -15,24 +17,58 @@ h_NR <- function(smp, error_smp, resolution, kernel, n, error_scale_par, k, erro
         ifelse(kernel == 3, 6^2, (4.822182e-05)^2)
     sigY <- sd(smp)
     sigE <- error_scale_par
-    if(panel_proc == 2) sigE*sqrt(k)
+    cat("panel_proc = ", panel_proc, "\n")
+    cat("sigE = ", sigE, "\n")
+    cat("k = ", k, "\n")
+    if(panel_proc == 2) sigE/sqrt(k)
     sig_hat <- sigY - sigE
     R <- 0.37/(sqrt(pi)*sig_hat^5)
 
-    ## Compute bandwidth and generate plot.
-    h_grid <- seq(bw_interval[1], bw_interval[2], length.out = 100)
-    amise_vals <-
-        sapply(h_grid, function(hhh)
-            amise(hhh, mu2K2, R, error_smp, resolution,
-                  kernel, n, error_scale_par, k, error_dist,
-                  panel_proc))
-    h <- h_grid[which.min(amise_vals)]
-    plot(h_grid, amise_vals, type = "l")
-    abline(v = h, col = "red")
-    return(h)
+    ## Function to be minimized
+    amise_fun <- function(bw){
+        if(bw < 0) return (1e20)        # Check bw > 0
+        out <- amise(bw, mu2K2, R, error_smp, resolution, kernel, n,
+                     error_scale_par, k, error_dist, panel_proc)
+        if (is.nan(out)) out <- 1e20    # Set large value if NaN.
+        return (out)
+    }
+    
+    ## Compute optimal bandwidth
+    h_optim <- nlm(amise_fun, h0)
+
+    if(!(h_optim$code %in% 1:2)){
+        msg <- paste("The NR rule might have not found the optimal",
+                     "bandwidth. We recommend to provide the argument",
+                     "bw_interval (a vector of size 2 with the limits)",
+                     "to plot the function to minimize")
+        warning(msg)
+    }
+
+    ## If required, compute and print an interval with the values of
+    ## the function to be minimized.
+    if(!is.null(bw_interval)){
+
+        h_grid <- seq(from = bw_interval[1], # Grid to plot vals.
+                      to = bw_interval[2],
+                      length.out = 100) 
+        nr_vals <-                      # Vals
+            sapply(h_grid, amise_fun)
+        
+        h <- h_optim$estimate
+    
+        plot(h_grid, nr_vals, type = "l")
+        abline(v = h, col = "red")
+        abline(v = h0, col = "green")
+        cat("h0 = ", h0, "\n")
+        cat("h = ", h, "\n")
+    }
+    
+    return (h_optim)
 }
 
-h_CV <- function(h0, smp, error_smp, resolution, kernel, error_scale_par, k, error_dist, panel_proc, bw_interval){
+h_CV <- function(h0, smp, error_smp, resolution, kernel,
+                 error_scale_par, k, error_dist, panel_proc,
+                 bw_interval){
     ## Vector of differences required for CV in Youndje
     ## (2007)
     Z <- process_differences(matrix(smp, nrow = 1),
@@ -45,13 +81,11 @@ h_CV <- function(h0, smp, error_smp, resolution, kernel, error_scale_par, k, err
         cv_val <- 
             CV(bw, Z, smp, error_smp, resolution, kernel,
                           error_scale_par, k, error_dist, panel_proc)
-        if(is.nan(cv_val)) cv_val <- 1e20
+        if (is.nan(cv_val)) cv_val <- 1e20
         return(cv_val)
     }
     
     h_optim <- nlm(cv_fun, h0)
-    
-    h <- h_optim$estimate
     
     if(!(h_optim$code %in% 1:2)){
         msg <- paste("The CV might have not found the optimal bandwidth.",
@@ -61,8 +95,8 @@ h_CV <- function(h0, smp, error_smp, resolution, kernel, error_scale_par, k, err
         warning(msg)
     }
     
-    cat("code = ", h_optim$code, "\n")
-    
+    ## If required, compute and print an interval with the values of
+    ## the function to be minimized.
     if(!is.null(bw_interval)){
 
         h_grid <- seq(from = bw_interval[1],
@@ -72,6 +106,8 @@ h_CV <- function(h0, smp, error_smp, resolution, kernel, error_scale_par, k, err
         cv_vals <-
             sapply(h_grid, cv_fun)
         
+        h <- h_optim$estimate
+    
         plot(h_grid, cv_vals, type = "l")
         abline(v = h, col = "red")
         abline(v = h0, col = "green")
@@ -254,11 +290,6 @@ kerdec_dens <- function(smp,
         panel_proc = 1
     }
 
-    str(error_dist)
-    str(error_smp)
-    str(k)
-    str(error_scale_par)
-    
     ## Compute error scale parameter if it was not given.
     error_scale_par <- compute_scale_par(error_dist, error_smp, k,
                                          error_scale_par)
@@ -276,10 +307,17 @@ kerdec_dens <- function(smp,
     ## kerdec_dens_cpp since error_dist is either 1 or 2)
     if(is.null(error_smp)) error_smp <- matrix(0, 5, 1)
 
+
+    cat("panel_proc = ", panel_proc, "\n")
+
     ## 
     h_optim <- switch(method,
-                      nr = {},
-                      cv = h_CV(h0, smp, error_smp, resolution, kernel, error_scale_par, k, error_dist, panel_proc, bw_interval),
+                      nr = h_NR(h0, smp, error_smp, resolution, kernel, n,
+                                error_scale_par, k, error_dist,
+                                panel_proc, bw_interval),
+                      cv = h_CV(h0, smp, error_smp, resolution, kernel,
+                                error_scale_par, k, error_dist,
+                                panel_proc, bw_interval),
                       none = NULL)
 
     if(is.null(h)) h <- h_optim$estimate
@@ -293,8 +331,8 @@ kerdec_dens <- function(smp,
                         panel_proc = panel_proc)
 
     x <- seq(lower, upper, length.out = resolution + 1)[-resolution]
-
-        return(list(f_vals = Re(f_vals),
+    
+    return(list(f_vals = Re(f_vals),
                 x = x,
                 h = h,
                 h0 = h0,
