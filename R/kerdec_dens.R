@@ -114,6 +114,43 @@ h_CV <- function(h0, smp, error_smp, resolution, kernel,
     return(h_optim)
 }
 
+error_dist2numeric <- function (error_dist, error_dists) {
+### This function checks that the specified error distribution is
+### programmed and it converts it (from character) to numeric,
+### being the number determined by error_dists.
+
+    ## Check that the error distribution is valid and convert it to
+    ## numeric argument.
+    error_dist0 <- error_dist           # Create copy to display msg
+    error_dist <- tolower(error_dist)   # To lower case
+    error_dist <- match(error_dist, error_dists) # To numetric value
+    if (!(error_dist %in% 1:length(error_dists))) {
+        msg <- paste0(c("\nError distribution '",
+                        error_dist0, "' is not implemented. ",
+                        "The current error distributions are:\n ",
+                        paste0(error_dists, collapse = "  "),
+                        "\n\n See vignette for details."))
+        stop(msg)
+    }
+    return (error_dist)
+}
+
+check_error_smp <- function(error_smp){
+### This function verifies/converts error_smp to matrix.
+    
+    ## Check that the error sample is numeric. If it is a vector, cast
+    ## it to a matrix.
+    if (is.numeric(error_smp)) {
+        if (is.vector(error_smp)) error_smp <- matrix(error_smp)
+    } else {
+        if (!is.null(error_smp)) {
+            stop("'error_smp' must be numeric.")
+        }
+    }
+    return (error_smp)
+}
+
+
 ##' Kernel Deconvolution Density Estimation
 ##'
 ##' This function provides a bandwidth for kernel denvolvolution
@@ -226,30 +263,8 @@ kerdec_dens <- function(smp,
         stop(msg)
     }
 
-    ## Check that the error distribution is valid and convert it to
-    ## numeric argument.
-    error_dist0 <- error_dist           # Create copy to display msg
-    error_dist <- tolower(error_dist)   # To lower case
-    error_dist <- match(error_dist, error_dists) # To numetric value
-    if (!(error_dist %in% 1:length(error_dists))) {
-        msg <- paste0(c("\nError distribution '",
-                        error_dist0, "' is not implemented. ",
-                        "The current error distributions are:\n ",
-                        paste0(error_dists, collapse = "  "),
-                        "\n\n See vignette for details."))
-        stop(msg)
-    }
-
-    
-    ## Check that the error sample is numeric. If it is a vector, cast
-    ## it to a matrix.
-    if (is.numeric(error_smp)) {
-        if (is.vector(error_smp)) error_smp <- matrix(error_smp)
-    } else {
-        if (!is.null(error_smp)) {
-            stop("'error_smp' must be numeric.")
-        }
-    }
+    error_dist <- error_dist2numeric(error_dist, error_dists)
+    error_smp <- check_error_smp(error_smp)
 
     ## If data are provided in a panel structure, compute differences
     ## of errors to approximate the error distribution.
