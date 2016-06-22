@@ -5,7 +5,7 @@ case1 <-
               lower = lower, upper = upper,
               error_dist = "laplace",
               error_scale_par = sd_error,
-             # bw_interval = c(0.08, 0.5),
+              # bw_interval = c(0.08, 0.5),
               resolution = 128)
 
 with(case1, plot(x, f_vals, type = "l"))
@@ -26,7 +26,7 @@ case1 <-
               error_dist = "normal",
               error_scale_par = sd_error,
               h0 = 0.19,
-#              bw_interval = c(0.08, 0.5), 
+              bw_interval = c(0.06, 0.2),
               resolution = 128)
 
 with(case1, plot(x, f_vals, type = "l"))

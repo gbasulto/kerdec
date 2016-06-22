@@ -3,7 +3,6 @@
 h_NR <- function(h0, smp, error_smp, resolution, kernel, n,
                  error_scale_par, k, error_dist, panel_proc,
                  bw_interval){
-
     ## Normal references works only for kernels with second moment. We
     ## check that here.
     if(!(kernel %in% 3:4)){
@@ -13,15 +12,11 @@ h_NR <- function(h0, smp, error_smp, resolution, kernel, n,
     ## (1) Assign the corresponding kernel, (2) provide an estimate
     ## for sigma_X and provide an approximation to the roughness of
     ## the second derivative.
-    mu2K2 <-
-        ifelse(kernel == 3, 6^2, (4.822182e-05)^2)
+    mu2K2 <- ifelse(kernel == 3, 6^2, (4.822182e-05)^2)
     sigY <- sd(smp)
     sigE <- error_scale_par
-    cat("panel_proc = ", panel_proc, "\n")
-    cat("sigE = ", sigE, "\n")
-    cat("k = ", k, "\n")
-    if(panel_proc == 2) sigE/sqrt(k)
-    sig_hat <- sigY - sigE
+    if(panel_proc == 2) sigE <- sigE/sqrt(k)
+    sig_hat <- sqrt(sigY^2 - sigE^2)
     R <- 0.37/(sqrt(pi)*sig_hat^5)
 
     ## Function to be minimized
@@ -287,7 +282,7 @@ kerdec_dens <- function(smp,
         error_smp <- process_differences(smp, diff_mthd)
         smp <- switch(smp_mthd, smp[, 1], matrix(rowMeans(smp)))
     } else {
-        panel_proc = 1
+        panel_proc <- 1
     }
 
     ## Compute error scale parameter if it was not given.
@@ -306,9 +301,6 @@ kerdec_dens <- function(smp,
     ## other random values to it (such values will NOT be used within
     ## kerdec_dens_cpp since error_dist is either 1 or 2)
     if(is.null(error_smp)) error_smp <- matrix(0, 5, 1)
-
-
-    cat("panel_proc = ", panel_proc, "\n")
 
     ## 
     h_optim <- switch(method,
@@ -338,5 +330,3 @@ kerdec_dens <- function(smp,
                 h0 = h0,
                 h_optim = h_optim))
 }
-
-

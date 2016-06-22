@@ -56,4 +56,3 @@ ft_kernel <- function(t, ker){
 
         return(drop(ft_kernel_cpp(t, ker)))
 }
-
