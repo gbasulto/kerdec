@@ -1,4 +1,4 @@
-
+## -------------------------------------------------------------------
 
 h_NR <- function(h0, smp, error_smp, resolution, kernel, n,
                  error_scale_par, k, error_dist, panel_proc,
@@ -31,7 +31,7 @@ h_NR <- function(h0, smp, error_smp, resolution, kernel, n,
     ## Compute optimal bandwidth
     h_optim <- nlm(amise_fun, h0)
 
-    if(!(h_optim$code %in% 1:2)){
+    if (!(h_optim$code %in% 1:2)) {
         msg <- paste("The NR rule might have not found the optimal",
                      "bandwidth. We recommend to provide the argument",
                      "bw_interval (a vector of size 2 with the limits)",
@@ -135,7 +135,43 @@ error_dist2numeric <- function (error_dist, error_dists) {
     return (error_dist)
 }
 
-check_error_smp <- function(error_smp){
+error_proc2numeric <- function (error_proc, error_procs) {
+### This function checks that the specified method for computing
+### differences of errors in panel data distribution is programmed and
+### it converts it (from character) to numeric, being the number
+### determined by error_procs.
+
+    diff_mthd <- match(error_proc, error_procs)
+    if (!(diff_mthd %in% 1:length(error_procs))) {
+        msg <- paste0(c("\nerror_proc '",
+                            error_proc, "' is not implemented. ",
+                        "The current error_procs are:\n ",
+                        paste0(error_procs, collapse = "  "),
+                        "\n\n See vignette for details."))
+        stop(msg)
+    }
+    return(diff_mthd)
+}
+
+panel_proc2numeric <- function (panel_proc, panel_procs){
+### This function checks that the specified method for computing
+### differences of errors in panel data distribution is programmed and
+### it converts it (from character) to numeric, being the number
+### determined by error_procs.
+    smp_mthd <- match(panel_proc, panel_procs)
+    if (!(smp_mthd %in% 1:length(panel_procs))) {
+            msg <- paste0(c("\npanel_proc '",
+                            panel_proc, "' is not implemented. ",
+                            "The current panel_procs are:\n ",
+                            paste0(panel_procs, collapse = "  "),
+                            "\n\n See vignette for details."))
+            stop(msg)
+    }
+    return (smp_mthd)
+}
+    
+
+check_error_smp <- function (error_smp){
 ### This function verifies/converts error_smp to matrix.
     
     ## Check that the error sample is numeric. If it is a vector, cast
@@ -266,39 +302,18 @@ kerdec_dens <- function(smp,
     error_dist <- error_dist2numeric(error_dist, error_dists)
     error_smp <- check_error_smp(error_smp)
 
+    panel_proc <- panel_proc2numeric(panel_proc, panel_procs)
     ## If data are provided in a panel structure, compute differences
     ## of errors to approximate the error distribution.
     if (k > 1) {
-        diff_mthd <- match(error_proc, error_procs)
-        smp_mthd <- match(panel_proc, panel_procs)
-        if (!(diff_mthd %in% 1:length(error_procs))) {
-            msg <- paste0(c("\nerror_proc '",
-                            error_proc, "' is not implemented. ",
-                            "The current error_procs are:\n ",
-                            paste0(error_procs, collapse = "  "),
-                            "\n\n See vignette for details."))
-            stop(msg)
-        }
-        if (!(smp_mthd %in% 1:length(panel_procs))) {
-            msg <- paste0(c("\npanel_proc '",
-                            panel_proc, "' is not implemented. ",
-                            "The current panel_procs are:\n ",
-                            paste0(panel_procs, collapse = "  "),
-                            "\n\n See vignette for details."))
-            stop(msg)
-        }
                                         # Rename vars. once we checked
                                         # they're valid
-        panel_proc <- smp_mthd
-        error_proc <- diff_mthd
-                                        # Compute differences for
-                                        # errors and compute the
-                                        # sample to be used for decon.
-        error_smp <- process_differences(smp, diff_mthd)
+        error_proc <- error_proc2numeric(error_proc, error_procs)
+        ## Compute differences for errors and compute the sample to be
+        ## used for decon.
+        error_smp <- process_differences(smp, error_proc)
         smp <- switch(smp_mthd, smp[, 1], matrix(rowMeans(smp)))
-    } else {
-        panel_proc <- 1
-    }
+    } 
 
     ## Compute error scale parameter if it was not given.
     error_scale_par <- compute_scale_par(error_dist, error_smp, k,
@@ -319,12 +334,12 @@ kerdec_dens <- function(smp,
 
     ## 
     h_optim <- switch(method,
-                      nr = h_NR(h0, smp, error_smp, resolution, kernel, n,
-                                error_scale_par, k, error_dist,
-                                panel_proc, bw_interval),
-                      cv = h_CV(h0, smp, error_smp, resolution, kernel,
-                                error_scale_par, k, error_dist,
-                                panel_proc, bw_interval),
+                      nr = h_NR(h0, smp, error_smp, resolution,
+                                kernel, n, error_scale_par, k,
+                                error_dist, panel_proc, bw_interval),
+                      cv = h_CV(h0, smp, error_smp, resolution,
+                                kernel, error_scale_par, k,
+                                error_dist, panel_proc, bw_interval),
                       none = NULL)
 
     if(is.null(h)) h <- h_optim$estimate
