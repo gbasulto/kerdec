@@ -32,10 +32,11 @@ h_NR <- function(h0, smp, error_smp, resolution, kernel, n,
     h_optim <- nlm(amise_fun, h0)
 
     if (!(h_optim$code %in% 1:2)) {
-        msg <- paste("The NR rule might have not found the optimal",
-                     "bandwidth. We recommend to provide the argument",
-                     "bw_interval (a vector of size 2 with the limits)",
-                     "to plot the function to minimize")
+        msg <-
+            paste("The NR rule might have not found the optimal",
+                  "bandwidth. We recommend to provide the argument",
+                  "bw_interval (a vector of size 2 with the limits)",
+                  "to plot the function to minimize")
         warning(msg)
     }
 
@@ -83,10 +84,11 @@ h_CV <- function(h0, smp, error_smp, resolution, kernel,
     h_optim <- nlm(cv_fun, h0)
     
     if(!(h_optim$code %in% 1:2)){
-        msg <- paste("The CV might have not found the optimal bandwidth.",
-                     "We recommend to provide the argument bw_interval",
-                     "(a vector of size 2 with the limits) to plot the",
-                     "function to minimize")
+        msg <-
+            paste("The CV might have not found the opt. bandwidth.",
+                  "We recommend to provide the argument bw_interval",
+                  "(a vector of size 2 with the limits) to plot the",
+                  "function to minimize")
         warning(msg)
     }
     
@@ -154,10 +156,10 @@ error_proc2numeric <- function (error_proc, error_procs) {
 }
 
 panel_proc2numeric <- function (panel_proc, panel_procs){
-### This function checks that the specified method for computing
-### differences of errors in panel data distribution is programmed and
-### it converts it (from character) to numeric, being the number
-### determined by error_procs.
+### This function checks that the specified method for obtaining the
+### ccontaminated sample (keeping only the firt column or taking the
+### average by individual) is correct and also convert it to numeric
+### argument, matching the order from panel_procs argument.
     smp_mthd <- match(panel_proc, panel_procs)
     if (!(smp_mthd %in% 1:length(panel_procs))) {
             msg <- paste0(c("\npanel_proc '",
@@ -169,6 +171,23 @@ panel_proc2numeric <- function (panel_proc, panel_procs){
     }
     return (smp_mthd)
 }
+
+kernel2numeric <- function (kernel, kernels){
+### It checks that the kernel is valid and convert it to numeric,
+### matching the number of entry in 'kernels' argument.
+    kernel0 <- kernel
+    if (is.character(kernel)) kernel <- match(kernel, kernels)
+    if (!(kernel %in% 1:length(kernels))) {
+        msg <- paste0(c("\nKernel ",
+                        kernel0, " is not implemented. ",
+                        "The current kernels are:\n ",
+                        paste0(kernels, collapse = "  "),
+                        "\n\n See vignette for details."))
+        stop(msg)
+    }
+
+    return (kernel)
+    }
     
 
 check_error_smp <- function (error_smp){
@@ -186,6 +205,22 @@ check_error_smp <- function (error_smp){
     return (error_smp)
 }
 
+check_bw_method <- function (method, bw_methods, h){
+### This function checks that the bandwidth selection method is
+### implemented (from 'methods' argument). Argument 'h' is usually
+### null.
+    method <- tolower(method)
+    if(!is.null(h)) method <- "none"    # Select "none" as bandwidth
+                                        # sel. if h was given.
+    if(!(method %in% bw_methods)){
+        msg <- paste0(c("\n Method ", method,
+                        " is not implemented. ",
+                        "The current methods are:\n ",
+                        paste0(bw_methods, collapse = "  ")))
+        stop(msg)
+    }
+    return (method)
+}
 
 ##' Kernel Deconvolution Density Estimation
 ##'
@@ -261,11 +296,8 @@ kerdec_dens <- function(smp,
 
     ## Check that the sample is numeric. If it is a vector, cast it to
     ## a matrix.
-    if(is.numeric(smp)){
-        if(is.vector(smp)) smp <- matrix(smp)
-    } else{
-        stop("smp must be numeric.")
-    }
+    if (!is.numeric(smp)) stop("smp must be numeric.")
+    if(is.vector(smp)) smp <- matrix(smp)
 
     ## Ask the sample size to be at least three and also obtain the
     ## number of repetitions.
@@ -273,44 +305,16 @@ kerdec_dens <- function(smp,
     if(n < 3) stop("Sample size must be of at least 3.")
     k <- ncol(smp)
 
-    ## Convert to lower case the argument "method" and then it is
-    ## implemented.
-    method <- tolower(method)
-    if(!is.null(h)) method <- "none"    # Select "none" as bandwidth
-                                        # sel. if h was given.
-    if(!(method %in% bw_methods)){
-        msg <- paste0(c("\n Method ", method,
-                        " is not implemented. ",
-                        "The current methods are:\n ",
-                        paste0(bw_methods, collapse = "  ")))
-        stop(msg)
-    }
-
-    ## Check 'kernel' is numeric, if not, assign it a numerica value
-    ## and then verify it is in the list of implemented kernels.
-    kernel0 <- kernel
-    if (is.character(kernel)) kernel <- match(kernel, kernels)
-    if (!(kernel %in% 1:length(kernels))) {
-        msg <- paste0(c("\nKernel ",
-                        kernel0, " is not implemented. ",
-                        "The current kernels are:\n ",
-                        paste0(kernels, collapse = "  "),
-                        "\n\n See vignette for details."))
-        stop(msg)
-    }
-
+    method <- check_bw_method(method, bw_methods, h)
+    kernel <- kernel2numeric(kernel, kernels)
     error_dist <- error_dist2numeric(error_dist, error_dists)
     error_smp <- check_error_smp(error_smp)
-
     panel_proc <- panel_proc2numeric(panel_proc, panel_procs)
+
     ## If data are provided in a panel structure, compute differences
     ## of errors to approximate the error distribution.
     if (k > 1) {
-                                        # Rename vars. once we checked
-                                        # they're valid
         error_proc <- error_proc2numeric(error_proc, error_procs)
-        ## Compute differences for errors and compute the sample to be
-        ## used for decon.
         error_smp <- process_differences(smp, error_proc)
         smp <- switch(smp_mthd, smp[, 1], matrix(rowMeans(smp)))
     } 
@@ -333,15 +337,16 @@ kerdec_dens <- function(smp,
     if(is.null(error_smp)) error_smp <- matrix(0, 5, 1)
 
     ## 
-    h_optim <- switch(method,
-                      nr = h_NR(h0, smp, error_smp, resolution,
-                                kernel, n, error_scale_par, k,
-                                error_dist, panel_proc, bw_interval),
-                      cv = h_CV(h0, smp, error_smp, resolution,
-                                kernel, error_scale_par, k,
-                                error_dist, panel_proc, bw_interval),
-                      none = NULL)
-
+    h_optim <-
+        switch(method,
+               nr = h_NR(h0, smp, error_smp, resolution,
+                         kernel, n, error_scale_par, k,
+                         error_dist, panel_proc, bw_interval),
+               cv = h_CV(h0, smp, error_smp, resolution,
+                         kernel, error_scale_par, k,
+                         error_dist, panel_proc, bw_interval),
+               none = NULL)
+    
     if(is.null(h)) h <- h_optim$estimate
     
     f_vals <-
