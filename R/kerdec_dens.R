@@ -105,27 +105,11 @@ h_CV <- function(h0, smp, error_smp, resolution, kernel,
     
     ## Function to be minimized and displayed.
     cv_fun <- function(bw){
-        if(bw < 0) return (.Machine$double.xmax)
-        
-        cv_val <- 
-            CV(bw, Z, smp, error_smp, resolution, kernel,
-                          error_scale_par, k, error_dist, panel_proc)
-        if (is.nan(cv_val) | !is.finite(cv_val)){
-            cv_val <- .Machine$double.xmax
-            }
-        return(cv_val)
+        CV(bw, Z, smp, error_smp, resolution, kernel,
+           error_scale_par, k, error_dist, panel_proc)
     }
     
-    h_optim <- nlm(cv_fun, h0)
-    
-    if(!(h_optim$code %in% 1:2)){
-        msg <-
-            paste("The CV might have not found the opt. bandwidth.",
-                  "We recommend to provide the argument bw_interval",
-                  "(a vector of size 2 with the limits) to plot the",
-                  "function to minimize")
-        warning(msg)
-    }
+    h_optim <- optimize_bw(cv_fun, h0)
     
     ## If required, compute and print an interval with the values of
     ## the function to be minimized.
