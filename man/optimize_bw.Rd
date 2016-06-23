@@ -27,6 +27,15 @@ output is not finite or not a number, the function will return the
 maximum possible number, so nlm can work better with the input
 function.
 }
+\examples{
+\dontrun{
+## Bad initial point (it is negative).
+kerdec:::optimize_bw(function(x) x^2, -5)
+}
+
+## Good initial point.
+kerdec:::optimize_bw(function(x) x^2, 3)
+}
 \author{
 Guillermo Basulto-Elias
 }

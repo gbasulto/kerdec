@@ -17,6 +17,14 @@
 ##'     must be the bandwidth.
 ##' @return The output of the nlm function.
 ##' @author Guillermo Basulto-Elias
+##' @examples
+##' \dontrun{
+##' ## Bad initial point (it is negative).
+##' kerdec:::optimize_bw(function(x) x^2, -5)
+##' }
+##'
+##' ## Good initial point.
+##' kerdec:::optimize_bw(function(x) x^2, 3)
 optimize_bw <- function(f, h0, ...){
     ## Function to be minimized
     objective <- function(bw){
@@ -43,6 +51,28 @@ optimize_bw <- function(f, h0, ...){
         warning(msg)
     }
     return(out)
+}
+
+plot_bw <- function(bw_interval, f, h, h0, ...){
+    ## If required, compute and print an interval with the values of
+    ## the function to be minimized.
+    if(is.null(bw_interval)) return (NULL)
+
+    h_grid <- seq(from = bw_interval[1], # Grid to plot vals.
+                  to = bw_interval[2],
+                  length.out = 100) 
+    vals <- sapply(h_grid, f)
+    
+    plot(h_grid, vals, type = "l", lwd = 1.5,
+         xlab = "grid", ylab = "values",
+         main = paste0("h = ", round(h, 4), ", h0 = ", round(h0, 4)))
+    abline(v = h, col = "magenta", lty = 2)
+    abline(v = h0, col = "cyan", lty = 3)
+    legend("topright", legend = c("h", "h0"),
+           col = c("magenta", "cyan"), lty = 2:3)
+    
+    ## cat("h0 = ", h0, "\n")
+    ## cat("h = ", h, "\n")
 }
 
 h_NR <- function(h0, smp, error_smp, resolution, kernel, n,
@@ -75,22 +105,7 @@ h_NR <- function(h0, smp, error_smp, resolution, kernel, n,
 
     ## If required, compute and print an interval with the values of
     ## the function to be minimized.
-    if(!is.null(bw_interval)){
-
-        h_grid <- seq(from = bw_interval[1], # Grid to plot vals.
-                      to = bw_interval[2],
-                      length.out = 100) 
-        nr_vals <-                      # Vals
-            sapply(h_grid, amise_fun)
-        
-        h <- h_optim$estimate
-    
-        plot(h_grid, nr_vals, type = "l")
-        abline(v = h, col = "red")
-        abline(v = h0, col = "green")
-        cat("h0 = ", h0, "\n")
-        cat("h = ", h, "\n")
-    }
+    plot_bw(bw_interval, f = amise_fun, h = h_optim$estimate, h0)
     
     return (h_optim)
 }
@@ -113,24 +128,7 @@ h_CV <- function(h0, smp, error_smp, resolution, kernel,
     
     ## If required, compute and print an interval with the values of
     ## the function to be minimized.
-    if(!is.null(bw_interval)){
-
-        h_grid <- seq(from = bw_interval[1],
-                      to = bw_interval[2],
-                      length.out = 100)
-        
-        cv_vals <-
-            sapply(h_grid, cv_fun)
-        
-        h <- h_optim$estimate
-    
-        plot(h_grid, cv_vals, type = "l")
-        abline(v = h, col = "red")
-        abline(v = h0, col = "green")
-        cat("h0 = ", h0, "\n")
-        cat("h = ", h, "\n")
-        
-    }
+    plot_bw(bw_interval, f = cv_fun, h = h_optim$estimate, h0)
 
     return(h_optim)
 }
@@ -375,7 +373,6 @@ kerdec_dens <- function(smp,
                         sigma = error_scale_par, k = k,
                         error_dist = error_dist,
                         panel_proc = panel_proc)
-
     x <- seq(lower, upper, length.out = resolution + 1)[-resolution]
     
     return(list(f_vals = Re(f_vals),
@@ -384,3 +381,5 @@ kerdec_dens <- function(smp,
                 h0 = h0,
                 h_optim = h_optim))
 }
+
+
