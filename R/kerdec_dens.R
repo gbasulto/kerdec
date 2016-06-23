@@ -33,7 +33,7 @@ optimize_bw <- function(f, h0, ...){
     
     ## Return warning if it is likely that the function did not find
     ## the minimum.
-    if (!(out$code %in% 1:3)) {
+    if (!(out$code %in% 1:3) | out$minimum == .Machine$double.xmax) {
         msg <-
             paste("\n\nThe nlm function used to find the optimal",
                   "value might have not converged appropriately.",
@@ -66,26 +66,12 @@ h_NR <- function(h0, smp, error_smp, resolution, kernel, n,
 
     ## Function to be minimized
     amise_fun <- function(bw){
-        if(bw < 0) return (.Machine$double.xmax) # Check bw > 0
-        out <- amise(bw, mu2K2, R, error_smp, resolution, kernel, n,
-                     error_scale_par, k, error_dist, panel_proc)
-        if (is.nan(out) | !is.finite(out)){
-            out <- .Machine$double.xmax 
-            }
-        return (out)
+        amise(bw, mu2K2, R, error_smp, resolution, kernel, n,
+              error_scale_par, k, error_dist, panel_proc)
     }
     
     ## Compute optimal bandwidth
-    h_optim <- nlm(amise_fun, h0)
-
-    if (!(h_optim$code %in% 1:2)) {
-        msg <-
-            paste("The NR rule might have not found the optimal",
-                  "bandwidth. We recommend to provide the argument",
-                  "bw_interval (a vector of size 2 with the limits)",
-                  "to plot the function to minimize")
-        warning(msg)
-    }
+    h_optim <- optimize_bw(amise_fun, h0)
 
     ## If required, compute and print an interval with the values of
     ## the function to be minimized.
