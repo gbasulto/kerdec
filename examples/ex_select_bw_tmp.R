@@ -21,7 +21,7 @@ case1 <-
 with(case1, plot(x, f_vals, type = "l"))
 
 case1 <-
-  kerdec_dens(Y, method = "CV", kernel = "triw",
+  kerdec_dens(Y, method = "NR", kernel = "triw",
               lower = lower, upper = upper,
               error_dist = "normal",
               error_scale_par = sd_error,
@@ -50,3 +50,4 @@ case1 <-
               resolution = 128)
 
 with(case1, plot(x, f_vals, type = "l"))
+
