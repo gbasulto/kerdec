@@ -365,17 +365,26 @@ kerdec_dens <- function(smp,
                none = NULL)
     
     if(is.null(h)) h <- h_optim$estimate
+
+    ## Compute density values (if required).
+    switch(is.null(lower) + is.null(upper) + 1,
+    {
+        f_vals <-
+            kerdec_dens_cpp(smp = smp, error_smp = error_smp, h = h,
+                            lower = lower, upper = upper,
+                            resolution = resolution, ker = kernel,
+                            sigma = error_scale_par, k = k,
+                            error_dist = error_dist,
+                            panel_proc = panel_proc)
+        f_vals <- Re(f_vals)
+        x <- seq(lower, upper, len = resolution + 1)[-resolution]
+        
+    },
+    stop("'lower' or 'upper' arguments were not provided."),
+    {x <- NULL; f_vals <- NULL}
+)
     
-    f_vals <-
-        kerdec_dens_cpp(smp = smp, error_smp = error_smp, h = h,
-                        lower = lower, upper = upper,
-                        resolution = resolution, ker = kernel,
-                        sigma = error_scale_par, k = k,
-                        error_dist = error_dist,
-                        panel_proc = panel_proc)
-    x <- seq(lower, upper, length.out = resolution + 1)[-resolution]
-    
-    return(list(f_vals = Re(f_vals),
+    return(list(f_vals = f_vals,
                 x = x,
                 h = h,
                 h0 = h0,
