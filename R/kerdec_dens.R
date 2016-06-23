@@ -1,5 +1,50 @@
 ## -------------------------------------------------------------------
 
+##' Find positive minimizer with the input function
+##'
+##' Most methods used to find optimal bandwidths require to minimize a
+##' function (tipically MISE, AMISE, CV, ...). The argument ought to
+##' be positive. The fastest method that I empirically found was
+##' nlm. If the function is evaluated at a negative number or the
+##' output is not finite or not a number, the function will return the
+##' maximum possible number, so nlm can work better with the input
+##' function.
+##' 
+##' @param f Function to be minimized. Tipically a version of CV, MISE
+##'     or AMISE.
+##' @param h0 Initial bandwodth value.
+##' @param ... Arguments passed to f besides the first argument, which
+##'     must be the bandwidth.
+##' @return The output of the nlm function.
+##' @author Guillermo Basulto-Elias
+optimize_bw <- function(f, h0, ...){
+    ## Function to be minimized
+    objective <- function(bw){
+        if(bw < 0) return (.Machine$double.xmax) # Check bw > 0
+        val <- f(bw, ...)
+        if (is.nan(val) | !is.finite(val)){ # Check val is finite
+            val <- .Machine$double.xmax
+        }
+        return (val)
+    }
+    
+    ## Compute optimal bandwidth
+    out <- nlm(objective, h0)
+    
+    ## Return warning if it is likely that the function did not find
+    ## the minimum.
+    if (!(out$code %in% 1:3)) {
+        msg <-
+            paste("\n\nThe nlm function used to find the optimal",
+                  "value might have not converged appropriately.",
+                  "Try another initial value (argument h0) or plot",
+                  "the function to be minimized by providing the",
+                  "limits in the argument bw_limits.\n\n")
+        warning(msg)
+    }
+    return(out)
+}
+
 h_NR <- function(h0, smp, error_smp, resolution, kernel, n,
                  error_scale_par, k, error_dist, panel_proc,
                  bw_interval){
@@ -21,10 +66,12 @@ h_NR <- function(h0, smp, error_smp, resolution, kernel, n,
 
     ## Function to be minimized
     amise_fun <- function(bw){
-        if(bw < 0) return (1e20)        # Check bw > 0
+        if(bw < 0) return (.Machine$double.xmax) # Check bw > 0
         out <- amise(bw, mu2K2, R, error_smp, resolution, kernel, n,
                      error_scale_par, k, error_dist, panel_proc)
-        if (is.nan(out)) out <- 1e20    # Set large value if NaN.
+        if (is.nan(out) | !is.finite(out)){
+            out <- .Machine$double.xmax 
+            }
         return (out)
     }
     
@@ -72,12 +119,14 @@ h_CV <- function(h0, smp, error_smp, resolution, kernel,
     
     ## Function to be minimized and displayed.
     cv_fun <- function(bw){
-        if(bw < 0) return (1e20)
+        if(bw < 0) return (.Machine$double.xmax)
         
         cv_val <- 
             CV(bw, Z, smp, error_smp, resolution, kernel,
                           error_scale_par, k, error_dist, panel_proc)
-        if (is.nan(cv_val)) cv_val <- 1e20
+        if (is.nan(cv_val) | !is.finite(cv_val)){
+            cv_val <- .Machine$double.xmax
+            }
         return(cv_val)
     }
     
