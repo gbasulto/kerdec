@@ -70,9 +70,6 @@ plot_bw <- function(bw_interval, f, h, h0, ...){
     abline(v = h0, col = "cyan", lty = 3)
     legend("topright", legend = c("h", "h0"),
            col = c("magenta", "cyan"), lty = 2:3)
-    
-    ## cat("h0 = ", h0, "\n")
-    ## cat("h = ", h, "\n")
 }
 
 h_NR <- function(h0, smp, error_smp, resolution, kernel, n,
@@ -259,6 +256,9 @@ check_bw_method <- function (method, bw_methods, h){
 ##'     details and examples. Flat-top kernel is the default.
 ##' @param lower Lower limit where the density will be evaluated.
 ##' @param upper Upper limit where the density will be evaluated.
+##' @param x_eval Not yet activated. grid of values where the density
+##'     will be evaluated. If it is given, parameters 'lower' and
+##'     'upper' will be omitted.
 ##' @param h Bandwidth parameter which is only required if method =
 ##'     NULL.
 ##' @param h0 Optional argument used as initial value to look for the
@@ -292,8 +292,8 @@ check_bw_method <- function (method, bw_methods, h){
 kerdec_dens <- function(smp,
                         method = c("CV", "NR")[1],
                         kernel = "flat",
-                        lower, upper, h = NULL,
-                        h0 = NULL,
+                        lower, upper, x_eval = NULL,
+                        h = NULL, h0 = NULL,
                         error_smp = NULL,
                         error_dist = "None",
                         error_scale_par = NULL,
@@ -377,15 +377,15 @@ kerdec_dens <- function(smp,
                             error_dist = error_dist,
                             panel_proc = panel_proc)
         f_vals <- Re(f_vals)
-        x <- seq(lower, upper, len = resolution + 1)[-resolution]
+        x_eval <- seq(lower, upper, len = resolution + 1)[-resolution]
         
     },
     stop("'lower' or 'upper' arguments were not provided."),
-    {x <- NULL; f_vals <- NULL}
+    {x_eval <- NULL; f_vals <- NULL}
 )
     
     return(list(f_vals = f_vals,
-                x = x,
+                x_eval= x_eval,
                 h = h,
                 h0 = h0,
                 h_optim = h_optim))
