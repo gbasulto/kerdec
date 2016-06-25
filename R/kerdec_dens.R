@@ -292,7 +292,8 @@ check_bw_method <- function (method, bw_methods, h){
 kerdec_dens <- function(smp,
                         method = c("CV", "NR")[1],
                         kernel = "flat",
-                        lower, upper, x_eval = NULL,
+                        lower = NULL, upper = NULL,
+                        x_eval = NULL,
                         h = NULL, h0 = NULL,
                         error_smp = NULL,
                         error_dist = "None",
@@ -381,8 +382,10 @@ kerdec_dens <- function(smp,
         
     },
     stop("'lower' or 'upper' arguments were not provided."),
-    {x_eval <- NULL; f_vals <- NULL}
-)
+    {
+        x_eval <- NULL
+        f_vals <- NULL
+    })
     
     return(list(f_vals = f_vals,
                 x_eval= x_eval,
