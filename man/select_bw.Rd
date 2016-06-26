@@ -4,10 +4,10 @@
 \alias{select_bw}
 \title{Select bandwidth}
 \usage{
-select_bw(smp, method = c("CV", "NR")[1], kernel = "flat", h = NULL,
-  h0 = NULL, error_smp = NULL, error_dist = "None",
-  error_scale_par = NULL, resolution = 128, error_proc = "all",
-  panel_proc = "keep_first", truncation_bound = NULL, bw_interval = NULL)
+select_bw(smp, method = c("CV", "NR")[1], kernel = "flat", h0 = NULL,
+  error_smp = NULL, error_dist = "None", error_scale_par = NULL,
+  resolution = 128, error_proc = "all", panel_proc = "keep_first",
+  truncation_bound = NULL, bw_interval = NULL)
 }
 \value{
 so
