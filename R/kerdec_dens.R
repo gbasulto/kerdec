@@ -394,4 +394,27 @@ kerdec_dens <- function(smp,
                 h_optim = h_optim))
 }
 
-
+##' Select bandwidth
+##'
+##' ddd
+##' @return so 
+##' @author Guillermo Basulto
+##' @export
+select_bw <- function(smp,
+                      method = c("CV", "NR")[1],
+                      kernel = "flat",
+                      h = NULL, h0 = NULL,
+                      error_smp = NULL,
+                      error_dist = "None",
+                      error_scale_par = NULL,
+                      resolution = 128,
+                      error_proc = "all",
+                      panel_proc = "keep_first",
+                      truncation_bound = NULL,
+                      bw_interval = NULL){
+    out <- kerdec_dens(smp, method, kernel, NULL, NULL, NULL, NULL,
+                       h0, error_smp, error_dist, error_scale_par,
+                       resolution, error_proc, panel_proc, NULL,
+                       bw_interval)
+    out <- out[3:5]
+}

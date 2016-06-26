@@ -4,10 +4,11 @@
 \alias{kerdec_dens}
 \title{Kernel Deconvolution Density Estimation}
 \usage{
-kerdec_dens(smp, method = c("CV", "NR")[1], kernel = "flat", lower, upper,
-  h = NULL, h0 = NULL, error_smp = NULL, error_dist = "None",
-  error_scale_par = NULL, resolution = 128, error_proc = "all",
-  panel_proc = "keep_first", truncation_bound = NULL, bw_interval = NULL)
+kerdec_dens(smp, method = c("CV", "NR")[1], kernel = "flat", lower = NULL,
+  upper = NULL, x_eval = NULL, h = NULL, h0 = NULL, error_smp = NULL,
+  error_dist = "None", error_scale_par = NULL, resolution = 128,
+  error_proc = "all", panel_proc = "keep_first", truncation_bound = NULL,
+  bw_interval = NULL)
 }
 \arguments{
 \item{smp}{It is either a vector of size n or a nxl matrix (for
@@ -25,6 +26,10 @@ details and examples. Flat-top kernel is the default.}
 \item{lower}{Lower limit where the density will be evaluated.}
 
 \item{upper}{Upper limit where the density will be evaluated.}
+
+\item{x_eval}{Not yet activated. grid of values where the density
+will be evaluated. If it is given, parameters 'lower' and
+'upper' will be omitted.}
 
 \item{h}{Bandwidth parameter which is only required if method =
 NULL.}
