@@ -9,6 +9,53 @@ select_bw(smp, method = c("CV", "NR")[1], kernel = "flat", h0 = NULL,
   resolution = 128, error_proc = "all", panel_proc = "keep_first",
   truncation_bound = NULL, bw_interval = NULL)
 }
+\arguments{
+\item{smp}{It is either a vector of size n or a nxl matrix (for
+repeated observations; l per each individual).}
+
+\item{method}{Method used to select the bandwidth. The currently
+available methods are "CV" (cross-validation) and "NR" (normal
+reference). Cross-validation is the default.}
+
+\item{kernel}{Kernel whose Fourier transform has bounded
+support. There are currently 5 kernel programmed: "sinc",
+"vp", "triw", "tric" and "flat". See vignette for further
+details and examples. Flat-top kernel is the default.}
+
+\item{h0}{Optional argument used as initial value to look for the
+optimal value.}
+
+\item{error_smp}{Optional vector errors. It is necessary to
+approximate the error distribution if it is unknown.}
+
+\item{error_dist}{Three possible values are accepted. c("Normal",
+"Laplace", "None").}
+
+\item{error_scale_par}{Scale parameter matching the standard
+deviation. It is NULL by default and it is required if (and
+only if) error_dist is normal or Laplace and no sample of
+error is provided nor contaminated sample comes in panel
+structure.}
+
+\item{resolution}{Number of points to approximate integral in
+inversion formula, also to estimate the density (if grid was
+not given).}
+
+\item{error_proc}{This is required only for panel data
+structure. It refers to the way errors are processed. See
+\code{\link{process_differences}} for further details.}
+
+\item{panel_proc}{It defined what will be the contaminated sample
+(only) for panel data. "keep_first" will use the first column
+as sample while "take_aver" will take the average of
+contaminated samples per individual.}
+
+\item{truncation_bound}{It truncates the integrand in
+deconvolution formula when the denominator is smaller than
+this bound.}
+
+\item{bw_interval}{Do not modify it.}
+}
 \value{
 so
 }

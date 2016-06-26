@@ -397,6 +397,7 @@ kerdec_dens <- function(smp,
 ##' Select bandwidth
 ##'
 ##' ddd
+##' @inheritParams kerdec_dens 
 ##' @return so 
 ##' @author Guillermo Basulto
 ##' @export
