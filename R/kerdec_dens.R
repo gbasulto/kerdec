@@ -396,9 +396,14 @@ kerdec_dens <- function(smp,
 
 ##' Select bandwidth
 ##'
-##' ddd
-##' @inheritParams kerdec_dens 
-##' @return so 
+##' This function computes a bandwidth with the selected method and it
+##' also plots the corresponging function to minimize (MISE, AMISE,
+##' CV, etc.).
+##' @inheritParams kerdec_dens
+##' @param bw_interval A bivariate vector with the limits where the
+##'     function to minimize is going to be plotted.
+##' @return A list with the initial value, the computed value and the
+##'     result of the minimization algorithm.
 ##' @author Guillermo Basulto
 ##' @export
 select_bw <- function(smp,
