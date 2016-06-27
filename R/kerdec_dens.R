@@ -12,7 +12,7 @@
 ##' 
 ##' @param f Function to be minimized. Tipically a version of CV, MISE
 ##'     or AMISE.
-##' @param h0 Initial bandwodth value.
+##' @param h0 Initial bandwidth value.
 ##' @param ... Arguments passed to f besides the first argument, which
 ##'     must be the bandwidth.
 ##' @return The output of the nlm function.

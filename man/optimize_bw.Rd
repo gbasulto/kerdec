@@ -10,7 +10,7 @@ optimize_bw(f, h0, ...)
 \item{f}{Function to be minimized. Tipically a version of CV, MISE
 or AMISE.}
 
-\item{h0}{Initial bandwodth value.}
+\item{h0}{Initial bandwidth value.}
 
 \item{...}{Arguments passed to f besides the first argument, which
 must be the bandwidth.}
