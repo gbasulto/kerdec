@@ -131,7 +131,7 @@ h_CV <- function(h0, smp, error_smp, resolution, kernel,
 }
 
 h_pilot <- function(h0, error_dist, error_scale_par, n, panel_proc, k){
-### Find pilot bandwidth.
+### Find pilot bandwidth if it was not provided.
     if (!is.null(h0)) return (h0)
     
     sigE <- error_scale_par
@@ -353,11 +353,7 @@ kerdec_dens <- function(smp,
                                          error_scale_par)
     
     ## Now we select the initial h0, if it was not provided.
-    if(is.null(h0)){
-        h0 <- ifelse(error_dist == 2,
-        (5*error_scale_par^4/n)^(1/9),
-        error_scale_par/sqrt(log(n)/2))
-    }
+    h0 <- h_pilot(h0, error_dist, error_scale_par, n, panel_proc, k)
     
     ## If error_smp was null, the error distribution must have been
     ## given and that was already verified above. Thus we can set
