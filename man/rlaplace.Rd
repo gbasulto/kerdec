@@ -28,8 +28,8 @@ plot(x, vals, type = "l")
 Guillermo Basulto-Elias
 }
 \seealso{
-\code{\link{dlaplace}} for probability density
-    function and \code{\link{plaplace}} for cumulative distribution
+\code{\link{dlaplace}} for probability density function
+    and \code{\link{plaplace}} for cumulative distribution
     function.
 }
 

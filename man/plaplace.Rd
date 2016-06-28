@@ -28,7 +28,7 @@ plot(x, vals, type = "l")
 Guillermo Basulto-Elias
 }
 \seealso{
-\code{\link{dlaplace}} for probability density
-    function and \code{\link{rlaplace}} for random number generation.
+\code{\link{dlaplace}} for probability density function
+    and \code{\link{rlaplace}} for random number generation.
 }
 
