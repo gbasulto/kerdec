@@ -130,6 +130,17 @@ h_CV <- function(h0, smp, error_smp, resolution, kernel,
     return(h_optim)
 }
 
+h_pilot <- function(h0, error_dist, error_scale_par, n, panel_proc, k){
+### Find pilot bandwidth.
+    if (!is.null(h0)) return (h0)
+    
+    sigE <- error_scale_par
+    if(panel_proc == 2) error_scale_par <- error_scale_par/sqrt(k)
+    h0 <- ifelse(error_dist == 2, (5*sigE^4/n)^(1/9), sigE/sqrt(log(n)/2))
+    
+    return (h0)
+}
+
 error_dist2numeric <- function (error_dist, error_dists) {
 ### This function checks that the specified error distribution is
 ### programmed and it converts it (from character) to numeric,
@@ -290,19 +301,19 @@ check_bw_method <- function (method, bw_methods, h){
 ##' @author Guillermo Basulto-Elias
 ##' @export
 kerdec_dens <- function(smp,
-                        method = c("CV", "NR")[1],
-                        kernel = "flat",
-                        lower = NULL, upper = NULL,
-                        x_eval = NULL,
-                        h = NULL, h0 = NULL,
-                        error_smp = NULL,
-                        error_dist = "None",
-                        error_scale_par = NULL,
-                        resolution = 128,
-                        error_proc = "all",
-                        panel_proc = "keep_first",
-                        truncation_bound = NULL,
-                        bw_interval = NULL){
+                          method = c("CV", "NR")[1],
+                          kernel = "flat",
+                          lower = NULL, upper = NULL,
+                          x_eval = NULL,
+                          h = NULL, h0 = NULL,
+                          error_smp = NULL,
+                          error_dist = "None",
+                          error_scale_par = NULL,
+                          resolution = 128,
+                          error_proc = "all",
+                          panel_proc = "keep_first",
+                          truncation_bound = NULL,
+                          bw_interval = NULL){
 
     ## Let us first state all the implemented distributions. We will
     ## check later that the arguments are valid.
