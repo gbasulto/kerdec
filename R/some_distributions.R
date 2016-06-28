@@ -8,7 +8,8 @@
 ##' @return A vector with pdf values
 ##' @author Guillermo Basulto-Elias
 ##' @seealso \code{\link{plaplace}} for cumulative distribution
-##'     function and \code{\link{rlaplace}} for random number generation.
+##'     function and \code{\link{rlaplace}} for random number
+##'     generation.
 ##' @examples
 ##' x <- seq(-2, 4, 0.05)
 ##' vals <- dlaplace(x, mean = 1, sd = 0.99)
@@ -27,8 +28,8 @@ dlaplace <- function(x, mean = 0, sd = 1){
 ##' @param sd Standard deviation of Laplace distribution
 ##' @return A vector with cdf values
 ##' @author Guillermo Basulto-Elias
-##' @seealso \code{\link{dlaplace}} for probability density
-##'     function and \code{\link{rlaplace}} for random number generation.
+##' @seealso \code{\link{dlaplace}} for probability density function
+##'     and \code{\link{rlaplace}} for random number generation.
 ##' @examples
 ##' x <- seq(-2, 4, 0.05)
 ##' vals <- plaplace(x, mean = 1, sd = 0.99)
@@ -49,8 +50,8 @@ plaplace <- function(x, mean = 0, sd = 1){
 ##' @param sd Standard deviation of Laplace distribution
 ##' @return A vector with random values
 ##' @author Guillermo Basulto-Elias
-##' @seealso \code{\link{dlaplace}} for probability density
-##'     function and \code{\link{plaplace}} for cumulative distribution
+##' @seealso \code{\link{dlaplace}} for probability density function
+##'     and \code{\link{plaplace}} for cumulative distribution
 ##'     function.
 ##' @examples
 ##' x <- seq(-2, 4, 0.05)
