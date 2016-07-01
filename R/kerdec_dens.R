@@ -213,7 +213,16 @@ kernel2numeric <- function (kernel, kernels){
 
     return (kernel)
     }
+
+
+check_smp <- function (smp) {
+### Check that the sample is numeric. If it is a vector, cast it to
+### a matrix.
+    if (!is.numeric(smp)) stop("The sample must be numeric.")
+    if(is.vector(smp)) smp <- matrix(smp)
     
+    return(smp)
+}
 
 check_error_smp <- function (error_smp){
 ### This function verifies/converts error_smp to matrix.
@@ -323,11 +332,8 @@ kerdec_dens <- function(smp,
     error_procs <- c("all", "vs_first", "indep_pairs")
     panel_procs <- c("keep_first", "take_aver")
 
-    ## Check that the sample is numeric. If it is a vector, cast it to
-    ## a matrix.
-    if (!is.numeric(smp)) stop("smp must be numeric.")
-    if(is.vector(smp)) smp <- matrix(smp)
-
+    smp <- check_smp(smp)               # Is smp num. matrix?
+    
     ## Ask the sample size to be at least three and also obtain the
     ## number of repetitions.
     n <- nrow(smp)
