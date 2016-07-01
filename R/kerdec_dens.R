@@ -218,9 +218,14 @@ kernel2numeric <- function (kernel, kernels){
 check_smp <- function (smp) {
 ### Check that the sample is numeric. If it is a vector, cast it to
 ### a matrix.
-    if (!is.numeric(smp)) stop("The sample must be numeric.")
-    if(is.vector(smp)) smp <- matrix(smp)
     
+    if (!is.numeric(smp)) {
+        arg_name <- deparse(substitute(smp))
+        msg <- paste(arg_name, "must be numeric.")
+        stop(msg)
+    }
+    
+    if(is.vector(smp)) smp <- matrix(smp)
     return(smp)
 }
 
