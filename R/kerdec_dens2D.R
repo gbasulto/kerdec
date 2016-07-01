@@ -245,8 +245,12 @@
 ##' is available as panel data.
 ##'
 ##' See the vignette for more details.
-##' @param smp It is either a vector of size n or a nxl matrix (for
-##'     repeated observations; l per each individual).
+##' @param smp1 First coordinate of the sample. It is either a vector
+##'     of size n or a nxl matrix (for repeated observations; l per
+##'     each individual).
+##' @param smp2 Second coordinate of the sample. It is either a vector
+##'     of size n or a nxl matrix (for repeated observations; l per
+##'     each individual).
 ##' @param method Method used to select the bandwidth. The currently
 ##'     available methods are "CV" (cross-validation) and "NR" (normal
 ##'     reference). Cross-validation is the default.
@@ -314,11 +318,6 @@ kerdec_dens2D <- function(smp1, smp2,
 
     ## Check that the sample is numeric. If it is a vector, cast it to
     ## a matrix.
-    if (!is.numeric(smp)) stop("smp must be numeric.")
-    if(is.vector(smp)) smp <- matrix(smp)
-
-    ## Check that the sample is numeric. If it is a vector, cast it to
-    ## a matrix.
     if (!is.numeric(smp1) | !is.numeric(smp2)) {
         stop("smp must be numeric.")
     }
@@ -345,13 +344,7 @@ kerdec_dens2D <- function(smp1, smp2,
     }
     k <- k1
 
-    ## Ask the sample size to be at least three and also obtain the
-    ## number of repetitions.
-    n <- nrow(smp)
-    if(n < 3) stop("Sample size must be of at least 3.")
-    k <- ncol(smp)
- 
-   method <- check_bw_method(method, bw_methods, h)
+    method <- check_bw_method(method, bw_methods, h)
     kernel <- kernel2numeric(kernel, kernels)
     error_dist <- error_dist2numeric(error_dist, error_dists)
     error_smp <- check_error_smp(error_smp)
