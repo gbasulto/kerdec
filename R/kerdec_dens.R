@@ -182,7 +182,7 @@ error_proc2numeric <- function (error_proc, error_procs) {
 
 panel_proc2numeric <- function (panel_proc, panel_procs){
 ### This function checks that the specified method for obtaining the
-### ccontaminated sample (keeping only the firt column or taking the
+### contaminated sample (keeping only the firt column or taking the
 ### average by individual) is correct and also convert it to numeric
 ### argument, matching the order from panel_procs argument.
     smp_mthd <- match(panel_proc, panel_procs)
@@ -231,14 +231,16 @@ check_smp <- function (smp) {
 
 check_error_smp <- function (error_smp){
 ### This function verifies/converts error_smp to matrix.
-    
+
     ## Check that the error sample is numeric. If it is a vector, cast
     ## it to a matrix.
     if (is.numeric(error_smp)) {
         if (is.vector(error_smp)) error_smp <- matrix(error_smp)
     } else {
         if (!is.null(error_smp)) {
-            stop("'error_smp' must be numeric.")
+            arg_name <- deparse(substitute(error_smp))
+            msg <- paste0("'", arg_name, "' must be numeric.")
+            stop(smg)
         }
     }
     return (error_smp)
