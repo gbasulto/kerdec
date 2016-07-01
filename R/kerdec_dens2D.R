@@ -289,21 +289,21 @@
 ##' @return A list
 ##' @author Guillermo Basulto-Elias
 ##' @export
-kerdec_dens <- function(smp1, smp2,
-                        method = c("CV", "NR")[1],
-                        kernel = "flat",
-                        lower = NULL, upper = NULL,
-                        x_eval = NULL,
-                        h = NULL, h0 = NULL,
-                        error_smp = NULL,
-                        error_dist = "None",
-                        error_scale_par = NULL,
-                        resolution = 128,
-                        error_proc = "all",
-                        panel_proc = "keep_first",
-                        truncation_bound = NULL,
-                        bw_interval = NULL){
-
+kerdec_dens2D <- function(smp1, smp2,
+                          method = c("CV", "NR")[1],
+                          kernel = "flat",
+                          lower = NULL, upper = NULL,
+                          x_eval = NULL,
+                          h = NULL, h0 = NULL,
+                          error_smp = NULL,
+                          error_dist = "None",
+                          error_scale_par = NULL,
+                          resolution = 128,
+                          error_proc = "all",
+                          panel_proc = "keep_first",
+                          truncation_bound = NULL,
+                          bw_interval = NULL)
+{
     ## Let us first state all the implemented distributions. We will
     ## check later that the arguments are valid.
     bw_methods <- c("cv", "nr", "none")
@@ -317,13 +317,41 @@ kerdec_dens <- function(smp1, smp2,
     if (!is.numeric(smp)) stop("smp must be numeric.")
     if(is.vector(smp)) smp <- matrix(smp)
 
+    ## Check that the sample is numeric. If it is a vector, cast it to
+    ## a matrix.
+    if (!is.numeric(smp1) | !is.numeric(smp2)) {
+        stop("smp must be numeric.")
+    }
+    if(is.vector(smp1)) smp1 <- matrix(smp1)
+    if(is.vector(smp2)) smp2 <- matrix(smp2)
+    
+    ## Ask the sample size to be at least three and also obtain the
+    ## number of repetitions.
+    n1 <- nrow(smp1)
+    n2 <- nrow(smp2)
+    if (n1 != n2) {
+        msg <- paste("smp1 and smp2 must have the same number",
+                     "of rows.")
+        stop(msg)
+    }
+    n <- n1
+    if(n < 3) stop("Sample size must be of at least 3.")
+    k1 <- ncol(smp1)
+    k2 <- ncol(smp2)
+    if (k1 != k2) {
+        msg <- paste("smp1 and smp2 must have the same number",
+                     "of columns.")
+        stop(msg)
+    }
+    k <- k1
+
     ## Ask the sample size to be at least three and also obtain the
     ## number of repetitions.
     n <- nrow(smp)
     if(n < 3) stop("Sample size must be of at least 3.")
     k <- ncol(smp)
-
-    method <- check_bw_method(method, bw_methods, h)
+ 
+   method <- check_bw_method(method, bw_methods, h)
     kernel <- kernel2numeric(kernel, kernels)
     error_dist <- error_dist2numeric(error_dist, error_dists)
     error_smp <- check_error_smp(error_smp)
