@@ -290,7 +290,7 @@ check_bw_method <- function (method, bw_methods, h){
 ##'     NULL.
 ##' @param h0 Optional argument used as initial value to look for the
 ##'     optimal value.
-##' @param error_smp Optional vector errors. It is necessary to
+##' @param error_smp Optional vector of errors. It is necessary to
 ##'     approximate the error distribution if it is unknown.
 ##' @param error_dist Three possible values are accepted. c("Normal",
 ##'     "Laplace", "None").

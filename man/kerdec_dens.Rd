@@ -37,7 +37,7 @@ NULL.}
 \item{h0}{Optional argument used as initial value to look for the
 optimal value.}
 
-\item{error_smp}{Optional vector errors. It is necessary to
+\item{error_smp}{Optional vector of errors. It is necessary to
 approximate the error distribution if it is unknown.}
 
 \item{error_dist}{Three possible values are accepted. c("Normal",

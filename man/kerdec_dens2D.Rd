@@ -6,9 +6,9 @@
 \usage{
 kerdec_dens2D(smp1, smp2, method = c("CV", "NR")[1], kernel = "flat",
   lower = NULL, upper = NULL, x_eval = NULL, h = NULL, h0 = NULL,
-  error_smp = NULL, error_dist = "None", error_scale_par = NULL,
-  resolution = 128, error_proc = "all", panel_proc = "keep_first",
-  truncation_bound = NULL, bw_interval = NULL)
+  error_smp1 = NULL, error_smp2 = NULL, error_dist = "None",
+  error_scale_par = NULL, resolution = 128, error_proc = "all",
+  panel_proc = "keep_first", truncation_bound = NULL, bw_interval = NULL)
 }
 \arguments{
 \item{smp1}{First coordinate of the sample. It is either a vector
@@ -42,8 +42,13 @@ NULL.}
 \item{h0}{Optional argument used as initial value to look for the
 optimal value.}
 
-\item{error_smp}{Optional vector errors. It is necessary to
-approximate the error distribution if it is unknown.}
+\item{error_smp1}{Optional vector with the first coordinate of
+errors. It is necessary to approximate the error distribution
+if it is unknown.}
+
+\item{error_smp2}{Optional vector with the second coordinate of
+errors. It is necessary to approximate the error distribution
+if it is unknown.}
 
 \item{error_dist}{Three possible values are accepted. c("Normal",
 "Laplace", "None").}
