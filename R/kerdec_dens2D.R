@@ -49,8 +49,12 @@ check_dims <- function(dim1, dim2){
 ##'     NULL.
 ##' @param h0 Optional argument used as initial value to look for the
 ##'     optimal value.
-##' @param error_smp Optional vector errors. It is necessary to
-##'     approximate the error distribution if it is unknown.
+##' @param error_smp1 Optional vector with the first coordinate of
+##'     errors. It is necessary to approximate the error distribution
+##'     if it is unknown.
+##' @param error_smp2 Optional vector with the second coordinate of
+##'     errors. It is necessary to approximate the error distribution
+##'     if it is unknown.
 ##' @param error_dist Three possible values are accepted. c("Normal",
 ##'     "Laplace", "None").
 ##' @param error_scale_par Scale parameter matching the standard
@@ -81,7 +85,8 @@ kerdec_dens2D <- function(smp1, smp2,
                           lower = NULL, upper = NULL,
                           x_eval = NULL,
                           h = NULL, h0 = NULL,
-                          error_smp = NULL,
+                          error_smp1 = NULL,
+                          error_smp2 = NULL,
                           error_dist = "None",
                           error_scale_par = NULL,
                           resolution = 128,
@@ -110,7 +115,8 @@ kerdec_dens2D <- function(smp1, smp2,
     method <- check_bw_method(method, bw_methods, h)
     kernel <- kernel2numeric(kernel, kernels)
     error_dist <- error_dist2numeric(error_dist, error_dists)
-    error_smp <- check_error_smp(error_smp)
+    error_smp1 <- check_error_smp(error_smp1)
+    error_smp2 <- check_error_smp(error_smp2)
     panel_proc <- panel_proc2numeric(panel_proc, panel_procs)
 
     ## If data are provided in a panel structure, compute differences
