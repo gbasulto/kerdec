@@ -123,8 +123,10 @@ kerdec_dens2D <- function(smp1, smp2,
     ## of errors to approximate the error distribution.
     if (k > 1) {
         error_proc <- error_proc2numeric(error_proc, error_procs)
-        error_smp <- process_differences(smp, error_proc)
-        smp <- switch(smp_mthd, smp[, 1], matrix(rowMeans(smp)))
+        error_smp1 <- process_differences(smp1, error_proc)
+        error_smp2 <- process_differences(smp2, error_proc)
+        smp1 <- switch(smp_mthd, smp1[, 1], matrix(rowMeans(smp1)))
+        smp2 <- switch(smp_mthd, smp2[, 1], matrix(rowMeans(smp2)))
     } 
 
     ## Compute error scale parameter if it was not given.
