@@ -130,8 +130,10 @@ kerdec_dens2D <- function(smp1, smp2,
     } 
 
     ## Compute error scale parameter if it was not given.
-    error_scale_par <- compute_scale_par(error_dist, error_smp, k,
-                                         error_scale_par)
+    error_scale_par1 <- compute_scale_par(error_dist, error_smp1, k,
+                                         error_scale_par1)
+    error_scale_par2 <- compute_scale_par(error_dist, error_smp2, k,
+                                         error_scale_par2)
     
     ## Now we select the initial h0, if it was not provided.
     if(is.null(h0)){
