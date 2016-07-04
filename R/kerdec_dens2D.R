@@ -137,9 +137,9 @@ kerdec_dens2D <- function(smp1, smp2,
     
     ## Now we select the initial h0, if it was not provided.
     if(is.null(h0)){
-        h0 <- ifelse(error_dist == 2,
-        (5*error_scale_par^4/n)^(1/9),
-        error_scale_par/sqrt(log(n)/2))
+        h0 <- ifelse(error_dist1 == 2,
+        (5*error_scale_par1^4/n)^(1/9),
+        error_scale_par1/sqrt(log(n)/2))
     }
     
     ## If error_smp was null, the error distribution must have been
