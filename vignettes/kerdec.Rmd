@@ -36,8 +36,10 @@ The package `kerdec` provides functions to handle univariate and bivariate kdde 
 ```{r}
 library(kerdec)                         # Load package
 
+set.seed(666)
+
 ## Settings and samples for all the cases
-n <- 150                                # Sample size
+n <- 130                                # Sample size
 l <- 5                                  # Number of columns
 m <- n + 10                             # Error sample size
 shape <- 5                              # X distr. shape par.
@@ -60,10 +62,22 @@ plot(function(x) dgamma(x, shape, rate), 0, 4)
 ## Case 1: Normal error. Sigma known.
 ## -------------------------------------------------------------------
 
-h <- select_bw(smp = Y, method = "CV", error_scale_par = sd_error)
+h <- select_bw(smp = Y, error_scale_par = sd_error,
+               error_dist = "normal", bw_interval = c(0.12, 0.25))
+
+dens <- kerdec_dens(smp = Y, error_scale_par = sd_error,
+                    error_dist = "normal", h = h$h,
+                    lower = min(Y) - sd(Y),
+                    upper = max(Y) + sd(Y))
+
+with(dens, {
+    plot(x_eval, f_vals, type = "l", col = 3, lty = 2)
+    lines(x_eval, dgamma(x_eval, shape, rate), col = 4, lty = 3)
+})
+
 
 ## -------------------------------------------------------------------
-## Case 1: Known Laplace error
+## Case 2: Known Laplace error
 ## -------------------------------------------------------------------
 
 1 + 1
