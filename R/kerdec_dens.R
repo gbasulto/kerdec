@@ -130,13 +130,15 @@ h_CV <- function(h0, smp, error_smp, resolution, kernel,
     return(h_optim)
 }
 
-h_pilot <- function(h0, error_dist, error_scale_par, n, panel_proc, k){
+h_pilot <- function (h0, error_dist, error_scale_par, n,
+                     panel_proc, k){
 ### Find pilot bandwidth if it was not provided.
     if (!is.null(h0)) return (h0)
     
     sigE <- error_scale_par
     if(panel_proc == 2) error_scale_par <- error_scale_par/sqrt(k)
-    h0 <- ifelse(error_dist == 2, (5*sigE^4/n)^(1/9), sigE/sqrt(log(n)/2))
+    h0 <- ifelse(error_dist == 2, (5*sigE^4/n)^(1/9),
+                 sigE/sqrt(log(n)/2))
     
     return (h0)
 }
