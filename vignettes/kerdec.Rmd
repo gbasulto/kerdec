@@ -85,14 +85,10 @@ legend("topright", legend = c("approx", "true"), lwd = 1.5, col = 3:4,
 ## Case 2: Known Laplace error
 ## -------------------------------------------------------------------
 
-h <- select_bw(smp = Y, error_scale_par = sd_error,
-               error_dist = "laplace", bw_interval = c(0.12, 0.25))
-
 dens <- kerdec_dens(smp = Y, error_scale_par = sd_error,
-                    error_dist = "laplace", h = h$h,
+                    error_dist = "laplace",
                     lower = min(Y) - sd(Y),
                     upper = max(Y) + sd(Y))
-
 
 with(dens, {
     true <- dgamma(x_eval, shape, rate)
@@ -109,11 +105,8 @@ legend("topright", legend = c("approx", "true"), lwd = 1.5, col = 3:4,
 ## Case 3: Normal error approximated with indep. sample of errors
 ## -------------------------------------------------------------------
 
-h <- select_bw(smp = Y, error_smp = eps,
-               error_dist = "normal", bw_interval = c(0.12, 0.25))
-
-dens <- kerdec_dens(smp = Y, error_scale_par = sd_error,
-                    error_dist = "normal", h = h$h,
+dens <- kerdec_dens(smp = Y, error_smp = eps,
+                    error_dist = "normal",
                     lower = min(Y) - sd(Y),
                     upper = max(Y) + sd(Y))
 
@@ -130,16 +123,63 @@ legend("topright", legend = c("approx", "true"), lwd = 1.5, col = 3:4,
 
 
 ## -------------------------------------------------------------------
-## Case 1: Known normal error
+## Case 5: Laplace error approximated with indep. sample of errors
 ## -------------------------------------------------------------------
 
-1
+dens <- kerdec_dens(smp = Y, error_smp = eps,
+                    error_dist = "laplace",
+                    lower = min(Y) - sd(Y),
+                    upper = max(Y) + sd(Y))
+
+
+with(dens, {
+    true <- dgamma(x_eval, shape, rate)
+    plot(range(x_eval), range(c(f_vals, true)), type = "n",
+         xlab = "x", ylab = "values")
+    lines(x_eval, f_vals, col = 3, lty = 2, lwd = 1.5)
+    lines(x_eval, true, col = 4, lty = 3, lwd = 1.5)
+})
+legend("topright", legend = c("approx", "true"), lwd = 1.5, col = 3:4,
+       lty = 2:3)
 
 ## -------------------------------------------------------------------
-## Case 1: Known normal error
+## Case 6: Unknown error approximated with indep. sample of errors
 ## -------------------------------------------------------------------
 
-1
+dens <- kerdec_dens(smp = Y, error_smp = eps,
+                    lower = min(Y) - sd(Y),
+                    upper = max(Y) + sd(Y))
+
+
+with(dens, {
+    true <- dgamma(x_eval, shape, rate)
+    plot(range(x_eval), range(c(f_vals, true)), type = "n",
+         xlab = "x", ylab = "values")
+    lines(x_eval, f_vals, col = 3, lty = 2, lwd = 1.5)
+    lines(x_eval, true, col = 4, lty = 3, lwd = 1.5)
+})
+legend("topright", legend = c("approx", "true"), lwd = 1.5, col = 3:4,
+       lty = 2:3)
+
+## -------------------------------------------------------------------
+## Case 7: Panel data. Normal errors
+## -------------------------------------------------------------------
+
+dens <- kerdec_dens(smp = Y_panel, error_smp = eps_panel,
+                    lower = min(Y) - sd(Y),
+                    upper = max(Y) + sd(Y))
+
+
+with(dens, {
+    true <- dgamma(x_eval, shape, rate)
+    plot(range(x_eval), range(c(f_vals, true)), type = "n",
+         xlab = "x", ylab = "values")
+    lines(x_eval, f_vals, col = 3, lty = 2, lwd = 1.5)
+    lines(x_eval, true, col = 4, lty = 3, lwd = 1.5)
+})
+legend("topright", legend = c("approx", "true"), lwd = 1.5, col = 3:4,
+       lty = 2:3)
+
 
 ## -------------------------------------------------------------------
 ## Case 1: Known normal error
