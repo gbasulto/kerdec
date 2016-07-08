@@ -329,9 +329,9 @@ double CV(double h, const arma::vec & Z, const arma::vec & smp,
      Wells (2007), required by the cross-validation formula.
   */
   
-  int m = resolution, i;
+  int m = resolution;
   arma::vec t(m), denom(m), fun_vals(m), cv_aux(m), kernel_vals(m);
-  double st, fvals, out, sqrt_cutoff, delta;
+  double st, fvals, out, delta;
 
   // Gridsize
   delta = 2.0/h/m;		
@@ -362,19 +362,6 @@ double CV(double h, const arma::vec & Z, const arma::vec & smp,
   cv_aux = ecf_mod_cpp(t, smp) % kernel_vals;
   cv_aux = cv_aux % cv_aux;	// square numerator
   cv_aux = cv_aux/denom;	// ... And divide by sq. denominator.
-
-  // // Truncate integrand if denominator is very small.
-  // sqrt_cutoff = sqrt(cutoff);
-  // for(i = 0; i < m; i++)
-  //   {
-  //     if(denom[i] < sqrt_cutoff)
-  // 	{
-  // 	  fun_vals[i] = 0;
-  // 	  cv_aux[i] = 0;
-  // 	}
-  //   }
-  
-
 
   // Add sq. integral values.
   fvals = sum(cv_aux)*delta/(2.0*datum::pi);
