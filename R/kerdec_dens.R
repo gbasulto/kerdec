@@ -360,7 +360,7 @@ kerdec_dens <- function(smp,
     if (k > 1) {
         error_proc <- error_proc2numeric(error_proc, error_procs)
         error_smp <- process_differences(smp, error_proc)
-        smp <- switch(smp_mthd, smp[, 1], matrix(rowMeans(smp)))
+        smp <- switch(panel_proc, smp[, 1], matrix(rowMeans(smp)))
     } 
 
     ## Compute error scale parameter if it was not given.
