@@ -18,7 +18,7 @@ check_dims <- function(dim1, dim2){
 
 
 
-##' Kernel Deconvolution Density Estimation
+##' Bivariate Kernel Deconvolution Density Estimation
 ##'
 ##' This function provides a bandwidth for kernel denvolvolution
 ##' density estimator. This works for several deconvolution scenarios,
@@ -137,7 +137,7 @@ kerdec_dens2D <- function(smp1, smp2,
     
     ## Now we select the initial h0, if it was not provided.
     if(is.null(h0)){
-        h0 <- ifelse(error_dist1 == 2,
+        h0 <- ifelse(error_dist == 2,
         (5*error_scale_par1^4/n)^(1/9),
         error_scale_par1/sqrt(log(n)/2))
     }

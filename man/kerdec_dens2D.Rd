@@ -2,7 +2,7 @@
 % Please edit documentation in R/kerdec_dens2D.R
 \name{kerdec_dens2D}
 \alias{kerdec_dens2D}
-\title{Kernel Deconvolution Density Estimation}
+\title{Bivariate Kernel Deconvolution Density Estimation}
 \usage{
 kerdec_dens2D(smp1, smp2, method = c("CV", "NR")[1], kernel = "flat",
   lower = NULL, upper = NULL, x_eval = NULL, h = NULL, h0 = NULL,
