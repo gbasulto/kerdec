@@ -141,51 +141,62 @@ kerdec_dens2D <- function(smp1, smp2,
         (5*error_scale_par1^4/n)^(1/9),
         error_scale_par1/sqrt(log(n)/2))
     }
-    
+
     ## If error_smp was null, the error distribution must have been
     ## given and that was already verified above. Thus we can set
     ## other random values to it (such values will NOT be used within
     ## kerdec_dens_cpp since error_dist is either 1 or 2)
-    if(is.null(error_smp)) error_smp <- matrix(0, 5, 1)
+    if (is.null(error_smp1)) {
+        if (!is.null(error_smp2)) {
+            msg <- "Only one sample of errors was provided"
+            stop(msg)
+        }
+        error_smp1 <- matrix(0, 5, 1)
+        error_smp2 <- matrix(0, 5, 1)
+    } 
 
-    ## 
-    h_optim <-
-        switch(method,
-               nr = h_NR(h0, smp, error_smp, resolution,
-                         kernel, n, error_scale_par, k,
-                         error_dist, panel_proc, bw_interval),
-               cv = h_CV(h0, smp, error_smp, resolution,
-                         kernel, error_scale_par, k,
-                         error_dist, panel_proc, bw_interval),
-               none = NULL)
+    ## Define smp and error_smp, which are two-column matrices.
+    smp <- cbind(smp1, smp2)
+    error_smp <- cbind(error_smp1, error_smp2)
     
-    if(is.null(h)) h <- h_optim$estimate
+    ## ## 
+    ## h_optim <-
+    ##     switch(method,
+    ##            nr = h_NR(h0, smp, error_smp, resolution,
+    ##                      kernel, n, error_scale_par, k,
+    ##                      error_dist, panel_proc, bw_interval),
+    ##            cv = h_CV(h0, smp, error_smp, resolution,
+    ##                      kernel, error_scale_par, k,
+    ##                      error_dist, panel_proc, bw_interval),
+    ##            none = NULL)
+    
+    ## if(is.null(h)) h <- h_optim$estimate
 
-    ## Compute density values (if required).
-    switch(is.null(lower) + is.null(upper) + 1,
-    {
-        f_vals <-
-            kerdec_dens_cpp(smp = smp, error_smp = error_smp, h = h,
-                            lower = lower, upper = upper,
-                            resolution = resolution, ker = kernel,
-                            sigma = error_scale_par, k = k,
-                            error_dist = error_dist,
-                            panel_proc = panel_proc)
-        f_vals <- Re(f_vals)
-        x_eval <- seq(lower, upper, len = resolution + 1)[-resolution]
+    ## ## Compute density values (if required).
+    ## switch(is.null(lower) + is.null(upper) + 1,
+    ## {
+    ##     f_vals <-
+    ##         kerdec_dens_cpp(smp = smp, error_smp = error_smp, h = h,
+    ##                         lower = lower, upper = upper,
+    ##                         resolution = resolution, ker = kernel,
+    ##                         sigma = error_scale_par, k = k,
+    ##                         error_dist = error_dist,
+    ##                         panel_proc = panel_proc)
+    ##     f_vals <- Re(f_vals)
+    ##     x_eval <- seq(lower, upper, len = resolution + 1)[-resolution]
         
-    },
-    stop("'lower' or 'upper' arguments were not provided."),
-    {
-        x_eval <- NULL
-        f_vals <- NULL
-    })
+    ## },
+    ## stop("'lower' or 'upper' arguments were not provided."),
+    ## {
+    ##     x_eval <- NULL
+    ##     f_vals <- NULL
+    ## })
     
-    return(list(f_vals = f_vals,
-                x_eval= x_eval,
-                h = h,
-                h0 = h0,
-                h_optim = h_optim))
+    ## return(list(f_vals = f_vals,
+    ##             x_eval= x_eval,
+    ##             h = h,
+    ##             h0 = h0,
+    ##             h_optim = h_optim))
 }
 
 ## ##' Select bandwidth
