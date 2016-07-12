@@ -793,24 +793,32 @@ m <- n + 10                             # Error sample size
 shape <- 5                              # X distr. shape par.
 rate <- 5                               # X distr. rate par.
 sd_error <- .2                          # std. error of error distr.
-X <- rgamma(n, shape, rate)             # Uncontaminated sample
-eps_panel <- matrix(rlaplace(n*l, sd = sd_error),
+
+## Generate biv. samples.
+X1 <- rgamma(n, shape, rate)             # Uncontaminated sample
+X2 <- rgamma(n, shape, rate)             # Uncontaminated sample
+eps_panel1 <- matrix(rlaplace(n*l, sd = sd_error),
                     n, l)               # Panel of errors
-eps <- rlaplace(m, sd = sd_error)       # Pure errors
-Y <- X + eps_panel[, 1]                 # Contaminated sample
-Y_panel <- sweep(x = eps_panel, MARGIN = 1,
+eps_panel2 <- matrix(rlaplace(n*l, sd = sd_error),
+                    n, l)               # Panel of errors
+eps1 <- rlaplace(m, sd = sd_error)       # Pure errors
+eps2 <- rlaplace(m, sd = sd_error)       # Pure errors
+Y1 <- X1 + eps_panel1[, 1]                 # Contaminated sample
+Y2 <- X2 + eps_panel2[, 1]                 # Contaminated sample
+Y_panel1 <- sweep(x = eps_panel1, MARGIN = 1,
+                 STATS = X, FUN = "+")  # Contaminated in panel
+Y_panel2 <- sweep(x = eps_panel2, MARGIN = 1,
                  STATS = X, FUN = "+")  # Contaminated in panel
 
 
 plot(function(x) dgamma(x, shape, rate), 0, 4)
 
-h <- select_bw(smp = Y, error_scale_par = sd_error,
-               error_dist = "normal", bw_interval = c(0.12, 0.25))
-
-dens <- kerdec_dens(smp = Y, error_scale_par = sd_error,
-                    error_dist = "normal", h = h$h,
-                    lower = min(Y) - sd(Y),
-                    upper = max(Y) + sd(Y))
+dens <- kerdec_dens2D(smp1 = Y1, smp2 = Y2, 
+                      error_scale_par1 = sd_error1,
+                      error_scale_par2 = sd_error2,
+                      error_dist = "normal",
+                      lower = min(Y) - sd(Y),
+                      upper = max(Y) + sd(Y))
 
 
 with(dens, {
