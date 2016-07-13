@@ -33,21 +33,7 @@ CV <- function(h, Z, smp, error_smp, resolution, ker, sigma, k, error_dist, pane
     .Call('kerdec_CV', PACKAGE = 'kerdec', h, Z, smp, error_smp, resolution, ker, sigma, k, error_dist, panel_proc, cutoff)
 }
 
-#' Process differences for panel data
-#'
-#' Panel data allows to approximate the characteristic function of
-#' the error taking differences of observations for each
-#' individual. This way is not unique when there are more than two
-#' replicates per individual. This function allows to do it in
-#' several ways.
-#'
-#' @param smp n x d matrix
-#' @param method Integer specifying method to process differences.
-#'        1, all pairwise differences.
-#'        2, all minus first.
-#'        3, independent columns.
-#' @export
-process_differences <- function(smp, method) {
-    .Call('kerdec_process_differences', PACKAGE = 'kerdec', smp, method)
+process_differences_cpp <- function(smp, method) {
+    .Call('kerdec_process_differences_cpp', PACKAGE = 'kerdec', smp, method)
 }
 

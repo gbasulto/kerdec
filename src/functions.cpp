@@ -371,22 +371,8 @@ double CV(double h, const arma::vec & Z, const arma::vec & smp,
   return out;
 }
 
-//' Process differences for panel data
-//'
-//' Panel data allows to approximate the characteristic function of
-//' the error taking differences of observations for each
-//' individual. This way is not unique when there are more than two
-//' replicates per individual. This function allows to do it in
-//' several ways.
-//'
-//' @param smp n x d matrix
-//' @param method Integer specifying method to process differences.
-//'        1, all pairwise differences.
-//'        2, all minus first.
-//'        3, independent columns.
-//' @export
 //[[Rcpp::export]]
-arma::vec process_differences(const arma::mat & smp, int method)
+arma::vec process_differences_cpp(const arma::mat & smp, int method)
 {
   // n is the sample size, d the dimension, l the output vector size
   // and idx index tro fill out output vector. The rest are indices

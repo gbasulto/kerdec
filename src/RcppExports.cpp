@@ -130,15 +130,15 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
-// process_differences
-arma::vec process_differences(const arma::mat& smp, int method);
-RcppExport SEXP kerdec_process_differences(SEXP smpSEXP, SEXP methodSEXP) {
+// process_differences_cpp
+arma::vec process_differences_cpp(const arma::mat& smp, int method);
+RcppExport SEXP kerdec_process_differences_cpp(SEXP smpSEXP, SEXP methodSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< const arma::mat& >::type smp(smpSEXP);
     Rcpp::traits::input_parameter< int >::type method(methodSEXP);
-    __result = Rcpp::wrap(process_differences(smp, method));
+    __result = Rcpp::wrap(process_differences_cpp(smp, method));
     return __result;
 END_RCPP
 }
