@@ -20,5 +20,5 @@ process_differences <- function(smp, method){
     }
     
     out <- process_differences_cpp(smp, method)
-    return (drop(out))
+    return (out)
 }
