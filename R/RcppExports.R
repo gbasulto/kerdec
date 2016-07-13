@@ -33,11 +33,6 @@ CV <- function(h, Z, smp, error_smp, resolution, ker, sigma, k, error_dist, pane
     .Call('kerdec_CV', PACKAGE = 'kerdec', h, Z, smp, error_smp, resolution, ker, sigma, k, error_dist, panel_proc, cutoff)
 }
 
-#' @export
-kerdec_dens_pure_1d_cpp <- function(smp, error_smp, h, lower, upper, resolution, ker, cutoff = 999) {
-    .Call('kerdec_kerdec_dens_pure_1d_cpp', PACKAGE = 'kerdec', smp, error_smp, h, lower, upper, resolution, ker, cutoff)
-}
-
 #' Process differences for panel data
 #'
 #' Panel data allows to approximate the characteristic function of
@@ -54,15 +49,5 @@ kerdec_dens_pure_1d_cpp <- function(smp, error_smp, h, lower, upper, resolution,
 #' @export
 process_differences <- function(smp, method) {
     .Call('kerdec_process_differences', PACKAGE = 'kerdec', smp, method)
-}
-
-#' @export
-error_cf_approx <- function(t, smp, diff_method) {
-    .Call('kerdec_error_cf_approx', PACKAGE = 'kerdec', t, smp, diff_method)
-}
-
-#' @export
-kerdec_dens_panel_1d_cpp <- function(smp, h, lower, upper, resolution, ker, cutoff = 999, diff_processing = 1L) {
-    .Call('kerdec_kerdec_dens_panel_1d_cpp', PACKAGE = 'kerdec', smp, h, lower, upper, resolution, ker, cutoff, diff_processing)
 }
 

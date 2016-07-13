@@ -130,24 +130,6 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
-// kerdec_dens_pure_1d_cpp
-arma::cx_vec kerdec_dens_pure_1d_cpp(const arma::vec& smp, const arma::vec& error_smp, double h, double lower, double upper, int resolution, int ker, double cutoff);
-RcppExport SEXP kerdec_kerdec_dens_pure_1d_cpp(SEXP smpSEXP, SEXP error_smpSEXP, SEXP hSEXP, SEXP lowerSEXP, SEXP upperSEXP, SEXP resolutionSEXP, SEXP kerSEXP, SEXP cutoffSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< const arma::vec& >::type smp(smpSEXP);
-    Rcpp::traits::input_parameter< const arma::vec& >::type error_smp(error_smpSEXP);
-    Rcpp::traits::input_parameter< double >::type h(hSEXP);
-    Rcpp::traits::input_parameter< double >::type lower(lowerSEXP);
-    Rcpp::traits::input_parameter< double >::type upper(upperSEXP);
-    Rcpp::traits::input_parameter< int >::type resolution(resolutionSEXP);
-    Rcpp::traits::input_parameter< int >::type ker(kerSEXP);
-    Rcpp::traits::input_parameter< double >::type cutoff(cutoffSEXP);
-    __result = Rcpp::wrap(kerdec_dens_pure_1d_cpp(smp, error_smp, h, lower, upper, resolution, ker, cutoff));
-    return __result;
-END_RCPP
-}
 // process_differences
 arma::vec process_differences(const arma::mat& smp, int method);
 RcppExport SEXP kerdec_process_differences(SEXP smpSEXP, SEXP methodSEXP) {
@@ -157,37 +139,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const arma::mat& >::type smp(smpSEXP);
     Rcpp::traits::input_parameter< int >::type method(methodSEXP);
     __result = Rcpp::wrap(process_differences(smp, method));
-    return __result;
-END_RCPP
-}
-// error_cf_approx
-arma::vec error_cf_approx(const arma::vec& t, const arma::mat& smp, int diff_method);
-RcppExport SEXP kerdec_error_cf_approx(SEXP tSEXP, SEXP smpSEXP, SEXP diff_methodSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< const arma::vec& >::type t(tSEXP);
-    Rcpp::traits::input_parameter< const arma::mat& >::type smp(smpSEXP);
-    Rcpp::traits::input_parameter< int >::type diff_method(diff_methodSEXP);
-    __result = Rcpp::wrap(error_cf_approx(t, smp, diff_method));
-    return __result;
-END_RCPP
-}
-// kerdec_dens_panel_1d_cpp
-arma::cx_vec kerdec_dens_panel_1d_cpp(const arma::mat& smp, double h, double lower, double upper, int resolution, int ker, double cutoff, int diff_processing);
-RcppExport SEXP kerdec_kerdec_dens_panel_1d_cpp(SEXP smpSEXP, SEXP hSEXP, SEXP lowerSEXP, SEXP upperSEXP, SEXP resolutionSEXP, SEXP kerSEXP, SEXP cutoffSEXP, SEXP diff_processingSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< const arma::mat& >::type smp(smpSEXP);
-    Rcpp::traits::input_parameter< double >::type h(hSEXP);
-    Rcpp::traits::input_parameter< double >::type lower(lowerSEXP);
-    Rcpp::traits::input_parameter< double >::type upper(upperSEXP);
-    Rcpp::traits::input_parameter< int >::type resolution(resolutionSEXP);
-    Rcpp::traits::input_parameter< int >::type ker(kerSEXP);
-    Rcpp::traits::input_parameter< double >::type cutoff(cutoffSEXP);
-    Rcpp::traits::input_parameter< int >::type diff_processing(diff_processingSEXP);
-    __result = Rcpp::wrap(kerdec_dens_panel_1d_cpp(smp, h, lower, upper, resolution, ker, cutoff, diff_processing));
     return __result;
 END_RCPP
 }

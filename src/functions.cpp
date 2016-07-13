@@ -371,45 +371,6 @@ double CV(double h, const arma::vec & Z, const arma::vec & smp,
   return out;
 }
 
-// -------------------------------------------------------------------
-// Pure error sample (independent from contaminated sample)
-// -------------------------------------------------------------------
-
-//' @export
-//[[Rcpp::export]]
-arma::cx_vec kerdec_dens_pure_1d_cpp(const arma::vec & smp,
-				     const arma::vec & error_smp,
-				     double h,
-				     double lower, double upper,
-				     int resolution,
-				     int ker,
-				     double cutoff = 999)
-{
-  int m = resolution, i;
-  arma::vec t(m), denom(m);
-  arma::cx_vec fun_vals(m), out(m);
-
-  // If no cutoff is given, it is set to the one suggested by Neumann
-  // (1997).
-  if(cutoff == 999) cutoff = 1/sqrt(smp.n_rows);
-
-  // Define grid where the integrand will be evaluated.
-  t = arma::linspace<arma::mat>(-1.0/h, 1.0/h - 2.0/h/m, m);
-
-  denom = ecf_mod_cpp(t, error_smp);
-  fun_vals = ecf_cpp(t, smp) % ft_kernel_cpp(h*t, ker)/denom;
-
-  for(i = 0; i < m; i++)
-    {
-      if(denom[i] < cutoff) fun_vals[i] = 0;
-    }
-
-  out = fourierin::fourierin_cx_1d_cpp(fun_vals, -1/h, 1/h,
-				    lower, upper, -1.0, -1.0);
-
-  return out;
-}
-
 //' Process differences for panel data
 //'
 //' Panel data allows to approximate the characteristic function of
@@ -493,62 +454,5 @@ arma::vec process_differences(const arma::mat & smp, int method)
   return out;
 }
 
-//' @export
-//[[Rcpp::export]]
-arma::vec error_cf_approx(const arma::vec & t,
-			  const arma::mat & smp,
-			  int diff_method)
-{
-  int k = smp.n_cols;
-  arma::vec out(t);
-
-  out = ecf_mod_cpp(t/k, process_differences(smp, diff_method));
-  out = arma::pow(out, k/2.0);
-
-  return out;
-
-}
-
-//' @export
-//[[Rcpp::export]]
-arma::cx_vec kerdec_dens_panel_1d_cpp(const arma::mat & smp,
-				      double h,
-				      double lower, double upper,
-				      int resolution,
-				      int ker,
-				      double cutoff = 999,
-				      int diff_processing = 1)
-{
-  // n in the sample size and l is the number of repetitions.
-  int m = resolution, i, n;
-  arma::vec t(m), denom(m);
-  arma::cx_vec fun_vals(m), out(m);
-
-  n = smp.n_rows;
-
-  // If no cutoff is given, it is set to the one suggested by Neumann
-  // (1997).
-  if(cutoff == 999) cutoff = 1/sqrt(n);
-
-  // Define grid where the integrand will be evaluated.
-  t = arma::linspace<arma::mat>(-1.0/h, 1.0/h - 2.0/h/m, m);
-
-  // Compute approximation to cf of averaged errors
-  denom = error_cf_approx(t, smp, diff_processing);
-
-  // Find values taking averaged obs. by row.
-  fun_vals = ecf_cpp(t, mean(smp, 1)) % ft_kernel_cpp(h*t, ker)/denom;
-
-  // Set integrand value to zero if the denominator is small.
-  for(i = 0; i < m; i++)
-    {
-      if(denom[i] < cutoff) fun_vals[i] = 0;
-    }
-
-  out = fourierin::fourierin_cx_1d_cpp(fun_vals, -1/h, 1/h,
-  				    lower, upper, -1.0, -1.0);
-
-  return out;
-}
 
 
