@@ -315,7 +315,7 @@ double amise(double h,
 
 
 // --------------------------------------------------------------------
-//    Cross-validation bandwidth
+// Cross-validation bandwidth
 // --------------------------------------------------------------------
 
 //[[Rcpp::export]]
