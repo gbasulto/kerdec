@@ -57,11 +57,16 @@ check_dims <- function(dim1, dim2){
 ##'     if it is unknown.
 ##' @param error_dist Three possible values are accepted. c("Normal",
 ##'     "Laplace", "None").
-##' @param error_scale_par Scale parameter matching the standard
-##'     deviation. It is NULL by default and it is required if (and
-##'     only if) error_dist is normal or Laplace and no sample of
-##'     error is provided nor contaminated sample comes in panel
-##'     structure.
+##' @param error_scale_par1 Scale parameter matching the standard
+##'     deviation of the first coordinate of the error. It is NULL by
+##'     default and it is required if (and only if) error_dist is
+##'     normal or Laplace and no sample of error is provided nor
+##'     contaminated sample comes in panel structure.
+##' @param error_scale_par2 Scale parameter matching the standard
+##'     deviation of the second coordinate of the error. It is NULL by
+##'     default and it is required if (and only if) error_dist is
+##'     normal or Laplace and no sample of error is provided nor
+##'     contaminated sample comes in panel structure.
 ##' @param resolution Number of points to approximate integral in
 ##'     inversion formula, also to estimate the density (if grid was
 ##'     not given).
@@ -88,7 +93,8 @@ kerdec_dens2D <- function(smp1, smp2,
                           error_smp1 = NULL,
                           error_smp2 = NULL,
                           error_dist = "None",
-                          error_scale_par = NULL,
+                          error_scale_par1 = NULL,
+                          error_scale_par2 = NULL,
                           resolution = 128,
                           error_proc = "all",
                           panel_proc = "keep_first",
@@ -158,7 +164,8 @@ kerdec_dens2D <- function(smp1, smp2,
     ## Define smp and error_smp, which are two-column matrices.
     smp <- cbind(smp1, smp2)
     error_smp <- cbind(error_smp1, error_smp2)
-    
+
+    return(list(smp = smp, error_smp = error_smp))
     ## ## 
     ## h_optim <-
     ##     switch(method,

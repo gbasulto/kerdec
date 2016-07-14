@@ -7,8 +7,9 @@
 kerdec_dens2D(smp1, smp2, method = c("CV", "NR")[1], kernel = "flat",
   lower = NULL, upper = NULL, x_eval = NULL, h = NULL, h0 = NULL,
   error_smp1 = NULL, error_smp2 = NULL, error_dist = "None",
-  error_scale_par = NULL, resolution = 128, error_proc = "all",
-  panel_proc = "keep_first", truncation_bound = NULL, bw_interval = NULL)
+  error_scale_par1 = NULL, error_scale_par2 = NULL, resolution = 128,
+  error_proc = "all", panel_proc = "keep_first", truncation_bound = NULL,
+  bw_interval = NULL)
 }
 \arguments{
 \item{smp1}{First coordinate of the sample. It is either a vector
@@ -53,11 +54,17 @@ if it is unknown.}
 \item{error_dist}{Three possible values are accepted. c("Normal",
 "Laplace", "None").}
 
-\item{error_scale_par}{Scale parameter matching the standard
-deviation. It is NULL by default and it is required if (and
-only if) error_dist is normal or Laplace and no sample of
-error is provided nor contaminated sample comes in panel
-structure.}
+\item{error_scale_par1}{Scale parameter matching the standard
+deviation of the first coordinate of the error. It is NULL by
+default and it is required if (and only if) error_dist is
+normal or Laplace and no sample of error is provided nor
+contaminated sample comes in panel structure.}
+
+\item{error_scale_par2}{Scale parameter matching the standard
+deviation of the second coordinate of the error. It is NULL by
+default and it is required if (and only if) error_dist is
+normal or Laplace and no sample of error is provided nor
+contaminated sample comes in panel structure.}
 
 \item{resolution}{Number of points to approximate integral in
 inversion formula, also to estimate the density (if grid was
