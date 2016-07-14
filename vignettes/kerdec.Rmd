@@ -792,23 +792,24 @@ l <- 5                                  # Number of columns
 m <- n + 10                             # Error sample size
 shape <- 5                              # X distr. shape par.
 rate <- 5                               # X distr. rate par.
-sd_error <- .2                          # std. error of error distr.
+sd_error1 <- .2                          # std. error of error distr.
+sd_error2 <- .3                          # std. error of error distr.
 
 ## Generate biv. samples.
 X1 <- rgamma(n, shape, rate)             # Uncontaminated sample
 X2 <- rgamma(n, shape, rate)             # Uncontaminated sample
-eps_panel1 <- matrix(rlaplace(n*l, sd = sd_error),
+eps_panel1 <- matrix(rlaplace(n*l, sd = sd_error1),
                     n, l)               # Panel of errors
-eps_panel2 <- matrix(rlaplace(n*l, sd = sd_error),
+eps_panel2 <- matrix(rlaplace(n*l, sd = sd_error2),
                     n, l)               # Panel of errors
-eps1 <- rlaplace(m, sd = sd_error)       # Pure errors
-eps2 <- rlaplace(m, sd = sd_error)       # Pure errors
+eps1 <- rlaplace(m, sd = sd_error1)       # Pure errors
+eps2 <- rlaplace(m, sd = sd_error2)       # Pure errors
 Y1 <- X1 + eps_panel1[, 1]                 # Contaminated sample
 Y2 <- X2 + eps_panel2[, 1]                 # Contaminated sample
 Y_panel1 <- sweep(x = eps_panel1, MARGIN = 1,
-                 STATS = X, FUN = "+")  # Contaminated in panel
+                 STATS = X1, FUN = "+")  # Contaminated in panel
 Y_panel2 <- sweep(x = eps_panel2, MARGIN = 1,
-                 STATS = X, FUN = "+")  # Contaminated in panel
+                 STATS = X2, FUN = "+")  # Contaminated in panel
 
 
 plot(function(x) dgamma(x, shape, rate), 0, 4)
@@ -819,6 +820,7 @@ dens <- kerdec_dens2D(smp1 = Y1, smp2 = Y2,
                       error_dist = "normal",
                       lower = min(Y) - sd(Y),
                       upper = max(Y) + sd(Y))
+
 
 
 with(dens, {
