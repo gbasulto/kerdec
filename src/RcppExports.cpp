@@ -66,6 +66,18 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// process_differences_cpp
+arma::vec process_differences_cpp(const arma::mat& smp, int method);
+RcppExport SEXP kerdec_process_differences_cpp(SEXP smpSEXP, SEXP methodSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< const arma::mat& >::type smp(smpSEXP);
+    Rcpp::traits::input_parameter< int >::type method(methodSEXP);
+    __result = Rcpp::wrap(process_differences_cpp(smp, method));
+    return __result;
+END_RCPP
+}
 // kerdec_dens_cpp
 arma::cx_vec kerdec_dens_cpp(const arma::vec& smp, const arma::vec& error_smp, double h, double lower, double upper, int resolution, int ker, double sigma, int k, int error_dist, int panel_proc, double cutoff);
 RcppExport SEXP kerdec_kerdec_dens_cpp(SEXP smpSEXP, SEXP error_smpSEXP, SEXP hSEXP, SEXP lowerSEXP, SEXP upperSEXP, SEXP resolutionSEXP, SEXP kerSEXP, SEXP sigmaSEXP, SEXP kSEXP, SEXP error_distSEXP, SEXP panel_procSEXP, SEXP cutoffSEXP) {
@@ -127,18 +139,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type panel_proc(panel_procSEXP);
     Rcpp::traits::input_parameter< double >::type cutoff(cutoffSEXP);
     __result = Rcpp::wrap(CV(h, Z, smp, error_smp, resolution, ker, sigma, k, error_dist, panel_proc, cutoff));
-    return __result;
-END_RCPP
-}
-// process_differences_cpp
-arma::vec process_differences_cpp(const arma::mat& smp, int method);
-RcppExport SEXP kerdec_process_differences_cpp(SEXP smpSEXP, SEXP methodSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< const arma::mat& >::type smp(smpSEXP);
-    Rcpp::traits::input_parameter< int >::type method(methodSEXP);
-    __result = Rcpp::wrap(process_differences_cpp(smp, method));
     return __result;
 END_RCPP
 }

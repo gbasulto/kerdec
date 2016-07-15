@@ -21,6 +21,10 @@ ecf_cpp <- function(t, smp) {
     .Call('kerdec_ecf_cpp', PACKAGE = 'kerdec', t, smp)
 }
 
+process_differences_cpp <- function(smp, method) {
+    .Call('kerdec_process_differences_cpp', PACKAGE = 'kerdec', smp, method)
+}
+
 kerdec_dens_cpp <- function(smp, error_smp, h, lower, upper, resolution, ker, sigma, k, error_dist, panel_proc, cutoff = 999) {
     .Call('kerdec_kerdec_dens_cpp', PACKAGE = 'kerdec', smp, error_smp, h, lower, upper, resolution, ker, sigma, k, error_dist, panel_proc, cutoff)
 }
@@ -31,9 +35,5 @@ amise <- function(h, mu2K2, R, error_smp, resolution, ker, n, sigma, k, error_di
 
 CV <- function(h, Z, smp, error_smp, resolution, ker, sigma, k, error_dist, panel_proc, cutoff = 999) {
     .Call('kerdec_CV', PACKAGE = 'kerdec', h, Z, smp, error_smp, resolution, ker, sigma, k, error_dist, panel_proc, cutoff)
-}
-
-process_differences_cpp <- function(smp, method) {
-    .Call('kerdec_process_differences_cpp', PACKAGE = 'kerdec', smp, method)
 }
 
