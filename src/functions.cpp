@@ -70,6 +70,8 @@ double ft_kernel_cpp(double t, int ker)
 //[[Rcpp::export]]
 arma::vec ft_kernel_cpp(const arma::mat & t, int ker)
 {
+  // t is nxd, where n is the number of points to evaluate and d the
+  // dimension
   int i, j, n = t.n_rows, d = t.n_cols;
   arma::vec out(n);
 
@@ -165,6 +167,9 @@ arma::vec ecf_mod_cpp(const arma::mat & t, const arma::mat & smp)
 //[[Rcpp::export]]
 arma::cx_vec ecf_cpp(const arma::mat & t, const arma::mat & smp)
 {
+  // t is mxd
+  // smp is nxd
+  // m is the number of points and d the dimension.
   arma::vec real, imag;
   arma::mat arg;
 
@@ -523,7 +528,7 @@ arma::cx_vec kerdec_dens2D_cpp(const arma::mat & smp,
 {
   int m1 = resolution(0), m2 = resolution(2), i;
   arma::vec t1(m1), t2(m2), aux_col(m1);
-  arma::mat denom(m1, m2);
+  arma::mat integrand(m1, m2), t_temp(m1, 2);
   arma::cx_vec out(m1, m2);
 
   // If no cutoff is given, it is set to the one suggested by Neumann
@@ -537,10 +542,15 @@ arma::cx_vec kerdec_dens2D_cpp(const arma::mat & smp,
   // Compute denominator column by column. denom is m1 x m2
   for (i = 0; i < m2; i++)
     {
-      aux.fill(t2(i));
-      denom.col(i) = dens_denominator2D(arma::join_horiz(t1, aux),
-					smp, sigma, k, error_dist,
-					panel_proc);
+      // Fill a column vector with the i-th entry of t2.
+      aux_col.fill(t2(i));
+      // aux_mat is m1 x 2 matrix with grid values.
+      t_temp = arma::join_horiz(t1, aux_col);
+      // We will this m1 sized complex vector
+      out.col(i) = 
+	(ecf_cpp(t_temp, smp) % ft_kernel_cpp(t_temp, ker))/
+	dens_denominator2D(t_temp, smp, sigma, k, error_dist,
+			   panel_proc);
     }
   
   // denom = dens_denominator(t, error_smp, sigma, k, error_dist,

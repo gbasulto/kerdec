@@ -142,3 +142,25 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// kerdec_dens2D_cpp
+arma::cx_vec kerdec_dens2D_cpp(const arma::mat& smp, const arma::mat& error_smp, double h, const arma::vec& lower, const arma::vec& upper, const arma::vec& resolution, int ker, const arma::vec& sigma, int k, int error_dist, int panel_proc, double cutoff);
+RcppExport SEXP kerdec_kerdec_dens2D_cpp(SEXP smpSEXP, SEXP error_smpSEXP, SEXP hSEXP, SEXP lowerSEXP, SEXP upperSEXP, SEXP resolutionSEXP, SEXP kerSEXP, SEXP sigmaSEXP, SEXP kSEXP, SEXP error_distSEXP, SEXP panel_procSEXP, SEXP cutoffSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< const arma::mat& >::type smp(smpSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type error_smp(error_smpSEXP);
+    Rcpp::traits::input_parameter< double >::type h(hSEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type lower(lowerSEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type upper(upperSEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type resolution(resolutionSEXP);
+    Rcpp::traits::input_parameter< int >::type ker(kerSEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type sigma(sigmaSEXP);
+    Rcpp::traits::input_parameter< int >::type k(kSEXP);
+    Rcpp::traits::input_parameter< int >::type error_dist(error_distSEXP);
+    Rcpp::traits::input_parameter< int >::type panel_proc(panel_procSEXP);
+    Rcpp::traits::input_parameter< double >::type cutoff(cutoffSEXP);
+    __result = Rcpp::wrap(kerdec_dens2D_cpp(smp, error_smp, h, lower, upper, resolution, ker, sigma, k, error_dist, panel_proc, cutoff));
+    return __result;
+END_RCPP
+}
