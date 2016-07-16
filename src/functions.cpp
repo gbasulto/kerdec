@@ -504,48 +504,60 @@ arma::vec dens_denominator2D(const arma::mat & t,
   return out;
 }
 
-// // -------------------------------------------------------------------
-// //    Density estimation
-// // -------------------------------------------------------------------
+// -------------------------------------------------------------------
+//    Bivariate Density estimation
+// -------------------------------------------------------------------
 
-// //[[Rcpp::export]]
-// arma::cx_vec kerdec_dens_cpp(const arma::vec & smp,
-// 			     const arma::vec & error_smp,
-// 			     double h,
-// 			     double lower, double upper,
-// 			     int resolution,
-// 			     int ker,
-// 			     double sigma, int k,
-// 			     int error_dist,
-// 			     int panel_proc,
-// 			     double cutoff = 999)
-// {
-//   int m = resolution, i;
-//   arma::vec t(m), denom(m);
-//   arma::cx_vec fun_vals(m), out(m);
+//[[Rcpp::export]]
+arma::cx_vec kerdec_dens2D_cpp(const arma::mat & smp,
+			       const arma::mat & error_smp,
+			       double h,
+			       const arma::vec & lower,
+			       const arma::vec & upper,
+			       const arma::vec & resolution,
+			       int ker,
+			       const arma::vec & sigma, int k,
+			       int error_dist,
+			       int panel_proc,
+			       double cutoff = 999)
+{
+  int m1 = resolution(0), m2 = resolution(2), i;
+  arma::vec t1(m1), t2(m2), aux_col(m1);
+  arma::mat denom(m1, m2);
+  arma::cx_vec out(m1, m2);
 
-//   // If no cutoff is given, it is set to the one suggested by Neumann
-//   // (1997).
-//   if(cutoff == 999) cutoff = 1/sqrt(smp.n_rows);
+  // If no cutoff is given, it is set to the one suggested by Neumann
+  // (1997).
+  if (cutoff == 999) cutoff = 1/sqrt(smp.n_rows);
 
-//   // Define grid where the integrand will be evaluated.
-//   t = arma::linspace<arma::mat>(-1.0/h, 1.0/h - 2.0/h/m, m);
+  // Define grid where the integrand will be evaluated.
+  t1 = arma::linspace<arma::mat>(-1.0/h, 1.0/h - 2.0/h/m1, m1);
+  t2 = arma::linspace<arma::mat>(-1.0/h, 1.0/h - 2.0/h/m2, m2);
 
-//   denom = dens_denominator(t, error_smp, sigma, k, error_dist,
-// 			   panel_proc);
-//   fun_vals = (ecf_cpp(t, smp) % ft_kernel_cpp(h*t, ker))/denom;
+  // Compute denominator column by column. denom is m1 x m2
+  for (i = 0; i < m2; i++)
+    {
+      aux.fill(t2(i));
+      denom.col(i) = dens_denominator2D(arma::join_horiz(t1, aux),
+					smp, sigma, k, error_dist,
+					panel_proc);
+    }
+  
+  // denom = dens_denominator(t, error_smp, sigma, k, error_dist,
+  // 			   panel_proc);
+  // fun_vals = (ecf_cpp(t, smp) % ft_kernel_cpp(h*t, ker))/denom;
 
-//   // Truncate integrand if denominator is very small.
-//   for(i = 0; i < m; i++)
-//     {
-//       if(denom[i] < cutoff) fun_vals[i] = 0;
-//     }
+  // // Truncate integrand if denominator is very small.
+  // for(i = 0; i < m; i++)
+  //   {
+  //     if(denom[i] < cutoff) fun_vals[i] = 0;
+  //   }
 
-//   out = fourierin::fourierin_cx_1d_cpp(fun_vals, -1.0/h, 1.0/h,
-// 				    lower, upper, -1.0, -1.0);
+  // out = fourierin::fourierin_cx_1d_cpp(fun_vals, -1.0/h, 1.0/h,
+  // 				    lower, upper, -1.0, -1.0);
 
-//   return out;
-// }
+  return out;
+}
 
 // // --------------------------------------------------------------------
 // //    Bandwidth selection: Normal reference
