@@ -514,7 +514,7 @@ arma::vec dens_denominator2D(const arma::mat & t,
 // -------------------------------------------------------------------
 
 //[[Rcpp::export]]
-arma::cx_vec kerdec_dens2D_cpp(const arma::mat & smp,
+arma::cx_mat kerdec_dens2D_cpp(const arma::mat & smp,
 			       const arma::mat & error_smp,
 			       double h,
 			       const arma::vec & lower,
@@ -526,10 +526,12 @@ arma::cx_vec kerdec_dens2D_cpp(const arma::mat & smp,
 			       int panel_proc,
 			       double cutoff = 999)
 {
-  int m1 = resolution(0), m2 = resolution(2), i;
+  // resolution.print("resolution = ");
+  // Rprintf("Flag 1, %d.\n", resolution(0));
+  int m1 = resolution(0), m2 = resolution(1), i;
   arma::vec t1(m1), t2(m2), aux_col(m1);
   arma::mat integrand(m1, m2), t_temp(m1, 2);
-  arma::cx_vec out(m1, m2);
+  arma::cx_mat out(m1, m2);
 
   // If no cutoff is given, it is set to the one suggested by Neumann
   // (1997).

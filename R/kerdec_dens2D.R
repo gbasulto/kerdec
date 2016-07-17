@@ -164,8 +164,19 @@ kerdec_dens2D <- function(smp1, smp2,
     ## Define smp and error_smp, which are two-column matrices.
     smp <- cbind(smp1, smp2)
     error_smp <- cbind(error_smp1, error_smp2)
+    error_scale_par <- c(error_scale_par1, error_scale_par2)
 
-    return(list(smp = smp, error_smp = error_smp))
+    vals <- kerdec_dens2D_cpp(smp, error_smp, h,
+                              lower,
+                              upper,
+                              c(resolution, resolution),
+                              kernel,
+                              error_scale_par, k,
+                              error_dist,
+                              panel_proc,
+                              cutoff = 999)
+    
+    return(list(smp = smp, error_smp = error_smp, vals = vals))
     ## ## 
     ## h_optim <-
     ##     switch(method,

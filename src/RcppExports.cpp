@@ -143,7 +143,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // kerdec_dens2D_cpp
-arma::cx_vec kerdec_dens2D_cpp(const arma::mat& smp, const arma::mat& error_smp, double h, const arma::vec& lower, const arma::vec& upper, const arma::vec& resolution, int ker, const arma::vec& sigma, int k, int error_dist, int panel_proc, double cutoff);
+arma::cx_mat kerdec_dens2D_cpp(const arma::mat& smp, const arma::mat& error_smp, double h, const arma::vec& lower, const arma::vec& upper, const arma::vec& resolution, int ker, const arma::vec& sigma, int k, int error_dist, int panel_proc, double cutoff);
 RcppExport SEXP kerdec_kerdec_dens2D_cpp(SEXP smpSEXP, SEXP error_smpSEXP, SEXP hSEXP, SEXP lowerSEXP, SEXP upperSEXP, SEXP resolutionSEXP, SEXP kerSEXP, SEXP sigmaSEXP, SEXP kSEXP, SEXP error_distSEXP, SEXP panel_procSEXP, SEXP cutoffSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
