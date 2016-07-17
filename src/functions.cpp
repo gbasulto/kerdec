@@ -546,7 +546,7 @@ arma::cx_vec kerdec_dens2D_cpp(const arma::mat & smp,
       aux_col.fill(t2(i));
       // aux_mat is m1 x 2 matrix with grid values.
       t_temp = arma::join_horiz(t1, aux_col);
-      // We will this m1 sized complex vector
+      // We will fill out this m1 sized complex vector
       out.col(i) = 
 	(ecf_cpp(t_temp, smp) % ft_kernel_cpp(t_temp, ker))/
 	dens_denominator2D(t_temp, smp, sigma, k, error_dist,
@@ -563,8 +563,8 @@ arma::cx_vec kerdec_dens2D_cpp(const arma::mat & smp,
   //     if(denom[i] < cutoff) fun_vals[i] = 0;
   //   }
 
-  // out = fourierin::fourierin_cx_1d_cpp(fun_vals, -1.0/h, 1.0/h,
-  // 				    lower, upper, -1.0, -1.0);
+  out = fourierin::fourierin_cx_2d_cpp(out, -ones(2)/h, ones(2)/h,
+				       lower, upper, -1.0, -1.0);
 
   return out;
 }
