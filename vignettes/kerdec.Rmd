@@ -815,12 +815,16 @@ Y_panel2 <- sweep(x = eps_panel2, MARGIN = 1,
 plot(function(x) dgamma(x, shape, rate), 0, 4)
 
 dens <- kerdec_dens2D(smp1 = Y1, smp2 = Y2, 
+                      kernel = "sinc",
+                      error_smp1 = eps1,
+                      error_smp2 = eps2,
                       error_scale_par1 = sd_error1,
                       error_scale_par2 = sd_error2,
                       error_dist = "normal",
-                      lower = min(Y) - sd(Y),
-                      upper = max(Y) + sd(Y))
-
+                      lower = c(min(Y1) - 2*sd(Y1), min(Y2) - 2*sd(Y2)),
+                      upper = c(max(Y1) + 2*sd(Y1), max(Y2) + 2*sd(Y2)), 
+                      h = 0.3)
+persp(z = Re(dens$vals), theta = 0.5)
 
 
 with(dens, {
