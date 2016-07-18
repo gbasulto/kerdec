@@ -25,11 +25,11 @@ opts_chunk$set(fig.width= 7, fig.height= 5,
 
 # Introduction
 
-A well studied nonparametric estimator of probability density functions based on the i.i.d. observations $X_1, \ldots, X_n$, is the kernel density estimator. A natural generalization to the case where random variables have been contaminated with random additive noise, say $Y_1, \ldots, Y_n$, with $Y_i = X_i + \epsilon_i$, $i = 1, \ldots n$ is the so kernel deconvolution density estimatior (kdde). The error distribution is usually assumed to be known.
+A well studied nonparametric estimator of probability density functions based on the i.i.d. observations $X_1, \ldots, X_n$, is the kernel density estimator. A natural generalization to the case where random variables have been contaminated with random additive noise, say $Y_1, \ldots, Y_n$, with $Y_i = X_i + \epsilon_i$, $i = 1, \ldots n$ is the so kernel deconvolution density estimator (kdde). The error distribution is usually assumed to be known.
 
 There are two popular `R` packages that provide functions to do this, `decon` and `deamer` (**REFERENCES**). The former package performs kdde with known error distribution allowing the user to pick the bandwidth selection method between several methods summarized in Delaigle and Gijbels (2004)(**REFERENCES**). The latter package covers the univariate case and it allows known error case, repeated observations and pure error case, the bandwidth selection method follows Comte (**2011???**)
 
-The package `kerdec` provides functions to handle univariate and bivariate kdde with unknown error distribution, by using the empirical characteristic function, or knwon errors, which can be Laplace or Gaussian. Also functions are provided to estimate the parameters based on a sample of errors or panel data structured data.  
+The package `kerdec` provides functions to handle univariate and bivariate kdde with unknown error distribution, by using the empirical characteristic function, or known errors, which can be Laplace or Gaussian. Also functions are provided to estimate the parameters based on a sample of errors or panel data structured data.  
 
 # Univariate kernel density deconvolution examples
 
@@ -313,7 +313,7 @@ $$
     d\boldsymbol{t}
 $$
 
-We will consider two approaches to prodive bandwidth. The first of them consists on minimizing the AMISE by plugging in a normal reference estimator to R(f''). The second is my crossed-validation. We will only consider cases with one smoothing parameter.
+We will consider two approaches to provide bandwidth. The first of them consists on minimizing the AMISE by plugging in a normal reference estimator to R(f''). The second is my crossed-validation. We will only consider cases with one smoothing parameter.
 
 ```{r}
 library(kerdec)
