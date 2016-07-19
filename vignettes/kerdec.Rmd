@@ -315,54 +315,6 @@ $$
 
 We will consider two approaches to provide bandwidth. The first of them consists on minimizing the AMISE by plugging in a normal reference estimator to R(f''). The second is my crossed-validation. We will only consider cases with one smoothing parameter.
 
-```{r}
-library(kerdec)
-
-## Generate always the same results
-set.seed(666)
-
-## Set sample size and number of replicates
-n <- 100
-l <- 4
-resolution <- 128
-
-## Generate samples
-                                        # Uncontaminated vector
-X <- rgamma(n, shape = 5, rate = 5)     
-                                        # Error
-error_panel <- matrix(rnorm(n = n*l, mean = 0, sd = .2), ncol =  l)
-error_vec <- error_panel[, 1]
-                                        # Contaminated samples
-Y_panel <- sweep(x = error_panel, MARGIN = 1, STATS = X, FUN = "+")
-Y_vec <- X + error_vec
-
-
-## Limits where function is going to be estimated and kernel
-low <- -1
-upp <- 6
-ker <- 3
-
-xx <- seq(low, upp, by = (upp - low)/resolution)[-(resolution + 1)]
-
-yy <- Re(kerdec_dens_panel_1d_cpp(Y_panel, h = .09, low, upp,
-                                  resolution, ker = ker))
-
-zz <- Re(kerdec_dens_pure_1d_cpp(smp = Y_vec, error_smp = error_vec,
-                              h = .09, low, upp, resolution, ker = ker))
-
-uu <- dgamma(xx, shape = 5, rate = 5)
-
-plot(range(xx), range(c(yy, zz, uu)), type = "n",
-     ylab = "value", xlab = "x")
-lines(xx, uu, type = "l", col = 2, lty = 1, lwd = 1.5)
-lines(xx, yy, type = "l", col = 3, lty = 2, lwd = 1.5)
-lines(xx, zz, type = "l", col = 4, lty = 3, 1.5)
-legend("topright", legend = c("true", "panel", "pure"),
-       col = 2:4, lty = 1:3)
-
-```
-
-
 ## Kernel deconvolution density estimation on panel data
 
 Information about the error distribution can be extracted from panel data by taking differences or observations for the same individual, which produces differences of errors. For example, if $Y_{ij_1} = X_i + \epsilon_{ij_1}$ and $Y_{ij_2} = X_i + \epsilon_{ij_2}$ are two observations with measurement error for the same individual, then $Y_{ij_1} - Y_{ij_2} = \epsilon_{ij_1} - \epsilon_{ij_2}$.
@@ -378,22 +330,6 @@ Y_{21} & \cdots & Y_{2k} \\
 Y_{n1} & \cdots & Y_{nk}
 \end{matrix}.
 $$
-
-
-```{r}
-library(kerdec)
-
-aa <- kerdec_dens_panel_1d_cpp(matrix(rnorm(12), 3, 4), h = .5, 
-                               lower = -2, upper = 2,
-                               resolution = 64, ker = 1)
-
-str(aa)
-
-plot(Re(aa))
-
-
-```
-
 
 
 # Approximating Error
@@ -441,13 +377,13 @@ t <- seq(-10, 10, .05)
 averaged_smp <- rowMeans(smp);
 
 ecf1 <- ecf_mod(t, averaged_smp)
-ecf2 <- error_cf_approx(t = t, smp = smp, diff_method = 1)
+# ecf2 <- error_cf_approx(t = t, smp = smp, diff_method = 1)
 ecf3 <- exp(-t^2/2/k)
 
-plot(range(t), range(c(ecf1, ecf2, ecf3)), type = "n", col = "green",
+plot(range(t), range(c(ecf1, ecf3)), type = "n", col = "green",
      ylab = "value", xlab = "t")
 lines(t, ecf1, col = "green")
-lines(t, ecf2, col = "blue")
+# lines(t, ecf2, col = "blue")
 lines(t, ecf3, col = "red")
 
 ```
@@ -823,19 +759,8 @@ dens <- kerdec_dens2D(smp1 = Y1, smp2 = Y2,
                       error_dist = "normal",
                       lower = c(min(Y1) - 2*sd(Y1), min(Y2) - 2*sd(Y2)),
                       upper = c(max(Y1) + 2*sd(Y1), max(Y2) + 2*sd(Y2)), 
-                      h = 0.3)
+                      h = 0.18)
 persp(z = Re(dens$vals), theta = 0.5)
-
-
-with(dens, {
-    true <- dgamma(x_eval, shape, rate)
-    plot(range(x_eval), range(c(f_vals, true)), type = "n",
-         xlab = "x", ylab = "values")
-    lines(x_eval, f_vals, col = 3, lty = 2, lwd = 1.5)
-    lines(x_eval, true, col = 4, lty = 3, lwd = 1.5)
-})
-legend("topright", legend = c("approx", "true"), lwd = 1.5, col = 3:4,
-       lty = 2:3)
 
 ```
 
