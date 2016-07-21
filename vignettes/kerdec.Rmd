@@ -768,4 +768,4 @@ persp(z = Re(dens$vals), theta = 0.5)
 
 # Thrash
 
-ddd
+d
