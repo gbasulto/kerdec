@@ -668,6 +668,7 @@ Although in the previous section we showed how to use the function that provides
 ```{r}
 ## Load package 
 library(fourierin)
+library(kerdec)
 
 ## Define grid
 t <- seq(-1.3, 1.3, 0.01)
