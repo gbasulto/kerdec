@@ -38,7 +38,7 @@ check_dims <- function(dim1, dim2){
 ##'     reference). Cross-validation is the default.
 ##' @param kernel Kernel whose Fourier transform has bounded
 ##'     support. There are currently 5 kernel programmed: "sinc",
-##'     "vp", "triw", "tric" and "flat". See vignette for further
+##'     "triangular", "triw", "tric" and "flat". See vignette for further
 ##'     details and examples. Flat-top kernel is the default.
 ##' @param lower Lower limit where the density will be evaluated.
 ##' @param upper Upper limit where the density will be evaluated.
@@ -104,7 +104,7 @@ kerdec_dens2D <- function(smp1, smp2,
     ## Let us first state all the implemented distributions. We will
     ## check later that the arguments are valid.
     bw_methods <- c("cv", "nr", "none")
-    kernels <- c("sinc", "vp", "triw", "tric", "flat")
+    kernels <- c("sinc", "triangular", "triw", "tric", "flat")
     error_dists <- c("none", "laplace", "normal")
     error_procs <- c("all", "vs_first", "indep_pairs")
     panel_procs <- c("keep_first", "take_aver")
