@@ -164,3 +164,24 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// CV2D
+double CV2D(double h, const arma::vec& Z, const arma::vec& smp, const arma::vec& error_smp, int resolution, int ker, double sigma, int k, int error_dist, int panel_proc, double cutoff);
+RcppExport SEXP kerdec_CV2D(SEXP hSEXP, SEXP ZSEXP, SEXP smpSEXP, SEXP error_smpSEXP, SEXP resolutionSEXP, SEXP kerSEXP, SEXP sigmaSEXP, SEXP kSEXP, SEXP error_distSEXP, SEXP panel_procSEXP, SEXP cutoffSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< double >::type h(hSEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type Z(ZSEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type smp(smpSEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type error_smp(error_smpSEXP);
+    Rcpp::traits::input_parameter< int >::type resolution(resolutionSEXP);
+    Rcpp::traits::input_parameter< int >::type ker(kerSEXP);
+    Rcpp::traits::input_parameter< double >::type sigma(sigmaSEXP);
+    Rcpp::traits::input_parameter< int >::type k(kSEXP);
+    Rcpp::traits::input_parameter< int >::type error_dist(error_distSEXP);
+    Rcpp::traits::input_parameter< int >::type panel_proc(panel_procSEXP);
+    Rcpp::traits::input_parameter< double >::type cutoff(cutoffSEXP);
+    __result = Rcpp::wrap(CV2D(h, Z, smp, error_smp, resolution, ker, sigma, k, error_dist, panel_proc, cutoff));
+    return __result;
+END_RCPP
+}
