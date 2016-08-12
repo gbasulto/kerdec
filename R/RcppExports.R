@@ -41,3 +41,7 @@ kerdec_dens2D_cpp <- function(smp, error_smp, h, lower, upper, resolution, ker, 
     .Call('kerdec_kerdec_dens2D_cpp', PACKAGE = 'kerdec', smp, error_smp, h, lower, upper, resolution, ker, sigma, k, error_dist, panel_proc, cutoff)
 }
 
+CV2D <- function(h, Z, smp, error_smp, resolution, ker, sigma, k, error_dist, panel_proc, cutoff = 999) {
+    .Call('kerdec_CV2D', PACKAGE = 'kerdec', h, Z, smp, error_smp, resolution, ker, sigma, k, error_dist, panel_proc, cutoff)
+}
+
