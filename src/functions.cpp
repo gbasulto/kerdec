@@ -589,14 +589,14 @@ double CV2D(double h, const arma::vec & Z, const arma::vec & smp,
   int m = resolution;
   arma::vec t(m), denom(m), fun_vals(m), cv_aux(m), kernel_vals(m);
   double st, fvals, out, delta;
-
+  
   // Gridsize
   delta = 2.0/h/m;		
   
   // If no cutoff is given, it is set to the one suggested by Neumann
   // (1997).
   if(cutoff == 999) cutoff = 1/sqrt(smp.n_rows);
-
+  
   // Define grid where the integrand will be evaluated.
   t = arma::linspace<arma::mat>(-1.0/h, 1.0/h - delta, m);
 
@@ -604,11 +604,11 @@ double CV2D(double h, const arma::vec & Z, const arma::vec & smp,
   denom = dens_denominator(t, error_smp, sigma, k, error_dist,
 			   panel_proc);
   denom = denom % denom;
-
+  
   // kernel values are common for ST and the integral in (1.7) after
   // using Parseval's identity.
   kernel_vals = ft_kernel_cpp(h*t, ker);
-
+  
   // ST integrand values
   fun_vals = (ecf_re_cpp(t, Z) % kernel_vals)/denom;
 
