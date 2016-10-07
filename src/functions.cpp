@@ -248,15 +248,15 @@ arma::vec process_differences_cpp(const arma::mat & smp, int method)
   // and idx index tro fill out output vector. The rest are indices
   // for loops.
   int n, d, i, j, k, l, idx;
-
+  
   n = smp.n_rows;
   d = smp.n_cols;
-
+  
   if(d == 1)
     {
       Rcpp::stop("smp must be a matrix with at least two columns.");
     }
-
+  
   // Select vector size based on the selected method.
   switch(method)
     {
@@ -353,6 +353,48 @@ arma::cx_vec kerdec_dens_cpp(const arma::vec & smp,
 
   return out;
 }
+
+//[[Rcpp::export]]
+arma::cx_vec kerdec_dens_nonreg_cpp(const arma::vec & smp,
+				    const arma::vec & error_smp,
+				    double h,
+				    const arma::vec & x_eval,
+				    int resolution,
+				    int ker,
+				    double sigma, int k,
+				    int error_dist,
+				    int panel_proc,
+				    double cutoff = 999)
+{
+  int m = resolution, i;
+  arma::vec t(m), denom(m);
+  arma::cx_vec fun_vals(m), out(m);
+  
+  // If no cutoff is given, it is set to the one suggested by Neumann
+  // (1997).
+  if(cutoff == 999) cutoff = 1/sqrt(smp.n_rows);
+
+  // Define grid where the integrand will be evaluated.
+  t = arma::linspace<arma::mat>(-1.0/h, 1.0/h - 2.0/h/m, m);
+
+  denom = dens_denominator(t, error_smp, sigma, k, error_dist,
+			   panel_proc);
+  fun_vals = (ecf_cpp(t, smp) % ft_kernel_cpp(h*t, ker))/denom;
+
+  // Truncate integrand if denominator is very small.
+  for(i = 0; i < m; i++)
+    {
+      if(denom[i] < cutoff) fun_vals[i] = 0;
+    }
+
+  out = fourierin::fourierin_cx_1d_nonregular_cpp(fun_vals,
+						  -1.0/h, 1.0/h,
+						  x_eval, resolution,
+						  -1.0, -1.0);
+
+  return out;
+}
+
 
 // --------------------------------------------------------------------
 //    Bandwidth selection: Normal reference

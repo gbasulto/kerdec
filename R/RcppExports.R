@@ -29,6 +29,10 @@ kerdec_dens_cpp <- function(smp, error_smp, h, lower, upper, resolution, ker, si
     .Call('kerdec_kerdec_dens_cpp', PACKAGE = 'kerdec', smp, error_smp, h, lower, upper, resolution, ker, sigma, k, error_dist, panel_proc, cutoff)
 }
 
+kerdec_dens_nonreg_cpp <- function(smp, error_smp, h, x_eval, resolution, ker, sigma, k, error_dist, panel_proc, cutoff = 999) {
+    .Call('kerdec_kerdec_dens_nonreg_cpp', PACKAGE = 'kerdec', smp, error_smp, h, x_eval, resolution, ker, sigma, k, error_dist, panel_proc, cutoff)
+}
+
 amise <- function(h, mu2K2, R, error_smp, resolution, ker, n, sigma, k, error_dist, panel_proc) {
     .Call('kerdec_amise', PACKAGE = 'kerdec', h, mu2K2, R, error_smp, resolution, ker, n, sigma, k, error_dist, panel_proc)
 }
