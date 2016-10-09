@@ -319,20 +319,20 @@ check_bw_method <- function (method, bw_methods, h){
 ##' @author Guillermo Basulto-Elias
 ##' @export
 kerdec_dens <- function(smp,
-                          method = c("CV", "NR")[1],
-                          kernel = "flat",
-                          lower = NULL, upper = NULL,
-                          x_eval = NULL,
-                          h = NULL, h0 = NULL,
-                          error_smp = NULL,
-                          error_dist = "None",
-                          error_scale_par = NULL,
-                          resolution = 128,
-                          error_proc = "all",
-                          panel_proc = "keep_first",
-                          truncation_bound = NULL,
-                          bw_interval = NULL){
-
+                        method = c("CV", "NR")[1],
+                        kernel = "flat",
+                        lower = NULL, upper = NULL,
+                        x_eval = NULL,
+                        h = NULL, h0 = NULL,
+                        error_smp = NULL,
+                        error_dist = "None",
+                        error_scale_par = NULL,
+                        resolution = 128,
+                        error_proc = "all",
+                        panel_proc = "keep_first",
+                        truncation_bound = NULL,
+                        bw_interval = NULL){
+    
     ## Let us first state all the implemented distributions. We will
     ## check later that the arguments are valid.
     bw_methods <- c("cv", "nr", "none")
@@ -405,8 +405,13 @@ kerdec_dens <- function(smp,
     },
     stop("'lower' or 'upper' arguments were not provided."),
     {
-        x_eval <- NULL
-        f_vals <- NULL
+        f_vals <-
+            kerdec_dens_nonreg_cpp(smp, error_smp, h, x_eval,
+                                   resolution, kernel,
+                                   sigma = error_scale_par, k,
+                                   error_dist = error_dist,
+                                   panel_proc = panel_proc)
+        
     })
     
     return(list(f_vals = f_vals,
