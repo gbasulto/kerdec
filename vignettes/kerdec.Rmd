@@ -33,6 +33,45 @@ The package `kerdec` provides functions to handle univariate and bivariate kdde 
 
 # Univariate kernel density deconvolution examples
 
+We present examples of univariate kernel density deconvolution, in particular:
+- Sampling scenarios
+- Kernel functions
+- Bandwidth selection
+- Regular and nonregular grids
+
+## Sampling Scenarios
+
+### Known error distribution
+
+
+
+```{r}
+
+library(kerdec)                         # Load package
+set.seed(666)                           # Set seed
+
+## Settings and samples for all the cases
+n <- 100                                # Sample size
+l <- 5                                  # Number of columns
+m <- n + 10                             # Error sample size
+shape <- 5                              # X distr. shape par.
+rate <- 5                               # X distr. rate par.
+sd_error <- .2                          # std. error of error distr.
+X <- rgamma(n, shape, rate)             # Uncontaminated sample
+eps_panel <- matrix(rlaplace(n*l, sd = sd_error), 
+                    n, l)               # Panel of errors
+eps <- rlaplace(m, sd = sd_error)       # Pure errors
+Y <- X + eps_panel[, 1]                 # Contaminated sample
+Y_panel <- sweep(x = eps_panel, MARGIN = 1,
+                 STATS = X, FUN = "+")  # Contaminated in panel
+
+
+
+```
+
+## Extra examples
+
+
 ```{r}
 library(kerdec)                         # Load package
 

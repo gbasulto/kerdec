@@ -331,7 +331,8 @@ kerdec_dens <- function(smp,
                         error_proc = "all",
                         panel_proc = "keep_first",
                         truncation_bound = NULL,
-                        bw_interval = NULL){
+                        bw_interval = NULL,
+                        plot_search_interval = FALSE){
     
     ## Let us first state all the implemented distributions. We will
     ## check later that the arguments are valid.

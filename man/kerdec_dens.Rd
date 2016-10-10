@@ -8,7 +8,7 @@ kerdec_dens(smp, method = c("CV", "NR")[1], kernel = "flat", lower = NULL,
   upper = NULL, x_eval = NULL, h = NULL, h0 = NULL, error_smp = NULL,
   error_dist = "None", error_scale_par = NULL, resolution = 128,
   error_proc = "all", panel_proc = "keep_first", truncation_bound = NULL,
-  bw_interval = NULL)
+  bw_interval = NULL, plot_search_interval = FALSE)
 }
 \arguments{
 \item{smp}{It is either a vector of size n or a nxl matrix (for
