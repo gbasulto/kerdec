@@ -265,6 +265,15 @@ check_bw_method <- function (method, bw_methods, h){
     return (method)
 }
 
+##' Identify sampling scenario in kerdec
+##'
+##' Based on the given parameters to deconvolution function,
+##' determines the sampling scenario and displays a message (if
+##' required).
+get_sampling_scenario <- function(n, k, error_smp_dims,
+                                  error_dist){
+    }
+
 ##' Kernel Deconvolution Density Estimation
 ##'
 ##' This function provides a bandwidth for kernel denvolvolution
@@ -281,13 +290,12 @@ check_bw_method <- function (method, bw_methods, h){
 ##'     reference). Cross-validation is the default.
 ##' @param kernel Kernel whose Fourier transform has bounded
 ##'     support. There are currently 5 kernel programmed: "sinc",
-##'     "triangular", "triw", "tric" and "flat". See vignette for further
-##'     details and examples. Flat-top kernel is the default.
+##'     "triangular", "triw", "tric" and "flat". See vignette for
+##'     further details and examples. Flat-top kernel is the default.
 ##' @param lower Lower limit where the density will be evaluated.
 ##' @param upper Upper limit where the density will be evaluated.
-##' @param x_eval Not yet activated. grid of values where the density
-##'     will be evaluated. If it is given, parameters 'lower' and
-##'     'upper' will be omitted.
+##' @param x_eval Grid where the density will be evaluated. If
+##'     provided, 'lower' and 'upper' will be dismissed.
 ##' @param h Bandwidth parameter which is only required if method =
 ##'     NULL.
 ##' @param h0 Optional argument used as initial value to look for the
