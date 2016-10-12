@@ -268,11 +268,31 @@ check_bw_method <- function (method, bw_methods, h){
 ##' Identify sampling scenario in kerdec
 ##'
 ##' Based on the given parameters to deconvolution function,
-##' determines the sampling scenario and displays a message (if
-##' required).
-get_sampling_scenario <- function(n, k, error_smp_dims,
-                                  error_dist){
+##' determines the sampling scenario and displays a message.
+get_sampling_scenario <- function(n, k, error_smp_size,
+                                  error_dist, error_scale_par){
+
+    msg <- "Performing kernel deconvolution density estimation with "
+    if (k == 1){                        # If it's not panel data...
+        if (error_smp_size == 0){       # If no extra smp. of errors
+                                        # was given
+            if(is.null(error_scale_par) | error_dist == 1){
+                ## Chech it's possible to approximate the measurement
+                ## error.
+                msg <- paste(c("It is not possible to approximate",
+                               "the measurement error with the given",
+                               "arguments."))
+                stop(msg)
+            }
+            if(error_dist == 2) {
+                msg <- paste(msg, "known Laplace error.")
+            } else {
+                msg <- paste(msg, "known normal error")
+            }
+        }
     }
+    message(msg)
+}
 
 ##' Kernel Deconvolution Density Estimation
 ##'
