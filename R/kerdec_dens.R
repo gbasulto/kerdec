@@ -271,25 +271,34 @@ check_bw_method <- function (method, bw_methods, h){
 ##' determines the sampling scenario and displays a message.
 get_sampling_scenario <- function(n, k, error_smp_size,
                                   error_dist, error_scale_par){
-
     msg <- "Performing kernel deconvolution density estimation with "
-    if (k == 1){                        # If it's not panel data...
-        if (error_smp_size == 0){       # If no extra smp. of errors
-                                        # was given
+    ## Are there repeated measurements?
+    if (k == 1){
+        ## Is an extra sample of errors provided?
+        if (error_smp_size == 0){
+            ## Can error dist. be estimated? If not, display error.
             if(is.null(error_scale_par) | error_dist == 1){
-                ## Chech it's possible to approximate the measurement
-                ## error.
                 msg <- paste(c("It is not possible to approximate",
                                "the measurement error with the given",
                                "arguments."))
                 stop(msg)
             }
+            ## Ask what the error dist. is and complete message.
             if(error_dist == 2) {
                 msg <- paste(msg, "known Laplace error.")
             } else {
-                msg <- paste(msg, "known normal error")
+                msg <- paste(msg, "known normal error.")
             }
-        }
+        } else {
+            ## This is the case when extra sample of errors is
+            ## provided.
+            msg1 <- paste("an extra sample of errors to approximate",
+                          "the error distribution with")
+            msg2 <- switch(error_dist,
+                           "kernel density estimation.",
+                           "a Laplace distribution.",
+                           "a normal distribution.")
+            }
     }
     message(msg)
 }
