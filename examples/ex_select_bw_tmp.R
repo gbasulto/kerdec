@@ -8,7 +8,9 @@ case1 <-
               # bw_interval = c(0.08, 0.5),
               resolution = 128)
 
-aaa <- select_bw(Y, "CV", "flat", error_smp = eps, bw_interval = c(0.08, 0.5))
+aaa <- select_bw(Y, "CV", "flat", error_smp = eps,
+                 error_dist = "laplace",
+                 bw_interval = c(0.08, 0.5))
 aaa
 
 with(case1, plot(x_eval, f_vals, type = "l"))
