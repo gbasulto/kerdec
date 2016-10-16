@@ -271,34 +271,85 @@ check_bw_method <- function (method, bw_methods, h){
 ##' determines the sampling scenario and displays a message.
 get_sampling_scenario <- function(n, k, error_smp_size,
                                   error_dist, error_scale_par){
-    msg <- "Performing kernel deconvolution density estimation with "
-    ## Are there repeated measurements?
-    if (k == 1){
-        ## Is an extra sample of errors provided?
-        if (error_smp_size == 0){
-            ## Can error dist. be estimated? If not, display error.
+    
+    msg0 <- "Performing kernel deconvolution density estimation with"
+
+    msg1 <- switch(error_dist,
+                   "unknown error distribution.",
+                   "Laplacian errors.",
+                   "Gaussian errors.")
+
+    if (is.null(error_scale_par)) {
+    } else {
+    }
+    
+
+
+    ## Is an extra sample of errors not provided?
+    if (error_smp_size == 0) {
+        
+        ## Can error dist. be estimated? If not, display error.
             if(is.null(error_scale_par) | error_dist == 1){
                 msg <- paste(c("It is not possible to approximate",
                                "the measurement error with the given",
                                "arguments."))
                 stop(msg)
             }
-            ## Ask what the error dist. is and complete message.
-            if(error_dist == 2) {
-                msg <- paste(msg, "known Laplace error.")
-            } else {
-                msg <- paste(msg, "known normal error.")
-            }
-        } else {
+        msg3 <- "The scale parameter of the error distribution is provided."
+        
+    } else {
             ## This is the case when extra sample of errors is
-            ## provided.
-            msg1 <- paste("an extra sample of errors to approximate",
-                          "the error distribution with")
-            msg2 <- switch(error_dist,
+        ## provided.
+        msg1 <- paste("an extra sample of errors to approximate",
+                      "the error distribution with")
+        msg2 <- switch(error_dist,
                            "kernel density estimation.",
-                           "a Laplace distribution.",
-                           "a normal distribution.")
+                       "a Laplace distribution.",
+                       "a normal distribution.")
+            msg <- paste(msg, msg1, msg2)
+        
+    }
+
+
+    
+    msg3 <- switch(k == 1,
+                   "with an extra sample of errors.",
+                   "by taking differences of repeated measurements.")
+    
+    
+    
+    ## Is an extra sample of errors not provided?
+    if (error_smp_size == 0) {
+        
+        ## Can error dist. be estimated? If not, display error.
+            if(is.null(error_scale_par) | error_dist == 1){
+                msg <- paste(c("It is not possible to approximate",
+                               "the measurement error with the given",
+                               "arguments."))
+                stop(msg)
             }
+        msg3 <- "The scale parameter of the error distribution is provided."
+        
+    } else {
+            ## This is the case when extra sample of errors is
+        ## provided.
+        msg1 <- paste("an extra sample of errors to approximate",
+                      "the error distribution with")
+        msg2 <- switch(error_dist,
+                           "kernel density estimation.",
+                       "a Laplace distribution.",
+                       "a normal distribution.")
+            msg <- paste(msg, msg1, msg2)
+        
+    }
+    
+    
+    msg2 <- ifelse(is.null(error_scale_par),
+                   "")
+    
+    ## Are there repeated measurements?
+    if (k == 1) {
+
     }
     message(msg)
 }
