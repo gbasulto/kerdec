@@ -271,17 +271,35 @@ check_bw_method <- function (method, bw_methods, h){
 ##' determines the sampling scenario and displays a message.
 get_sampling_scenario <- function(n, k, error_smp_size,
                                   error_dist, error_scale_par){
-    
-    msg0 <- "Performing kernel deconvolution density estimation with"
 
-    msg1 <- switch(error_dist,
-                   "unknown error distribution.",
-                   "Laplacian errors.",
-                   "Gaussian errors.")
+    
+    msg0 <- "Performing kernel deconvolution density estimation "
+    msg1 <- "based on a contaminated sample"
+    if (k == 1) {
+        msg1 <- paste(msg1, "with repeated measurements")
+    }
+
+    msg2 <- ". The error distribution is "
+    msg3 <- switch(error_dist,
+                   "unknown. ",
+                   "Laplace. ",
+                   "Gaussian. ")
 
     if (is.null(error_scale_par)) {
+        msg4 <- "The scale parameter of the error has been provided."
+        msg5 <- NULL
     } else {
+        if (error_dist == 1) {
+            msg4 <- "Such error is approximated "
+        } else {
+            msg4 <- "The scale parameter is approximated "
+        }
+        msg5 <- ifelse(k > 1,
+                       "with an extra sample or errors.",
+                       "by taking differences of the repeated obs.")
     }
+
+    msg <- paste0(msg0, msg1, msg2, msg3, msg4, msg5)
     
 
 
