@@ -20,16 +20,15 @@ reference). Cross-validation is the default.}
 
 \item{kernel}{Kernel whose Fourier transform has bounded
 support. There are currently 5 kernel programmed: "sinc",
-"triangular", "triw", "tric" and "flat". See vignette for further
-details and examples. Flat-top kernel is the default.}
+"triangular", "triw", "tric" and "flat". See vignette for
+further details and examples. Flat-top kernel is the default.}
 
 \item{lower}{Lower limit where the density will be evaluated.}
 
 \item{upper}{Upper limit where the density will be evaluated.}
 
-\item{x_eval}{Not yet activated. grid of values where the density
-will be evaluated. If it is given, parameters 'lower' and
-'upper' will be omitted.}
+\item{x_eval}{Grid where the density will be evaluated. If
+provided, 'lower' and 'upper' will be dismissed.}
 
 \item{h}{Bandwidth parameter which is only required if method =
 NULL.}

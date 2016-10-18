@@ -19,8 +19,8 @@ reference). Cross-validation is the default.}
 
 \item{kernel}{Kernel whose Fourier transform has bounded
 support. There are currently 5 kernel programmed: "sinc",
-"triangular", "triw", "tric" and "flat". See vignette for further
-details and examples. Flat-top kernel is the default.}
+"triangular", "triw", "tric" and "flat". See vignette for
+further details and examples. Flat-top kernel is the default.}
 
 \item{h0}{Optional argument used as initial value to look for the
 optimal value.}
