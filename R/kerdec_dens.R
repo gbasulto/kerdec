@@ -354,6 +354,11 @@ get_sampling_scenario <- function(k, error_dist, error_scale_par){
 ##'     deconvolution formula when the denominator is smaller than
 ##'     this bound.
 ##' @param bw_interval Do not modify it.
+##' @param plot_search_interval Logical value determining whether the
+##'     interval where the bandwidth was optimized will be printed. It
+##'     is taken into account only when 'bw_interval' is not NULL.
+##' @param bandwidth_only If TRUE, it does not evaluate the density at
+##'     any value. 
 ##' @return A list
 ##' @author Guillermo Basulto-Elias
 ##' @export
@@ -371,7 +376,8 @@ kerdec_dens <- function(smp,
                         panel_proc = "keep_first",
                         truncation_bound = NULL,
                         bw_interval = NULL,
-                        plot_search_interval = FALSE){
+                        plot_search_interval = FALSE,
+                        bandwidth_only = FALSE){
     
     ## Let us first state all the implemented distributions. We will
     ## check later that the arguments are valid.
@@ -429,33 +435,46 @@ kerdec_dens <- function(smp,
                          kernel, error_scale_par, k,
                          error_dist, panel_proc, bw_interval),
                none = NULL)
-    
-    if(is.null(h)) h <- h_optim$estimate
+        
+    if (is.null(h)) h <- h_optim$estimate
 
-    ## Compute density values (if required).
-    switch(is.null(lower) + is.null(upper) + 1,
-    {
-        f_vals <-
-            kerdec_dens_cpp(smp = smp, error_smp = error_smp, h = h,
-                            lower = lower, upper = upper,
-                            resolution = resolution, ker = kernel,
-                            sigma = error_scale_par, k = k,
-                            error_dist = error_dist,
-                            panel_proc = panel_proc)
-        f_vals <- Re(f_vals)
-        x_eval <- seq(lower, upper, len = resolution + 1)[-resolution]
+    if (bandwidth_only) {
+        x_eval = NULL
+        f_vals = NULL
+    } else {
+        ## Compute density values (if required).
+        switch(is.null(lower) + is.null(upper) + 1,
+        {
+            cat("Hola 1!")
+            f_vals <-
+                kerdec_dens_cpp(smp = smp, error_smp = error_smp,
+                                h = h,
+                                lower = lower, upper = upper,
+                                resolution = resolution, ker = kernel,
+                                sigma = error_scale_par, k = k,
+                                error_dist = error_dist,
+                                panel_proc = panel_proc)
+            f_vals <- Re(f_vals)
+            x_eval <- seq(lower, upper,
+                          len = resolution + 1)[-resolution]
+            
+        },
+        stop("'lower' or 'upper' arguments were not provided."),
+        {
+            cat("Hola 2!")
+            f_vals <-
+                kerdec_dens_nonreg_cpp(smp, error_smp, h, x_eval,
+                                       resolution, kernel,
+                                       sigma = error_scale_par, k,
+                                       error_dist = error_dist,
+                                       panel_proc = panel_proc)
+        })
         
-    },
-    stop("'lower' or 'upper' arguments were not provided."),
-    {
-        f_vals <-
-            kerdec_dens_nonreg_cpp(smp, error_smp, h, x_eval,
-                                   resolution, kernel,
-                                   sigma = error_scale_par, k,
-                                   error_dist = error_dist,
-                                   panel_proc = panel_proc)
         
-    })
+        cat("Hola 3!")
+        
+    }
+    
     
     return(list(f_vals = f_vals,
                 x_eval= x_eval,
@@ -491,6 +510,6 @@ select_bw <- function(smp,
     out <- kerdec_dens(smp, method, kernel, NULL, NULL, NULL, NULL,
                        h0, error_smp, error_dist, error_scale_par,
                        resolution, error_proc, panel_proc, NULL,
-                       bw_interval)
+                       bw_interval, bandwidth_only = TRUE)
     out <- out[3:5]
 }

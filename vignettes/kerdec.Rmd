@@ -73,6 +73,7 @@ Y_panel <- sweep(x = eps_panel, MARGIN = 1,
 
 
 ```{r}
+
 library(kerdec)                         # Load package
 
 set.seed(666)
