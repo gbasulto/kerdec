@@ -425,6 +425,15 @@ kerdec_dens <- function(smp,
     ## kerdec_dens_cpp since error_dist is either 1 or 2)
     if(is.null(error_smp)) error_smp <- matrix(0, 5, 1)
 
+
+    ## If the evaluation grid was not provided nor the limits of the
+    ## interval, the range of the contaminated sample is taken as
+    ## extremes of the evaluation grid.
+    if (is.null(x_eval) & (is.null(lower) & is.null(upper))){
+        lower <- min(smp)
+        upper <- max(smp)
+        }
+    
     ## 
     h_optim <-
         switch(method,
