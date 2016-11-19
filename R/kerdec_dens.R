@@ -445,7 +445,6 @@ kerdec_dens <- function(smp,
         ## Compute density values (if required).
         switch(is.null(lower) + is.null(upper) + 1,
         {
-            cat("Hola 1!")
             f_vals <-
                 kerdec_dens_cpp(smp = smp, error_smp = error_smp,
                                 h = h,
@@ -461,7 +460,6 @@ kerdec_dens <- function(smp,
         },
         stop("'lower' or 'upper' arguments were not provided."),
         {
-            cat("Hola 2!")
             f_vals <-
                 kerdec_dens_nonreg_cpp(smp, error_smp, h, x_eval,
                                        resolution, kernel,
@@ -469,10 +467,6 @@ kerdec_dens <- function(smp,
                                        error_dist = error_dist,
                                        panel_proc = panel_proc)
         })
-        
-        
-        cat("Hola 3!")
-        
     }
     
     
