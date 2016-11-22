@@ -41,11 +41,21 @@ We present examples of univariate kernel density deconvolution, in particular:
 
 ## Sampling Scenarios
 
+Kernel deconvolution density estimation (KDDE) arises in mainly three sampling scenarios.
+
+1. The density is estimated from a contaminated sample and the measurement error distribution is known.
+2. The density is estimated from a contaminated sample and the measurement error distribution is approximated with an extra sample of errors.
+3. The sample consists of repeated (contaminated) observations per individual in the population.
+
+We present in the following subsections the basic usage of 'kerdec' for each of these scenarios. We highlight that other features can be specified, such as the way the error distribution is approximated or the bandwidth selection method; look at the corresponging section for that matter.
+
+
 ### Known error distribution
 
 
 
-```{r}
+
+```{r, echo=FALSE, eval = FALSE}
 
 library(kerdec)                         # Load package
 set.seed(666)                           # Set seed
@@ -69,10 +79,11 @@ Y_panel <- sweep(x = eps_panel, MARGIN = 1,
 
 ```
 
+
 ## Extra examples
 
 
-```{r}
+```{r, eval = FALSE, echo = FALSE}
 
 library(kerdec)                         # Load package
 
@@ -804,6 +815,11 @@ dens <- kerdec_dens2D(smp1 = Y1, smp2 = Y2,
 persp(z = Re(dens$vals), theta = 0.5)
 
 ```
+
+
+
+# Evaluation and Speed
+
 
 
 # Thrash
