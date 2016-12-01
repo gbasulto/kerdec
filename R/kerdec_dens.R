@@ -369,7 +369,7 @@ kerdec_dens <- function(smp,
                         x_eval = NULL,
                         h = NULL, h0 = NULL,
                         error_smp = NULL,
-                        error_dist = "None",
+                        error_dist = "Laplace",
                         error_scale_par = NULL,
                         resolution = 128,
                         error_proc = "all",
@@ -479,7 +479,7 @@ kerdec_dens <- function(smp,
     }
     
     
-    return(list(f_vals = f_vals,
+    return(list(f_vals = c(f_vals),
                 x_eval= x_eval,
                 h = h,
                 h0 = h0,
