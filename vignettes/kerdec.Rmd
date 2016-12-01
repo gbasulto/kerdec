@@ -27,7 +27,7 @@ opts_chunk$set(fig.width= 7, fig.height= 5,
 
 A well studied nonparametric estimator of probability density functions based on the i.i.d. observations $X_1, \ldots, X_n$, is the kernel density estimator. A natural generalization to the case where random variables have been contaminated with random additive noise, say $Y_1, \ldots, Y_n$, with $Y_i = X_i + \epsilon_i$, $i = 1, \ldots n$ is the so kernel deconvolution density estimator (kdde). The error distribution is usually assumed to be known.
 
-There are two popular `R` packages that provide functions to do this, `decon` and `deamer` (**REFERENCES**). The former package performs kdde with known error distribution allowing the user to pick the bandwidth selection method between several methods summarized in Delaigle and Gijbels (2004)(**REFERENCES**). The latter package covers the univariate case and it allows known error case, repeated observations and pure error case, the bandwidth selection method follows Comte (**2011???**)
+There are two popular `R` packages that provide functions to do this, `decon` and `deamer` (**REFERENCES**). The former package performs kdde with known error distribution allowing the suer to pick the bandwidth selection method between several methods summarized in Delaigle and Gijbels (2004)(**REFERENCES**). The latter package covers the univariate case and it allows known error case, repeated observations and pure error case, the bandwidth selection method follows Comte (**2011???**)
 
 The package `kerdec` provides functions to handle univariate and bivariate kdde with unknown error distribution, by using the empirical characteristic function, or known errors, which can be Laplace or Gaussian. Also functions are provided to estimate the parameters based on a sample of errors or panel data structured data.  
 
@@ -51,6 +51,45 @@ We present in the following subsections the basic usage of 'kerdec' for each of 
 
 
 ### Known error distribution
+
+
+```{r}
+
+library(kerdec)                         # Load package
+set.seed(666)                           # Set seed
+
+## Settings and samples for all the cases
+n <- 100                                # Sample size
+l <- 5                                  # Number of columns
+shape <- 5                              # X distr. shape par.
+rate <- 5                               # X distr. rate par.
+sd_error <- .2                          # std. error of error distr.
+X <- rgamma(n, shape, rate)             # Uncontaminated sample
+Y <- X + rlaplace(n, sd = sd_error)     # Contaminated sample
+
+
+dens <- kerdec_dens(smp = Y, error_scale_par = sd_error,
+                    error_dist = "normal")
+
+
+
+
+with(dens, {
+    true <- dgamma(x_eval, shape, rate)
+    plot(range(x_eval), range(c(f_vals, true)), type = "n",
+         xlab = "x", ylab = "values")
+    lines(x_eval, f_vals, col = 3, lty = 2, lwd = 1.5)
+    lines(x_eval, true, col = 4, lty = 3, lwd = 1.5)
+})
+legend("topright", legend = c("approx", "true"), lwd = 1.5, col = 3:4,
+       lty = 2:3)
+
+
+
+
+```
+
+
 
 
 
