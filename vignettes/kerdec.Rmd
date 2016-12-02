@@ -52,42 +52,62 @@ We present in the following subsections the basic usage of 'kerdec' for each of 
 
 ### Known error distribution
 
+The simplest case of kernel deconvolution density estimation is when the measurement error is perfectly known and the density estimator is computed based on a contaminated sample.
 
-```{r}
+The example below corresponds to a sample that has been generated from a gamma distribution and contaminated with Laplacian noise. 
+
+
+[//]: <> (``{r known})
+
+
+```{r known}
 
 library(kerdec)                         # Load package
+
 set.seed(666)                           # Set seed
 
-## Settings and samples for all the cases
-n <- 100                                # Sample size
-l <- 5                                  # Number of columns
+
+## Signal parameters 
 shape <- 5                              # X distr. shape par.
 rate <- 5                               # X distr. rate par.
-sd_error <- .2                          # std. error of error distr.
+
+## Settings and samples for all the cases
+n <- 150                                # Sample size
+sd_error <- 0.2                         # std. error of error distr.
 X <- rgamma(n, shape, rate)             # Uncontaminated sample
 Y <- X + rlaplace(n, sd = sd_error)     # Contaminated sample
 
 
-dens <- kerdec_dens(smp = Y, error_scale_par = sd_error,
-                    error_dist = "normal")
+## Estimate density
+out <- kerdec_dens(smp = Y, error_scale_par = sd_error)
+  
+```
+
+The variable `out` is a list that contains the output of the density. Now we put some of the element in a dataframe to plot it afterwards. Observe that `kerdec_dens` only requires a vector with the contaminated sample and the standard deviation of the error. By default, the error is assumed to be Laplace; this can be modified by adding the parameter `error_dist` to be equal to `normal` for Gaussian errors.
 
 
+```{r, dependson = "known"}
 
+library(dplyr)                          # To handle data frames
+library(tidyr)                          # To handle data frames
+library(ggplot2)                        # Load generate plot
 
-with(dens, {
-    true <- dgamma(x_eval, shape, rate)
-    plot(range(x_eval), range(c(f_vals, true)), type = "n",
-         xlab = "x", ylab = "values")
-    lines(x_eval, f_vals, col = 3, lty = 2, lwd = 1.5)
-    lines(x_eval, true, col = 4, lty = 3, lwd = 1.5)
-})
-legend("topright", legend = c("approx", "true"), lwd = 1.5, col = 3:4,
-       lty = 2:3)
+## Create dataframe
+dat <- 
+  data_frame(x = out$x_eval,
+           estimate = out$f_vals,
+           true = dgamma(out$x_eval, shape, rate)) %>%
+  gather(key = density, value = value, -x)
 
-
-
+## Plot densities
+ggplot(dat, aes(x, value)) +
+  geom_line(aes(color = density, linetype = density)) + 
+#  theme_bw() +
+  theme(legend.position = c(0.9, 0.9))
 
 ```
+
+Something else here.
 
 
 
