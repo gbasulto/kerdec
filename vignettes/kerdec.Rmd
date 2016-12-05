@@ -26,12 +26,12 @@ opts_chunk$set(fig.width= 7, fig.height= 5,
 # Introduction
 
 A well studied nonparametric estimator of probability density functions based on the i.i.d. observations $X_1, \ldots, X_n$, is the kernel density estimator. A natural generalization to the case where random variables have been contaminated with random additive noise, say $Y_1, \ldots, Y_n$, with $Y_i = X_i + \epsilon_i$, $i = 1, \ldots n$ is the so kernel deconvolution density estimator (kdde). The error distribution is usually assumed to be known.
-
-There are two popular `R` packages that provide functions to do this, `decon` and `deamer` (**REFERENCES**). The former package performs kdde with known error distribution allowing the suer to pick the bandwidth selection method between several methods summarized in Delaigle and Gijbels (2004)(**REFERENCES**). The latter package covers the univariate case and it allows known error case, repeated observations and pure error case, the bandwidth selection method follows Comte (**2011???**)
+ 
+There are two popular `R` packages that provide functions to do this, `decon`[](www.deamer.com) and `deamer` (**REFERENCES**). The former package performs kdde with known error distribution allowing the suer to pick the bandwidth selection method between several methods summarized in Delaigle and Gijbels (2004)(**REFERENCES**). The latter package covers the univariate case and it allows known error case, repeated observations and pure error case, the bandwidth selection method follows Comte (**2011???**)
 
 The package `kerdec` provides functions to handle univariate and bivariate kdde with unknown error distribution, by using the empirical characteristic function, or known errors, which can be Laplace or Gaussian. Also functions are provided to estimate the parameters based on a sample of errors or panel data structured data.  
 
-# Univariate kernel density deconvolution examples
+# Univariate Examples
 
 We present examples of univariate kernel density deconvolution, in particular:
 - Sampling scenarios
@@ -80,13 +80,16 @@ Y <- X + rlaplace(n, sd = sd_error)     # Contaminated sample
 
 ## Estimate density
 out <- kerdec_dens(smp = Y, error_scale_par = sd_error)
+
+## Show structure of out
+str(out)
   
 ```
 
 The variable `out` is a list that contains the output of the density. Now we put some of the element in a dataframe to plot it afterwards. Observe that `kerdec_dens` only requires a vector with the contaminated sample and the standard deviation of the error. By default, the error is assumed to be Laplace; this can be modified by adding the parameter `error_dist` to be equal to `normal` for Gaussian errors.
 
 
-```{r, dependson = "known"}
+```{r,dependson="known"}
 
 library(dplyr)                          # To handle data frames
 library(tidyr)                          # To handle data frames
@@ -106,6 +109,20 @@ ggplot(dat, aes(x, value)) +
   theme(legend.position = c(0.9, 0.9))
 
 ```
+
+## Extra sample of errors
+
+Assume that we want to compute the KDDE based on a contaminated sample $Y_1, \ldots, Y_n$ and the distribution of the measurement error is unknown, but there is an extra sample of errors (independent of the contaminated sample), $\epsilon_1, \ldots, \epsilon_M$, that can used to approximate the error distribution. The size of the contaminated sample does not need to be the same size of the sample of errors.
+
+Three approximations to the error distributions based on the sample of errors are implemented:
+
+1. Laplace error. Set `error_dist = Laplace` (Though, this is the default option). The scale parameter of the Laplace distribution is found via maximum likelihood estimation.
+
+2. Gaussian error. Set `error_dist = normal`. The scale parameter of the normal distribution is found via maximum likelihood estimation.
+
+3. Nonparametric error. Set `error_dist = none`. The empirical characteristic function is used to approximate the characteristic function of the error in the deconvolution formula.
+
+
 
 Something else here.
 
