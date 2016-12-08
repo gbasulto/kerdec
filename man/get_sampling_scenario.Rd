@@ -6,6 +6,15 @@
 \usage{
 get_sampling_scenario(k, error_dist, error_scale_par)
 }
+\arguments{
+\item{k}{The number of repetitions if it is a panel data
+structure.}
+
+\item{error_dist}{The error distribution.}
+
+\item{error_scale_par}{The error scale parameter if it was
+provided.}
+}
 \description{
 Based on the given parameters to deconvolution function,
 determines the sampling scenario and displays a message.

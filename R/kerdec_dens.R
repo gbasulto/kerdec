@@ -269,6 +269,11 @@ check_bw_method <- function (method, bw_methods, h){
 ##'
 ##' Based on the given parameters to deconvolution function,
 ##' determines the sampling scenario and displays a message.
+##' @param k The number of repetitions if it is a panel data
+##'     structure.
+##' @param error_dist The error distribution.
+##' @param error_scale_par The error scale parameter if it was
+##'     provided.
 get_sampling_scenario <- function(k, error_dist, error_scale_par){
 
     
