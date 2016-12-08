@@ -97,10 +97,10 @@ library(ggplot2)                        # Load generate plot
 
 ## Create dataframe
 dat <- 
-  data_frame(x = out$x_eval,
-           estimate = out$f_vals,
-           true = dgamma(out$x_eval, shape, rate)) %>%
-  gather(key = density, value = value, -x)
+    data_frame(x = out$x_eval,
+               estimate = out$f_vals,
+               true = dgamma(out$x_eval, shape, rate)) %>%
+    gather(key = density, value = value, -x)
 
 ## Plot densities
 ggplot(dat, aes(x, value)) +
@@ -121,6 +121,59 @@ Three approximations to the error distributions based on the sample of errors ar
 2. Gaussian error. Set `error_dist = normal`. The scale parameter of the normal distribution is found via maximum likelihood estimation.
 
 3. Nonparametric error. Set `error_dist = none`. The empirical characteristic function is used to approximate the characteristic function of the error in the deconvolution formula.
+
+
+```{r extra}
+
+library(kerdec)                         # Load package
+
+set.seed(666)                           # Set seed
+
+
+## Signal parameters 
+shape <- 5                              # X distr. shape par.
+rate <- 5                               # X distr. rate par.
+
+## Settings and samples for all the cases
+n <- 150                                # Sample size
+sd_error <- 0.2                         # std. error of error distr.
+X <- rgamma(n, shape, rate)             # Uncontaminated sample
+Y <- X + rlaplace(n, sd = sd_error)     # Contaminated sample
+extra_errors <- rlaplace(2*n, sd = sd_error) # Extra errors
+
+
+## Estimate density
+out <- kerdec_dens(smp = Y, error_smp = extra_errors)
+
+## Show structure of out
+str(out)
+  
+```
+
+We finally plot the estimated values of the density. Observe that the sample size of the extra sample of errors was actually different from the sample size of the contaminated sample.
+
+
+```{r,dependson="extra"}
+
+library(dplyr)                          # To handle data frames
+library(tidyr)                          # To handle data frames
+library(ggplot2)                        # Load generate plot
+
+## Create dataframe
+dat <- 
+    data_frame(x = out$x_eval,
+               estimate = out$f_vals,
+               true = dgamma(out$x_eval, shape, rate)) %>%
+    gather(key = density, value = value, -x)
+
+## Plot densities
+ggplot(dat, aes(x, value)) +
+  geom_line(aes(color = density, linetype = density)) + 
+#  theme_bw() +
+  theme(legend.position = c(0.9, 0.9))
+
+```
+
 
 
 
