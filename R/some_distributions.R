@@ -76,7 +76,7 @@ rlaplace <- function(n, mean = 0, sd = 1){
 ##' @export
 cflaplace <- function(t, mean = 0, sd = 1){
     b <- sd/sqrt(2)
-    return(exp(1i*mu*t)/(1 + b^2*t^2))
+    return(exp(1i*mean*t)/(1 + b^2*t^2))
 }
 
 ##' Normal Characteristic Function
@@ -90,7 +90,7 @@ cflaplace <- function(t, mean = 0, sd = 1){
 ##' @author Guillermo Basulto-Elias
 ##' @export
 cfnorm <- function(t, mean = 0, sd = 1){
-    return(exp(1i*mu*t - 0.5*sd^2*t^2))
+    return(exp(1i*mean*t - 0.5*sd^2*t^2))
 }
 
 ##' Log-likelihood of Laplace Convolution

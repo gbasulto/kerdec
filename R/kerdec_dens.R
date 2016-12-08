@@ -242,7 +242,7 @@ check_error_smp <- function (error_smp){
         if (!is.null(error_smp)) {
             arg_name <- deparse(substitute(error_smp))
             msg <- paste0("'", arg_name, "' must be numeric.")
-            stop(smg)
+            stop(msg)
         }
     }
     return (error_smp)
