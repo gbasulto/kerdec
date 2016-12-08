@@ -6,9 +6,10 @@
 \usage{
 kerdec_dens(smp, method = c("CV", "NR")[1], kernel = "flat", lower = NULL,
   upper = NULL, x_eval = NULL, h = NULL, h0 = NULL, error_smp = NULL,
-  error_dist = "None", error_scale_par = NULL, resolution = 128,
+  error_dist = "Laplace", error_scale_par = NULL, resolution = 128,
   error_proc = "all", panel_proc = "keep_first", truncation_bound = NULL,
-  bw_interval = NULL, plot_search_interval = FALSE)
+  bw_interval = NULL, plot_search_interval = FALSE,
+  bandwidth_only = FALSE)
 }
 \arguments{
 \item{smp}{It is either a vector of size n or a nxl matrix (for
@@ -66,6 +67,13 @@ deconvolution formula when the denominator is smaller than
 this bound.}
 
 \item{bw_interval}{Do not modify it.}
+
+\item{plot_search_interval}{Logical value determining whether the
+interval where the bandwidth was optimized will be printed. It
+is taken into account only when 'bw_interval' is not NULL.}
+
+\item{bandwidth_only}{If TRUE, it does not evaluate the density at
+any value.}
 }
 \value{
 A list

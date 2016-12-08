@@ -24,7 +24,7 @@
 ##' }
 ##'
 ##' ## Good initial point.
-##' kerdec:::optimize_bw(function(x) x^2, 3)
+##' kerdec:::optimize_bw(function(x) x^2, 0.5)
 optimize_bw <- function(f, h0, ...){
     ## Function to be minimized
     objective <- function(bw){

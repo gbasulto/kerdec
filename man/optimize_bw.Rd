@@ -34,7 +34,7 @@ kerdec:::optimize_bw(function(x) x^2, -5)
 }
 
 ## Good initial point.
-kerdec:::optimize_bw(function(x) x^2, 3)
+kerdec:::optimize_bw(function(x) x^2, 0.5)
 }
 \author{
 Guillermo Basulto-Elias
