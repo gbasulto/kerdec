@@ -16,7 +16,10 @@ Imports:
 RoxygenNote: 5.0.1
 Suggests: knitr,
     rmarkdown,
-    fourierin
+    fourierin,
+    dplyr,
+    tidyr,
+    ggplot2
 URL: http://github.com/gbasulto/kerdec
 BugReports: https://github.com/gbasulto/kerdec/issues
 VignetteBuilder: knitr
