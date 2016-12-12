@@ -12,9 +12,7 @@ LinkingTo:
     RcppArmadillo,
     Rcpp
 Imports:
-    Rcpp,
-    graphics,
-    stats
+    Rcpp
 RoxygenNote: 5.0.1
 Suggests: knitr,
     rmarkdown,

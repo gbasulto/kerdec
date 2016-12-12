@@ -4,3 +4,4 @@
 .Ruserdata
 inst/doc
 kerdec.Rproj
+.travis.yml
