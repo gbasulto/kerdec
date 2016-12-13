@@ -63,12 +63,12 @@ plot_bw <- function(bw_interval, f, h, h0, ...){
                   length.out = 100) 
     vals <- sapply(h_grid, f)
     
-    plot(h_grid, vals, type = "l", lwd = 1.5,
+    graphics::plot(h_grid, vals, type = "l", lwd = 1.5,
          xlab = "grid", ylab = "values",
          main = paste0("h = ", round(h, 4), ", h0 = ", round(h0, 4)))
-    abline(v = h, col = "magenta", lty = 2)
-    abline(v = h0, col = "cyan", lty = 3)
-    legend("topright", legend = c("h", "h0"),
+    graphics::abline(v = h, col = "magenta", lty = 2)
+    graphics::abline(v = h0, col = "cyan", lty = 3)
+    graphics::legend("topright", legend = c("h", "h0"),
            col = c("magenta", "cyan"), lty = 2:3)
 }
 
