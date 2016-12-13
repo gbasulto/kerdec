@@ -37,7 +37,7 @@ optimize_bw <- function(f, h0, ...){
     }
     
     ## Compute optimal bandwidth
-    out <- nlm(objective, h0)
+    out <- stats::nlm(objective, h0)
     
     ## Return warning if it is likely that the function did not find
     ## the minimum.

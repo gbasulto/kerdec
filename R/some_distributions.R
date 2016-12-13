@@ -60,7 +60,7 @@ plaplace <- function(x, mean = 0, sd = 1){
 ##' @export
 rlaplace <- function(n, mean = 0, sd = 1){
     b <- sd/sqrt(2)
-    out <- rexp(n, 1/b) - rexp(n, 1/b) + mean
+    out <- stats::rexp(n, 1/b) - stats::rexp(n, 1/b) + mean
     return(out)
 }
 
@@ -139,7 +139,7 @@ dlaplace_convol_loglik <- function(sigma, smp){
     n <- length(smp)
     x <- sqrt(2)*abs(smp)
     s <- sigma
-    
+
     out <- n/s + sum(x/(s^2 + s*x)) - sum(x)/s^2
     return(out)
 }
@@ -153,16 +153,17 @@ dlaplace_convol_loglik <- function(sigma, smp){
 ##' @return The MLE of the standard deviation
 ##' @author Guillermo Basulto-Elias
 mle_laplace_diffs <- function(smp){
-    sig0 <- sd(smp)/sqrt(2)             # Use sample std. deviation as
+    sig0 <- stats::sd(smp)/sqrt(2)      # Use sample std. deviation as
                                         # initial value
 
     ## Minimize using L-BFGS-B providing the function to minimize and
     ## its gradient
-    out <- optim(par = sig0,
-                 fn = laplace_convol_loglik,
-                 gr = dlaplace_convol_loglik,
-                 lower = .Machine$double.eps, method = "L-BFGS-B",
-                 smp = smp)
+    out <- stats::optim(par = sig0,
+                        fn = laplace_convol_loglik,
+                        gr = dlaplace_convol_loglik,
+                        lower = .Machine$double.eps,
+                        method = "L-BFGS-B",
+                        smp = smp)
     return(out$par)
 }
 
@@ -177,7 +178,7 @@ mle_laplace_diffs <- function(smp){
 ##' This function also computes the standard deviation when the error
 ##' is approximated with the enpirical charcteristic function, since
 ##' it is useful for bandwidth selection.
-##' 
+##'
 ##' @param error_dist An integer specifying the error distribution: 1
 ##'     if non-parametric, 2 if Laplace, 3 if normal.
 ##' @param error_smp Vector of sample of errors or differences of
@@ -209,18 +210,18 @@ compute_scale_par <- function(error_dist, error_smp, k, error_scale_par = NULL){
         }
       return(error_scale_par)
     }
-    
+
     if (k == 1) {                         # Pure sample of errors
         sigma <- switch(
             error_dist,
-            sd(error_smp),             # ecf
+            stats::sd(error_smp),         # ecf
             sqrt(2)*mean(abs(error_smp)), # Laplace
             sqrt(mean((error_smp)^2))     # Normal
         )
     } else {
         sigma <- switch(
             error_dist,
-            sd(error_smp)/sqrt(2),                         #
+            stats::sd(error_smp)/sqrt(2),                   #
             mle_laplace_diffs(error_smp),
             sqrt(mean((error_smp)^2)/2)
         )
