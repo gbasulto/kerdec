@@ -91,9 +91,9 @@ The variable `out` is a list that contains the output of the density. Now we put
 
 ```{r,dependson="known"}
 
-requireNamespace(dplyr, quietly = TRUE)  # To handle data frames
-requireNamespace(tidyr, quietly = TRUE)                          # To handle data frames
-requireNamespace(ggplot2, quietly = TRUE)                        # Load generate plot
+library(dplyr)                          # To handle data frames
+library(tidyr)                          # To handle data frames
+library(ggplot2)                        # Load generate plot
 
 ## Create dataframe
 dat <- 
@@ -155,9 +155,9 @@ We finally plot the estimated values of the density. Observe that the sample siz
 
 ```{r,dependson="extra"}
 
-requireNamespace(dplyr, quietly = TRUE)                          # To handle data frames
-requireNamespace(tidyr, quietly = TRUE)                          # To handle data frames
-requireNamespace(ggplot2, quietly = TRUE)                        # Load generate plot
+library(dplyr)                          # To handle data frames
+library(tidyr)                          # To handle data frames
+library(ggplot2)                        # Load generate plot
 
 ## Create dataframe
 dat <- 
@@ -848,7 +848,7 @@ Although in the previous section we showed how to use the function that provides
 
 ```{r}
 ## Load package 
-requireNamespace(fourierin, quietly = TRUE)
+library(fourierin)
 library(kerdec)
 
 ## Define grid
@@ -871,7 +871,7 @@ Finally we show a minimal example of how to use the function `ft_kernel` to find
 ```{r}
 
 ## Load package 
-requireNamespace(fourierin, quietly = TRUE)
+library(fourierin)
 
 ## Define grid
 t1 <- seq(-1.1, 1.1, length.out = 150)
