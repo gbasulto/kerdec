@@ -21,7 +21,8 @@ Suggests: knitr,
     fourierin,
     dplyr,
     tidyr,
-    ggplot2
+    ggplot2,
+    microbenchmark
 URL: http://github.com/gbasulto/kerdec
 BugReports: https://github.com/gbasulto/kerdec/issues
 VignetteBuilder: knitr
