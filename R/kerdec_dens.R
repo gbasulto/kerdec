@@ -85,7 +85,7 @@ h_NR <- function(h0, smp, error_smp, resolution, kernel, n,
     ## for sigma_X and provide an approximation to the roughness of
     ## the second derivative.
     mu2K2 <- ifelse(kernel == 3, 6^2, (4.822182e-05)^2)
-    sigY <- sd(smp)
+    sigY <- stats::sd(smp)
     sigE <- error_scale_par
     if(panel_proc == 2) sigE <- sigE/sqrt(k)
     sig_hat <- sqrt(sigY^2 - sigE^2)
