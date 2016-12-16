@@ -177,6 +177,12 @@ ggplot(dat, aes(x, value)) +
 
 ## Repeated Measurements
 
+Consider the case where one observes more than one contaminated replicates of $n$ individuals, say 
+
+| Individual | Replicate 1 | Replicate 2 | Replicate 3 |
+| :--------: | :---------: | :---------: | :---------: |
+| 1          | 2           |             | 5           |
+
 
 Something else here.
 
