@@ -181,7 +181,8 @@ Consider the case where one observes more than one contaminated replicates of $n
 
 | Individual | Replicate 1 | Replicate 2 | Replicate 3 |
 | :--------: | :---------: | :---------: | :---------: |
-| 1          | 2           |             | 5           |
+| 1          | 2.12        |             | 1.98        |
+| 2          | 0.34        | 0.52        | 0.21        |
 
 
 Something else here.
