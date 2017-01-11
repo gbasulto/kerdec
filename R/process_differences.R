@@ -20,5 +20,6 @@ process_differences <- function(smp, method){
     }
     
     out <- process_differences_cpp(smp, method)
+    out <- out[!is.na(out)]
     return (out)
 }
