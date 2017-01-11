@@ -188,8 +188,7 @@ Consider the case where one does not know the error distribution nor have an ext
 | n          | 1.34        | 1.56        | 1.61        |
 
 
-Note that we are allowing some missing observations.
-
+Note that we are allowing some missing observations. The following example consists of 100 individuals, 5 contaminated observations per individual with some of these observations missing.
 
 
 ```{r panel, cache= TRUE}
@@ -211,11 +210,24 @@ errors_aux <- rlaplace(n*l, sd = sd_error)
 nas_aux <- c(NA, 1)[sample(1:2, size = n*l, 
                            prob = c(0.1, 0.9), replace = TRUE)]
 eps_panel <- matrix(errors_aux*nas_aux, n, l)               
+#eps_panel <- matrix(errors_aux, n, l)               
 Y_panel <- sweep(x = eps_panel, MARGIN = 1,
                  STATS = X, FUN = "+")  # Contaminated in panel
 
+## Estimate density
+out <- kerdec_dens(smp = Y_panel)
+
+## Show structure of out
+str(out)
+
+
 ```
 
+
+
+```{r, dependson= "panel"}
+print("Hi!")
+```
 
 ## Extra examples
 
@@ -665,7 +677,7 @@ one point).
 - ecf_cpp (way3): takes twice the time, but it also computes the real
 part.
 
-```{r}
+```{r, cache = TRUE}
 library(kerdec)
 
 ## Generate sample and define two points to evaluate the functions
@@ -702,7 +714,7 @@ if(require(microbenchmark)){
 
 This is a brief demonstration of the use of univariate functions for empirical characteristic functions. Observe that they all can be evaluated in vectors.
 
-```{r}
+```{r, cache = TRUE}
 
 library(kerdec)
 
@@ -747,7 +759,7 @@ The functions on this package work for ecf of random vectors. Since visualizatio
 
 It is worth mentioning that the ecf functions receive a vector of size $m$ or a $m \times d$ matrix as evaluation grid and a $n \times d$ as sample, where $m$ is the number of points where the ecf will be evaluated, $d$ the size of the random vector and $n$ the sample size.
 
-```{r, fig.width= 7, fig.height= 6}
+```{r, fig.width= 7, fig.height= 6, cache = TRUE}
 library(kerdec)
 
 ## Parameters of bivariate normal distribution
@@ -796,7 +808,7 @@ The explicit expressions of kernel functions are not required in kernel deconvol
 
 The five kernel functions considered have boundedly supported Fourier transforms, specifically on $[-1, 1]$. We abuse on the nomenclature of the kernels, since "triangular", "tricube" and "triweight" do not correspond to the kernel functions with these names, but to the fact that their Fourier transform is proportional to these kernels. In the same manner, "flat-top" refers to a kernel whose Fourier transform is flat around zero.
 
-```{r}
+```{r, cache = TRUE}
 ## Load package
 library(kerdec)
 
@@ -819,7 +831,7 @@ legend("topright", ker, col = 2:6, lty = 1:5, lwd = 2)
 
 Now we obtain the values of the kernel functions from their Fourier transforms.
 
-```{r}
+```{r, cache = TRUE}
 ## Load package
 library(kerdec)
 
@@ -853,7 +865,7 @@ legend("topright", ker, col = 2:6, lty = 1:5, lwd = 2)
 
 Although in the previous section we showed how to use the function that provides the Fourier transform of a particular set of kernel functions, we show a bare minimum example to illustrate how to use these function.
 
-```{r}
+```{r, cache = TRUE}
 ## Load package 
 library(fourierin)
 library(kerdec)
@@ -875,7 +887,7 @@ plot(t, values, main = "Triangular kernel", lwd = 2,
 
 Finally we show a minimal example of how to use the function `ft_kernel` to find the Fourier transform of a product kernel. Observe that the grid has to be introduced as a matrix with $d$ columns and not as a $d$-dimensional array. 
 
-```{r}
+```{r, cache = TRUE}
 
 ## Load package 
 library(fourierin)
@@ -905,7 +917,7 @@ contour(x = t1, y = t2, z = values, nlevels = 10)
 
 # Bivariate
 
-```{r}
+```{r, cache=TRUE}
 
 library(kerdec)                         # Load package
 
