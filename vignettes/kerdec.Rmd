@@ -205,15 +205,14 @@ shape <- 5                              # X distr. shape par.
 rate <- 5                               # X distr. rate par.
 sd_error <- .2                          # std. error of error distr.
 X <- rgamma(n, shape, rate)             # Uncontaminated sample
-                                        # Panel of errors
+                                        # Panel of errors with 
+                                        # some NAs
 errors_aux <- rlaplace(n*l, sd = sd_error)
 nas_aux <- c(NA, 1)[sample(1:2, size = n*l, 
                            prob = c(0.1, 0.9), replace = TRUE)]
 eps_panel <- matrix(errors_aux*nas_aux, n, l)               
 Y_panel <- sweep(x = eps_panel, MARGIN = 1,
                  STATS = X, FUN = "+")  # Contaminated in panel
-
-
 
 ```
 
