@@ -12,14 +12,17 @@
 ##'        1 or "all", all pairwise differences.
 ##'        2 or "vs_first", all minus first.
 ##'        3 or "indep_pairs", independent columns.
+##' @param na.rm Logical value specifying if NAs will be removed.
 ##' @export
-process_differences <- function(smp, method){
+process_differences <- function(smp, method, na.rm = TRUE){
     methods <- c("all", "vs_first", "indep_pairs")
     if (!is.numeric(method)) {
         method <- match(method, methods)
     }
     
     out <- process_differences_cpp(smp, method)
-    out <- out[!is.na(out)]
+    
+    if (na.rm) out <- out[!is.na(out)]
+    
     return (out)
 }

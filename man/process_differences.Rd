@@ -4,7 +4,7 @@
 \alias{process_differences}
 \title{Process differences for panel data}
 \usage{
-process_differences(smp, method)
+process_differences(smp, method, na.rm = TRUE)
 }
 \arguments{
 \item{smp}{n x d matrix}
@@ -14,6 +14,8 @@ differences.
    1 or "all", all pairwise differences.
    2 or "vs_first", all minus first.
    3 or "indep_pairs", independent columns.}
+
+\item{na.rm}{Logical value specifying if NAs will be removed.}
 }
 \description{
 Panel data allows to approximate the characteristic function of
