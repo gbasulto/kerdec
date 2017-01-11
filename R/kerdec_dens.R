@@ -298,7 +298,7 @@ get_sampling_scenario <- function(k, error_dist, error_scale_par){
         } else {
             msg4 <- "The scale parameter is approximated "
         }
-        msg5 <- ifelse(k > 1,
+        msg5 <- ifelse(k == 1,
                        "with an extra sample or errors.",
                        "by taking differences of the repeated obs.")
     }
