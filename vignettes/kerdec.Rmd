@@ -215,10 +215,10 @@ Y_panel <- sweep(x = eps_panel, MARGIN = 1,
                  STATS = X, FUN = "+")  # Contaminated in panel
 
 ## Estimate density
-##out <- kerdec_dens(smp = Y_panel)
+out <- kerdec_dens(smp = Y_panel)
 
 ## Show structure of out
-##str(out)
+str(out)
 
 
 ```
