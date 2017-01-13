@@ -226,7 +226,25 @@ str(out)
 
 
 ```{r, dependson= "panel"}
-print("Hi!")
+
+library(dplyr)                          # To handle data frames
+library(tidyr)                          # To handle data frames
+library(ggplot2)                        # Load generate plot
+
+## Create dataframe
+dat <- 
+    data_frame(x = out$x_eval,
+               estimate = out$f_vals,
+               true = dgamma(out$x_eval, shape, rate)) %>%
+    gather(key = density, value = value, -x)
+
+## Plot densities
+ggplot(dat, aes(x, value)) +
+  geom_line(aes(color = density, linetype = density)) + 
+#  theme_bw() +
+  theme(legend.position = c(0.9, 0.9))
+
+
 ```
 
 ## Extra examples
