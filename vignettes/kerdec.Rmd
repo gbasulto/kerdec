@@ -223,6 +223,7 @@ str(out)
 
 ```
 
+Finally, we generate the plot associated to the kernel deconvolution from repeated measurements.
 
 
 ```{r, dependson= "panel"}
