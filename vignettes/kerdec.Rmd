@@ -31,6 +31,33 @@ There are two popular `R` packages that provide functions to do this, `decon`[](
 
 The package `kerdec` provides functions to handle univariate and bivariate kdde with unknown error distribution, by using the empirical characteristic function, or known errors, which can be Laplace or Gaussian. Also functions are provided to estimate the parameters based on a sample of errors or panel data structured data.  
 
+# Kerdel deconvolution density estimation
+
+A kernel deconvolution densitry estimator is a nonparametric approximation to the density of a random vector $\boldsymbol{X}$ based on samples that have been contaminated with additive noise, say, samples from 
+$$\boldsymbol{Y} = \boldsymbol{X} + \boldsymbol{\epsilon},$$
+where $\boldsymbol{\epsilon}$ has mean zero and it is independent of $\boldsymbol{X}$.
+
+
+
+Let $\boldsymbol{X}_1, \ldots, \boldsymbol{X}_n$ be a sample of independent and identically distributed (_iid_) random vectors in $\mathbb{R}^d$. Suppose that it is desired to provide a density estimator 
+
+where for $i = 1, \ldots, n$,
+$$\boldsymbol{Y}_i = \boldsymbol{X}_i + \boldsymbol{\epsilon}_i.$$ 
+
+Kernel deconvolution formula.
+
+$$
+\hat{f}_{\boldsymbol{X}}(\boldsymbol{x}) = 
+    \frac{1}{(2\pi)^d}
+    \int e^{-\imath \langle \boldsymbol{x}, \boldsymbol{t} \rangle}
+    \hat{\phi}_{\boldsymbol{Y}, n}(\boldsymbol{t})
+    \frac{K^{Ft}(H^{-1/2}\boldsymbol{t})}
+         {\hat{\phi}_{\boldsymbol{\epsilon}}(\boldsymbol{t})}
+    d\boldsymbol{t}
+$$
+
+We will consider two approaches to provide bandwidth. The first of them consists on minimizing the AMISE by plugging in a normal reference estimator to R(f''). The second is my crossed-validation. We will only consider cases with one smoothing parameter.
+
 # Univariate Examples
 
 We present examples of univariate kernel density deconvolution, in particular:
@@ -89,7 +116,7 @@ str(out)
 The variable `out` is a list that contains the output of the density. Now we put some of the element in a dataframe to plot it afterwards. Observe that `kerdec_dens` only requires a vector with the contaminated sample and the standard deviation of the error. By default, the error is assumed to be Laplace; this can be modified by adding the parameter `error_dist` to be equal to `normal` for Gaussian errors.
 
 
-```{r, dependson="known"}
+```{r, dependson="known", cache = TRUE}
 
 library(dplyr)                          # To handle data frames
 library(tidyr)                          # To handle data frames
@@ -153,7 +180,7 @@ str(out)
 We finally plot the estimated values of the density. Observe that the sample size of the extra sample of errors was actually different from the sample size of the contaminated sample.
 
 
-```{r,dependson="extra"}
+```{r, dependson = "extra", cache = TRUE}
 
 library(dplyr)                          # To handle data frames
 library(tidyr)                          # To handle data frames
@@ -226,7 +253,7 @@ str(out)
 Finally, we generate the plot associated to the kernel deconvolution from repeated measurements.
 
 
-```{r, dependson= "panel"}
+```{r, dependson= "panel", cache = TRUE}
 
 library(dplyr)                          # To handle data frames
 library(tidyr)                          # To handle data frames
@@ -508,31 +535,6 @@ legend("topright", legend = c("approx", "true"), lwd = 1.5, col = 3:4,
 
 ```
 
-# Density Estimation
-
-
-It is desired to provide a nonparametric density estimator of a random vector $\boldsymbol{X}$ a random vector in $\mathbb{R}^d$ based on samples contaminated with additive error $\boldsymbol{\epsilon}$ say
-$$\boldsymbol{Y} = \boldsymbol{X} + \boldsymbol{\epsilon}$$.
-
-
-Let $\boldsymbol{X}_1, \ldots, \boldsymbol{X}_n$ be a sample of independent and identically distributed (_iid_) random vectors in $\mathbb{R}^d$. Suppose that it is desired to provide a density estimator 
-
-where for $i = 1, \ldots, n$,
-$$\boldsymbol{Y}_i = \boldsymbol{X}_i + \boldsymbol{\epsilon}_i.$$ 
-
-Kernel deconvolution formula.
-
-$$
-\hat{f}_{\boldsymbol{X}}(\boldsymbol{x}) = 
-    \frac{1}{(2\pi)^d}
-    \int e^{-\imath \langle \boldsymbol{x}, \boldsymbol{t} \rangle}
-    \hat{\phi}_{\boldsymbol{Y}, n}(\boldsymbol{t})
-    \frac{K^{Ft}(H^{-1/2}\boldsymbol{t})}
-         {\hat{\phi}_{\boldsymbol{\epsilon}}(\boldsymbol{t})}
-    d\boldsymbol{t}
-$$
-
-We will consider two approaches to provide bandwidth. The first of them consists on minimizing the AMISE by plugging in a normal reference estimator to R(f''). The second is my crossed-validation. We will only consider cases with one smoothing parameter.
 
 ## Kernel deconvolution density estimation on panel data
 
