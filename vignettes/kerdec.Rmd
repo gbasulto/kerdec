@@ -33,18 +33,11 @@ The package `kerdec` provides functions to handle univariate and bivariate kdde 
 
 # Kerdel deconvolution density estimation
 
-A kernel deconvolution densitry estimator is a nonparametric approximation to the density of a random vector $\boldsymbol{X}$ based on samples that have been contaminated with additive noise, say, samples from 
+A kernel deconvolution density estimator is a nonparametric approximation to the density of a random vector $\boldsymbol{X}$ based on samples that have been contaminated with additive noise, say, samples from 
 $$\boldsymbol{Y} = \boldsymbol{X} + \boldsymbol{\epsilon},$$
 where $\boldsymbol{\epsilon}$ has mean zero and it is independent of $\boldsymbol{X}$.
 
-
-
-Let $\boldsymbol{X}_1, \ldots, \boldsymbol{X}_n$ be a sample of independent and identically distributed (_iid_) random vectors in $\mathbb{R}^d$. Suppose that it is desired to provide a density estimator 
-
-where for $i = 1, \ldots, n$,
-$$\boldsymbol{Y}_i = \boldsymbol{X}_i + \boldsymbol{\epsilon}_i.$$ 
-
-Kernel deconvolution formula.
+Let $\boldsymbol{Y}_1, \ldots, \boldsymbol{Y}_n$ be a sample of independent and identically distributed (_iid_) random vectors from the latter model. Assume (for the moment) that the error distribution ($\boldsymbol{\epsilon}$) is perfectly known.  The kernel deconvolution density estimator (KDDE) is given by
 
 $$
 \hat{f}_{\boldsymbol{X}}(\boldsymbol{x}) = 
@@ -186,6 +179,7 @@ library(dplyr)                          # To handle data frames
 library(tidyr)                          # To handle data frames
 library(ggplot2)                        # Load generate plot
 
+
 ## Create dataframe
 dat <- 
     data_frame(x = out$x_eval,
@@ -195,9 +189,9 @@ dat <-
 
 ## Plot densities
 ggplot(dat, aes(x, value)) +
-  geom_line(aes(color = density, linetype = density)) + 
+    geom_line(aes(color = density, linetype = density)) + 
 #  theme_bw() +
-  theme(legend.position = c(0.9, 0.9))
+    theme(legend.position = c(0.9, 0.9))
 
 ```
 
