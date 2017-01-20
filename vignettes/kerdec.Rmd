@@ -45,9 +45,10 @@ $$
     \int e^{-\imath \langle \boldsymbol{x}, \boldsymbol{t} \rangle}
     \hat{\phi}_{\boldsymbol{Y}, n}(\boldsymbol{t})
     \frac{K^{Ft}(H^{-1/2}\boldsymbol{t})}
-         {\hat{\phi}_{\boldsymbol{\epsilon}}(\boldsymbol{t})}
-    d\boldsymbol{t}
+         {\phi_{\boldsymbol{\epsilon}}(\boldsymbol{t})}
+    d\boldsymbol{t},
 $$
+where $\langle \cdot, \cdot \rangle$ is the usual inner product in $\mathbb{R}^d$, $\hat{\phi}_{\boldsymbol{Y}, n}(\boldsymbol{t}) = n^{-1} \sum_j exp \left( \imath \langle \boldsymbol{t}, \boldsymbol{Y}_j \rangle\right)$ is the empirical characteristic function
 
 We will consider two approaches to provide bandwidth. The first of them consists on minimizing the AMISE by plugging in a normal reference estimator to R(f''). The second is my crossed-validation. We will only consider cases with one smoothing parameter.
 
