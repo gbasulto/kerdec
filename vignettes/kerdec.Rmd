@@ -37,8 +37,7 @@ A kernel deconvolution density estimator is a nonparametric approximation to the
 $$\boldsymbol{Y} = \boldsymbol{X} + \boldsymbol{\epsilon},$$
 where $\boldsymbol{\epsilon}$ has mean zero and it is independent of $\boldsymbol{X}$.
 
-Let $\boldsymbol{Y}_1, \ldots, \boldsymbol{Y}_n$ be a sample of independent and identically distributed (_iid_) random vectors from the latter model. Assume (for the moment) that the error distribution ($\boldsymbol{\epsilon}$) is perfectly known.  The kernel deconvolution density estimator (KDDE) is given by
-
+Let $\boldsymbol{Y}_1, \ldots, \boldsymbol{Y}_n$ be a sample of independent and identically distributed (_iid_) random vectors from the latter model. Assume (for the moment) that the error distribution ($\boldsymbol{\epsilon}$) is perfectly known.  The kernel deconvolution density estimator (KDDE) is given by the KDDE formula:
 $$
 \hat{f}_{\boldsymbol{X}}(\boldsymbol{x}) = 
     \frac{1}{(2\pi)^d}
@@ -48,7 +47,17 @@ $$
          {\phi_{\boldsymbol{\epsilon}}(\boldsymbol{t})}
     d\boldsymbol{t},
 $$
-where $\langle \cdot, \cdot \rangle$ is the usual inner product in $\mathbb{R}^d$; $\hat{\phi}_{\boldsymbol{Y}, n}(\boldsymbol{t}) = n^{-1} \sum_j exp \left( \imath \langle \boldsymbol{t}, \boldsymbol{Y}_j \rangle\right)$ is the empirical characteristic function of the contaminated sample; $K:\mathbb{R}^d \rightarrow \mathbb{R}$ is a symmetric kernel and $K^{Ft}(\boldsymbol{s}) = \int e^{\imath \langle \boldsymbol{s}, \boldsymbol{x} \rangle}K(\boldsymbol{x}) d\boldsymbol{x}$ its Fourier transform; $\phi_{\boldsymbol{\epsilon}}(\boldsymbol{t}) = \int e^{\imath \langle \boldsymbol{t}, \boldsymbol{x} \rangle} f_\boldsymbol{\epsilon}(\boldsymbol{x}) d\boldsymbol{x}$ is the characteristic function of the error and $H$ is a positive definite bandwidth matrix.
+where $\langle \cdot, \cdot \rangle$ is the usual inner product in $\mathbb{R}^d$; 
+$$\hat{\phi}_{\boldsymbol{Y}, n}(\boldsymbol{t}) = n^{-1} \sum_j \exp \left( \imath \langle \boldsymbol{t}, \boldsymbol{Y}_j \rangle\right)$$
+is the empirical characteristic function of the contaminated sample; $K:\mathbb{R}^d \rightarrow \mathbb{R}$ is a symmetric kernel and 
+$$K^{Ft}(\boldsymbol{s}) = \int e^{\imath \langle \boldsymbol{s}, \boldsymbol{x} \rangle}K(\boldsymbol{x}) d\boldsymbol{x}$$
+its Fourier transform; 
+$$\phi_{\boldsymbol{\epsilon}}(\boldsymbol{t}) = \int e^{\imath \langle \boldsymbol{t}, \boldsymbol{x} \rangle} f_\boldsymbol{\epsilon}(\boldsymbol{x}) d\boldsymbol{x}$$
+is the characteristic function of the error, and $H$ is a positive definite bandwidth matrix.
+
+At this point, we have assumed that the error distribution is perfectly known (so it is its characteristic function). This is, however, very rarely known. More realistic sampling scenarios that can allow to approximate $\phi_{\boldsymbol{\epsilon}}(\cdot)$ include (a) having an independent sample of errors besides the contaminated sample and (b) having repeated (contaminated) measurements per subject so differences can be obtained to approximate the characteristic function of the error. Both options are available in `kerdec` and they are discussed with detail in "Sampling Scenarios" sections. 
+
+On the other hand, 
 
 We will consider two approaches to provide bandwidth. The first of them consists on minimizing the AMISE by plugging in a normal reference estimator to R(f''). The second is my crossed-validation. We will only consider cases with one smoothing parameter.
 
