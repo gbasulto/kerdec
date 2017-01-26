@@ -29,7 +29,9 @@ A well studied nonparametric estimator of probability density functions based on
  
 There are two popular `R` packages that provide functions to do this, `decon`[](www.deamer.com) and `deamer` (**REFERENCES**). The former package performs kdde with known error distribution allowing the suer to pick the bandwidth selection method between several methods summarized in Delaigle and Gijbels (2004)(**REFERENCES**). The latter package covers the univariate case and it allows known error case, repeated observations and pure error case, the bandwidth selection method follows Comte (**2011???**)
 
-The package `kerdec` provides functions to handle univariate and bivariate kdde with unknown error distribution, by using the empirical characteristic function, or known errors, which can be Laplace or Gaussian. Also functions are provided to estimate the parameters based on a sample of errors or panel data structured data.  
+The package `kerdec` provides functions to handle univariate and bivariate kdde with unknown error distribution, by using the empirical characteristic function, or known errors, which can be Laplace or Gaussian. Also functions are provided to estimate the parameters based on a sample of errors or panel data structured data.
+
+
 
 # Kerdel deconvolution density estimation
 
@@ -57,7 +59,7 @@ is the characteristic function of the error, and $H$ is a positive definite band
 
 At this point, we have assumed that the error distribution is perfectly known (so it is its characteristic function). This is, however, very rarely known. More realistic sampling scenarios that can allow to approximate $\phi_{\boldsymbol{\epsilon}}(\cdot)$ include (a) having an independent sample of errors besides the contaminated sample and (b) having repeated (contaminated) measurements per subject so differences can be obtained to approximate the characteristic function of the error. Both options are available in `kerdec` and they are discussed with detail in "Sampling Scenarios" sections. 
 
-On the other hand, 
+As it can be seen in the KDDE formula, a kernel function $K(\cdot)$ must be selected. For theoretical and numerical reasons, it is more convenient to select a kernel function whose Fourier transform has compact support. Kernel functions used in traditional (i.e. error free) settings, like Gaussian, uniform and Epanechnikov kernels, do not usually meet this condition. The `kerdec` package offers 5 choices for kernel, including the sinc kernel, which is perhaps the most popular kernel in deconvolution. Go to the section "Kernels" to learn the details and usage of these kernels in KDDE.
 
 We will consider two approaches to provide bandwidth. The first of them consists on minimizing the AMISE by plugging in a normal reference estimator to R(f''). The second is my crossed-validation. We will only consider cases with one smoothing parameter.
 
