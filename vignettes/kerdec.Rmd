@@ -59,9 +59,14 @@ is the characteristic function of the error, and $H$ is a positive definite band
 
 At this point, we have assumed that the error distribution is perfectly known (so it is its characteristic function). This is, however, very rarely known. More realistic sampling scenarios that can allow to approximate $\phi_{\boldsymbol{\epsilon}}(\cdot)$ include (a) having an independent sample of errors besides the contaminated sample and (b) having repeated (contaminated) measurements per subject so differences can be obtained to approximate the characteristic function of the error. Both options are available in `kerdec` and they are discussed with detail in "Sampling Scenarios" sections. 
 
-As it can be seen in the KDDE formula, a kernel function $K(\cdot)$ must be selected. For theoretical and numerical reasons, it is more convenient to select a kernel function whose Fourier transform has compact support. Kernel functions used in traditional (i.e. error free) settings, like Gaussian, uniform and Epanechnikov kernels, do not usually meet this condition. The `kerdec` package offers 5 choices for kernel, including the sinc kernel, which is perhaps the most popular kernel in deconvolution. Go to the section "Kernels" to learn the details and usage of these kernels in KDDE.
+As it can be seen in the KDDE formula, a kernel function $K(\cdot)$ must be selected. For theoretical and numerical reasons, it is more convenient to select a kernel function whose Fourier transform, $K^{Ft}(\cdot)$, has compact support. Kernel functions used in traditional (i.e. error free) settings, like Gaussian, uniform and Epanechnikov kernels, do not usually meet this condition. The `kerdec` package offers 5 choices for kernel, including the sinc kernel, which is perhaps the most popular kernel in deconvolution. Go to the section "Kernels" to learn the details and usage of these kernels in KDDE.
+
 
 We will consider two approaches to provide bandwidth. The first of them consists on minimizing the AMISE by plugging in a normal reference estimator to R(f''). The second is my crossed-validation. We will only consider cases with one smoothing parameter.
+
+# Sampling Scenarios
+
+
 
 # Univariate Examples
 
