@@ -22,4 +22,3 @@ of two independent Laplace random variables.
 \author{
 Guillermo Basulto-Elias
 }
-

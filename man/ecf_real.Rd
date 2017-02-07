@@ -34,4 +34,3 @@ vals <- ecf_real(t, X)
 plot(t, vals, type = "l")
 
 }
-

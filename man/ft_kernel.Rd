@@ -44,4 +44,3 @@ t <- seq(-1.5, 1.5, 0.05)
 vals <- ft_kernel(t, "flat-top")
 plot(t, vals, type = "l")
 }
-

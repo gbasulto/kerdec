@@ -35,4 +35,3 @@ plot(t, Re(vals), type = "l", main = "real part")
 plot(t, Im(vals), type = "l", main = "imaginary part")
 
 }
-

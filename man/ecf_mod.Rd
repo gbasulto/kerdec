@@ -35,4 +35,3 @@ vals <- ecf_mod(t, X)
 plot(t, vals, type = "l")
 
 }
-

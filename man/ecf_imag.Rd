@@ -35,4 +35,3 @@ vals <- ecf_imag(t, X)
 plot(t, vals, type = "l")
 
 }
-

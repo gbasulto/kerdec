@@ -20,4 +20,3 @@ variables.
 \author{
 Guillermo Basulto-Elias
 }
-

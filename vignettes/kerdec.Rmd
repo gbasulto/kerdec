@@ -258,7 +258,6 @@ out <- kerdec_dens(smp = Y_panel)
 ## Show structure of out
 str(out)
 
-
 ```
 
 Finally, we generate the plot associated to the kernel deconvolution from repeated measurements.

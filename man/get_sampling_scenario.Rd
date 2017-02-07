@@ -19,4 +19,3 @@ provided.}
 Based on the given parameters to deconvolution function,
 determines the sampling scenario and displays a message.
 }
-

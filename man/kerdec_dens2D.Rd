@@ -101,4 +101,3 @@ See the vignette for more details.
 \author{
 Guillermo Basulto-Elias
 }
-

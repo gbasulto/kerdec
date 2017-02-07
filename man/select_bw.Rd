@@ -69,4 +69,3 @@ CV, etc.).
 \author{
 Guillermo Basulto
 }
-

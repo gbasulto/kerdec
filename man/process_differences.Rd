@@ -24,4 +24,3 @@ individual. This way is not unique when there are more than two
 replicates per individual. This function allows to do it in
 several ways.
 }
-

@@ -23,4 +23,3 @@ Obtain the normal characteristic function in a vector
 \author{
 Guillermo Basulto-Elias
 }
-

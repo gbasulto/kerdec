@@ -44,4 +44,3 @@ kerdec:::compute_scale_par(2, smp, 2)
 \author{
 Guillermo Basulto-Elias
 }
-

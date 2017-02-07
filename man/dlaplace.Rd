@@ -24,12 +24,11 @@ x <- seq(-2, 4, 0.05)
 vals <- dlaplace(x, mean = 1, sd = 0.99)
 plot(x, vals, type = "l")
 }
-\author{
-Guillermo Basulto-Elias
-}
 \seealso{
 \code{\link{plaplace}} for cumulative distribution
     function and \code{\link{rlaplace}} for random number
     generation.
 }
-
+\author{
+Guillermo Basulto-Elias
+}
