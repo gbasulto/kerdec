@@ -2,7 +2,7 @@ Package: kerdec
 Title: Kernel deconvolution methods
 Version: 0.0.1
 Authors@R: person("Guillermo", "Basulto-Elias", email = "guillermobasulto@gmail.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Description: Kernel deconvolution density estimation for univariate and bivariate samples under several sampling scenarios.
 Depends:
     R (>= 3.2.3)
 License: MIT + file LICENSE
