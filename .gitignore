@@ -7,3 +7,4 @@ kerdec.Rproj
 .travis.yml
 README.Rmd
 vignettes/kerdec_cache/*
+vignettes/kernels_cache/*
