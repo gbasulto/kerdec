@@ -22,13 +22,13 @@ opts_chunk$set(fig.width= 7, fig.height= 5,
 
 ```
 
-# General Description
+## General Description
 
 This package is about kernel deconvolution density estimation. Several sampling scenarios are considered and it works (so far) for univariate and bivariate samples.
 
 Kernel deconvolution density estimators (*KDDEs*) are nonparametric estimators of densities based on independent and identically distributed (*i.i.d.*) samples which have been subject to some measurement error. Kernel density estimation is perhaps the most popular nonparametric density estimator but it may not be used on samples that have been contaminated with non-negligible error. The KDDEs is a modified version of the usual kernel density estimator which is, unlike its the usual version, suitable for contaminated samples.
 
-There are two popular `R` packages that provide functions to do this, [`decon`](https://cran.r-project.org/web/packages/decon/index.html) and [`deamer`](https://cran.r-project.org/web/packages/deamer/index.html). The former package performs kdde with known error distribution allowing the suer to pick the bandwidth selection method between several methods summarized in @Delaigle2004PracticalEstimation. The latter package covers the univariate case and it allows known error case, repeated observations and pure error case, the bandwidth selection method follows Comte (**2011???**)
+There are two popular `R` packages that provide functions to do this, [`decon`](https://cran.r-project.org/web/packages/decon/index.html) (@Wang2011DeconvolutionDecon) and [`deamer`](https://cran.r-project.org/web/packages/deamer/index.html) (@Stirnemann2012Deamer:Error). The former package performs kdde with known error distribution allowing the suer to pick the bandwidth selection method between several methods summarized in @Delaigle2004PracticalEstimation. The latter package covers the univariate case and it allows known error case, repeated observations and pure error case, the bandwidth selection method follows @Comte2011Data-drivenDistribution.
 
 The package `kerdec` provides functions to handle univariate and bivariate kdde with unknown error distribution, by using the empirical characteristic function, or known errors, which can be Laplace or Gaussian. Also functions are provided to estimate the parameters based on a sample of errors or panel data structured data.
 
@@ -69,53 +69,18 @@ As it can be seen in the KDDE formula, a kernel function $K(\cdot)$ must be sele
 
 We will consider two approaches to provide bandwidth. The first of them consists on minimizing the AMISE by plugging in a normal reference estimator to R(f''). The second is my crossed-validation. We will only consider cases with one smoothing parameter.
 
+## Vignettes
+
+- Sampling Scenarios
+
+- Kernels
+
+- Bandwidth Selection
+
+- Repeated Measurements
+
+## References
 
 
 
-Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
 
-- Never uses retina figures
-- Has a smaller default figure size
-- Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
-
-## Vignette Info
-
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
-
-## Styles
-
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
-
-    output: 
-      rmarkdown::html_vignette:
-        css: mystyles.css
-
-## Figures
-
-The figure sizes have been customised so that you can easily put two images side-by-side. 
-
-```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
-```
-
-You can enable figure captions by `fig_caption: yes` in YAML:
-
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
-
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
-
-## More Examples
-
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
-
-```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
-```
-
-Also a quote using `>`:
-
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
