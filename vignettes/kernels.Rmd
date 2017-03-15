@@ -33,8 +33,8 @@ The five kernel functions considered have boundedly supported Fourier transforms
 ```{r, cache = TRUE}
 ## Load packages
 library(kerdec)
-library(dplyr)                          # Packages used to create the
-                                        # dataframe and plot it
+## Packages used to create the dataframe and plot it:
+library(dplyr)                          
 library(tidyr)
 library(ggplot2)
 
@@ -46,31 +46,40 @@ kernels <- c("sinc", "triangular", "triweight", "tricube", "flat-top")
 ## Data frame with kernel, t and value of FT
 FT_kernel_values <- 
     crossing(t = t_grid,
-           kernel = kernels) %>%
-  group_by(kernel) %>%
-  mutate(value = ft_kernel(t, unique(kernel))) 
+             kernel = kernels) %>%
+    group_by(kernel) %>%
+    mutate(value = ft_kernel(t, unique(kernel))) 
 
 ## Plot values of FT of kernels
 FT_kernel_values %>%
-ggplot(aes(t, value, color = kernel)) +
-  geom_line(aes(linetype = kernel)) +
-  theme_bw() +
-  ggtitle("Fourier transform of kernels in 'kerdec'") +
-  theme(legend.position = "bottom")
+    ggplot(aes(t, value, color = kernel)) +
+    geom_line(aes(linetype = kernel)) +
+    theme_bw() +
+    ggtitle("Fourier transform of kernels in 'kerdec'") +
+    theme(legend.position = "bottom")
 
 ```
 
 Now we obtain the values of the kernel functions from their Fourier transforms.
 
 ```{r, cache = TRUE}
-## Load package
+
+## Load packages
+
 library(kerdec)
-library(dplyr)
+## Packages used to create dataframe and then generate plot:
 library(tidyr)
+library(dplyr)
+library(purrr)
 library(ggplot2)
 
-kernel_values %>%
-    crossing
+## ## Kernels
+## kernels <- c("sinc", "triangular", "triweight", "tricube", "flat-top")
+
+
+
+## kernel_values %>%
+##     crossing
 
 
 ## Write the name of all kernels available
