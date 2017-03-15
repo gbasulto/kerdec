@@ -67,43 +67,39 @@ Now we obtain the values of the kernel functions from their Fourier transforms.
 ## Load packages
 
 library(kerdec)
+## Package to recover the kernels based on their Fourier tranform.
+library(fourierin)
 ## Packages used to create dataframe and then generate plot:
-library(tidyr)
 library(dplyr)
 library(purrr)
 library(ggplot2)
 
-## ## Kernels
-## kernels <- c("sinc", "triangular", "triweight", "tricube", "flat-top")
-
-
-
-## kernel_values %>%
-##     crossing
-
-
-## Write the name of all kernels available
-ker <- c("sinc", "triangular", "triweight", "tricube", "flat-top")
-names(ker) <- ker
-
-## Find the actual kernel values from their Fourier transform
-vals <- lapply(ker,
-               function(krnl) 
-                 fourierin::fourierin(function(t) ft_kernel(t, krnl), 
-                                      a = -1, b = 1, c = -9, d = 9, 
-                                      r = -1, s = -1, resol = 256))
-## Obtain grid and extract the real part of every set of values.
-x <- vals$sinc$w
-vals <- lapply(vals, function(out) c(Re(out$values)))
-
-## Generate plot
-plot(x, vals[["sinc"]], type = "n", 
-     ylab = "value", main = "Kernel functions")
-abline(h = 0, col = "lightgray")
-for(idx in 1:5){
-  lines(x, vals[[idx]], col = idx + 1, lty = idx, lwd = 2)
+## List kernel and define function to recover kernels from their
+## Fourier transform and puts them in a dataframe.
+kernels <- c("sinc", "triangular", "triweight", "tricube", "flat-top")
+recover_kernel <- function (ker) {
+    fourierin(function (t) ft_kernel(t, ker), 
+              a = -1, b = 1, c = -9, d = 9, 
+              r = -1, s = -1, resol = 256)    %>%
+        with(data_frame(x =  w,
+                        value = Re(c(values)),
+                        kernel = ker))
 }
-legend("topright", ker, col = 2:6, lty = 1:5, lwd = 2)
+
+## Data frame with kernel, t and kernel values.
+kernel_values <- 
+    kernels %>%
+    structure(., names = .)  %>%
+    map_df(recover_kernel)
+        
+
+## Plot possible kernels
+kernel_values %>%
+    ggplot(aes(x, value, color = kernel)) +
+    geom_line(aes(linetype = kernel)) +
+    theme_bw() +
+    ggtitle("Actual kernel values") + 
+    theme(legend.position = "bottom")
 
 ```
 
@@ -119,21 +115,14 @@ library(kerdec)
 library(dplyr)
 library(ggplot2)
 
+## Plot triangular kernel
 data_frame(t = seq(-1.3, 1.3, 0.01),
            values = ft_kernel(t, ker = "triangular")) %>%
   ggplot(aes(t, values)) +
-  geom_line(color = "magenta")
+  geom_line() +
+  ggtitle("Triangular kernel") +
+  theme_bw()
 
-## Define grid
-t <- seq(-1.3, 1.3, 0.01)
-
-## Compute values
-## We obtain the same result with ker = 2
-values <- ft_kernel(t, ker = "triangular")
-
-## Print plot
-plot(t, values, main = "Triangular kernel", lwd = 2, 
-     type = "l", col = "magenta")
 ```
 
 
@@ -143,27 +132,39 @@ Finally we show a minimal example of how to use the function `ft_kernel` to find
 
 ```{r, cache = TRUE}
 
+
 ## Load package 
 library(fourierin)
+library(dplyr)
+library(lattice)
+
+
 
 ## Define grid
-t1 <- seq(-1.1, 1.1, length.out = 150)
-t2 <- t1
-t <- expand.grid(t1 = t1, t2 = t1)
+t1 <- seq(-1.2, 1.2, length.out = 64)
+t2 <- seq(-1.2, 1.2, length.out = 64)
 
-## Compute values
-## We obtain the same result with ker = 2
-values <- ft_kernel(t, ker = "triangular")
-values <- ft_kernel(t, ker = "flat-top")
+FT_kernel_values <- 
+    crossing(t1, t2) %>%
+    mutate(value = ft_kernel(cbind(t1, t2), ker = "flat-top"))
 
-## Convert dataframe to matrix
-values <- matrix(values, length(t1))
+wireframe(value ~ t1*t2, data = FT_kernel_values,
+  xlab = expression(t[1]), ylab = expression(t[2]),
+  main = "Surface elevation data",
+  drape = TRUE,
+  colorkey = TRUE,
+  pretty =  TRUE,
+  col.regions = colorRampPalette(c("yellow", "red"))(100),
+  ## ## light.source = c(10,0,10),
+  ## col = "gray",
+  screen = list(z = -60, x = -60)
+)
 
-## Print surface plot
-persp(x = t1, y = t2, z = values,
-      theta = 120, lwd = .2, phi = 30, shade = .8)
-
-## Now a contour plot
-contour(x = t1, y = t2, z = values, nlevels = 10)
+FT_kernel_values %>%
+    ggplot(aes(t1, t2, z = value)) +
+    geom_contour(aes(color = ..level..)) +
+    theme_bw() +
+    xlab(expression(t[1])) +
+    ylab(expression(t[2]))
 
 ```
