@@ -150,13 +150,11 @@ FT_kernel_values <-
 
 wireframe(value ~ t1*t2, data = FT_kernel_values,
   xlab = expression(t[1]), ylab = expression(t[2]),
-  main = "Surface elevation data",
+  main = "Product kernel",
   drape = TRUE,
   colorkey = TRUE,
   pretty =  TRUE,
   col.regions = colorRampPalette(c("yellow", "red"))(100),
-  ## ## light.source = c(10,0,10),
-  ## col = "gray",
   screen = list(z = -60, x = -60)
 )
 
