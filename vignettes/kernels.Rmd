@@ -22,7 +22,42 @@ opts_chunk$set(fig.width= 7, fig.height= 5,
 
 ```
 
-Kernel whose Fourier transform are preferred in kernel deconvolution methods due to their theoretical and numerical advantages. In fact, only those Fourier transforms are used, rather than the kernel functions themselves. Thus, we have a function that can calculates kernel and product kernels.
+## Kernel Choice
+
+In kernel deconvolution density estimators (KDDEs), the kernel function is not used directly but, rather, its Fourier transform. Therefore, it is desirable to have kernels whose Fourier transform have good properties. 
+
+Selecting kernels whose Fourier transform has a bounded support leads to numerical advantages (as it is easier to integrate numerically) as well as theoretical advantages (as it is easier to deal with convergence rates).
+
+In this vignette we find:
+
+- Description of the kernels available in `kerdec` package.
+- Product kernels used in this package for higher dimensions integration.
+- Kernel selection in KDDE
+
+<!--
+Recall that the KDDE formula is given by,
+$$
+\hat{f}_{\boldsymbol{X}}(\boldsymbol{x}) = 
+    \frac{1}{(2\pi)^d}
+    \int e^{-\imath \langle \boldsymbol{x}, \boldsymbol{t} \rangle}
+    \hat{\phi}_{\boldsymbol{Y}, n}(\boldsymbol{t})
+    \frac{K^{Ft}(H^{-1/2}\boldsymbol{t})}
+         {\phi_{\boldsymbol{\epsilon}}(\boldsymbol{t})}
+    d\boldsymbol{t},
+$$
+
+where, $\boldsymbol{Y}_1, \ldots, \boldsymbol{Y}_n$ is a sample of independent and identically distributed (_iid_) random vectors from the model
+$$\boldsymbol{Y}= \boldsymbol{X} + \boldsymbol{\epsilon}$$
+Assume (for the moment) that the error distribution ($\boldsymbol{\epsilon}$) is perfectly known.  The kernel deconvolution density estimator (KDDE) is given by the KDDE formula:
+where $\langle \cdot, \cdot \rangle$ is the usual inner product in $\mathbb{R}^d$; 
+$$\hat{\phi}_{\boldsymbol{Y}, n}(\boldsymbol{t}) = n^{-1} \sum_j \exp \left( \imath \langle \boldsymbol{t}, \boldsymbol{Y}_j \rangle\right)$$
+is the empirical characteristic function of the contaminated sample; $K:\mathbb{R}^d \rightarrow \mathbb{R}$ is a symmetric kernel and 
+$$K^{Ft}(\boldsymbol{s}) = \int e^{\imath \langle \boldsymbol{s}, \boldsymbol{x} \rangle}K(\boldsymbol{x}) d\boldsymbol{x}$$
+its Fourier transform; 
+$$\phi_{\boldsymbol{\epsilon}}(\boldsymbol{t}) = \int e^{\imath \langle \boldsymbol{t}, \boldsymbol{x} \rangle} f_\boldsymbol{\epsilon}(\boldsymbol{x}) d\boldsymbol{x}$$
+is the characteristic function of the error, and $H$ is a positive definite bandwidth matrix.
+
+-->
 
 ## Kernel functions and their Fourier transforms
 
@@ -130,7 +165,7 @@ data_frame(t = seq(-1.3, 1.3, 0.01),
 
 Finally we show a minimal example of how to use the function `ft_kernel` to find the Fourier transform of a product kernel. Observe that the grid has to be introduced as a matrix with $d$ columns and not as a $d$-dimensional array. 
 
-```{r, cache = TRUE}
+```{r, cache = TRUE, hold = TRUE}
 
 
 ## Load package 
@@ -144,10 +179,12 @@ library(lattice)
 t1 <- seq(-1.2, 1.2, length.out = 64)
 t2 <- seq(-1.2, 1.2, length.out = 64)
 
+## Compute the values of the kernel
 FT_kernel_values <- 
     crossing(t1, t2) %>%
     mutate(value = ft_kernel(cbind(t1, t2), ker = "flat-top"))
 
+## 
 wireframe(value ~ t1*t2, data = FT_kernel_values,
   xlab = expression(t[1]), ylab = expression(t[2]),
   main = "Product kernel",
@@ -164,5 +201,38 @@ FT_kernel_values %>%
     theme_bw() +
     xlab(expression(t[1])) +
     ylab(expression(t[2]))
+
+```
+
+
+## Usage in KDDE
+
+```{r}
+library(kerdec)                         # Load package
+library(dplyr)
+library(ggplot2)
+
+set.seed(666)                           # Set seed
+
+
+## Signal parameters 
+shape <- 5                              # X distr. shape par.
+rate <- 5                               # X distr. rate par.
+
+## Settings and samples for all the cases
+n <- 250                                # Sample size
+sd_error <- 0.2                         # std. error of error distr.
+X <- rgamma(n, shape, rate)             # Uncontaminated sample
+Y <- X + rlaplace(n, sd = sd_error)     # Contaminated sample
+extra_errors <- rlaplace(2*n, sd = sd_error) # Extra errors
+
+
+## Estimate density
+out <- kerdec_dens(smp = Y, error_smp = extra_errors, h = 0.2, kernel = "sinc")
+
+str(out)
+
+data_frame(x = out$x_eval, value = out$f_vals) %>%
+    qplot(x, value, data = ., geom = "line")
 
 ```
