@@ -438,6 +438,8 @@ kerdec_dens <- function(smp,
     if (is.null(x_eval) & (is.null(lower) & is.null(upper))){
         lower <- min(smp)
         upper <- max(smp)
+        x_eval <- seq(lower, upper,
+                      len = resolution + 1)[-resolution]
         }
     
     ## 
@@ -469,8 +471,6 @@ kerdec_dens <- function(smp,
                                 error_dist = error_dist,
                                 panel_proc = panel_proc)
             f_vals <- Re(f_vals)
-            x_eval <- seq(lower, upper,
-                          len = resolution + 1)[-resolution]
             
         },
         stop("'lower' or 'upper' arguments were not provided."),
