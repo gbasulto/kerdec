@@ -38,8 +38,8 @@ check_dims <- function(dim1, dim2){
 ##'     reference). Cross-validation is the default.
 ##' @param kernel Kernel whose Fourier transform has bounded
 ##'     support. There are currently 5 kernel programmed: "sinc",
-##'     "triangular", "triw", "tric" and "flat". See vignette for further
-##'     details and examples. Flat-top kernel is the default.
+##'     "triangular", "triw", "tric" and "flat". See vignette for
+##'     further details and examples. Flat-top kernel is the default.
 ##' @param lower Lower limit where the density will be evaluated.
 ##' @param upper Upper limit where the density will be evaluated.
 ##' @param x_eval Not yet activated. grid of values where the density
