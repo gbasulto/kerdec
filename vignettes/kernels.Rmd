@@ -5,8 +5,10 @@ date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{kernels}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 
@@ -114,8 +116,10 @@ library(ggplot2)
 kernels <- c("sinc", "triangular", "triweight", "tricube", "flat-top")
 recover_kernel <- function (ker) {
     fourierin(function (t) ft_kernel(t, ker), 
-              a = -1, b = 1, c = -9, d = 9, 
-              r = -1, s = -1, resol = 256)    %>%
+              lower_int = -1, upper_int = 1, 
+              lower_eval = -9, upper_eval = 9, 
+              const_adj = -1, freq_adj = -1, 
+              resolution = 256)    %>%
         with(data_frame(x =  w,
                         value = Re(c(values)),
                         kernel = ker))
