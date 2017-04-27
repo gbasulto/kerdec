@@ -108,12 +108,13 @@ kerdec_dens2D <- function(smp1, smp2,
     error_dists <- c("none", "laplace", "normal")
     error_procs <- c("all", "vs_first", "indep_pairs")
     panel_procs <- c("keep_first", "take_aver")
-
+    
     smp1 <- check_smp(smp1)             # Check smp is num. matrix
     smp2 <- check_smp(smp2)
     
     n <- check_dims(nrow(smp1), nrow(smp2))
     k <- check_dims(ncol(smp1), ncol(smp2))
+
     ## Ask the sample size to be at least three and also obtain the
     ## number of repetitions.
     if(n < 3) stop("Sample size must be of at least 3.")
@@ -134,15 +135,15 @@ kerdec_dens2D <- function(smp1, smp2,
         smp1 <- switch(panel_proc, smp1[, 1], matrix(rowMeans(smp1)))
         smp2 <- switch(panel_proc, smp2[, 1], matrix(rowMeans(smp2)))
     } 
-
+    
     ## Compute error scale parameter if it was not given.
     error_scale_par1 <- compute_scale_par(error_dist, error_smp1, k,
-                                         error_scale_par1)
+                                          error_scale_par1)
     error_scale_par2 <- compute_scale_par(error_dist, error_smp2, k,
-                                         error_scale_par2)
+                                          error_scale_par2)
     
     ## Now we select the initial h0, if it was not provided.
-    if(is.null(h0)){
+    if (is.null(h0)) {
         h0 <- ifelse(error_dist == 2,
         (5*error_scale_par1^4/n)^(1/9),
         error_scale_par1/sqrt(log(n)/2))
@@ -160,12 +161,12 @@ kerdec_dens2D <- function(smp1, smp2,
         error_smp1 <- matrix(0, 5, 1)
         error_smp2 <- matrix(0, 5, 1)
     } 
-
+    
     ## Define smp and error_smp, which are two-column matrices.
     smp <- cbind(smp1, smp2)
     error_smp <- cbind(error_smp1, error_smp2)
     error_scale_par <- c(error_scale_par1, error_scale_par2)
-
+    
     vals <- kerdec_dens2D_cpp(smp, error_smp, h,
                               lower,
                               upper,

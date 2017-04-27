@@ -874,8 +874,8 @@ names(ker) <- ker
 vals <- lapply(ker,
                function(krnl) 
                  fourierin::fourierin(function(t) ft_kernel(t, krnl), 
-                                      a = -1, b = 1, c = -9, d = 9, 
-                                      r = -1, s = -1, resol = 256))
+                                      -1, 1, -9, 9, 
+                                      -1, -1, resol = 256))
 ## Obtain grid and extract the real part of every set of values.
 x <- vals$sinc$w
 vals <- lapply(vals, function(out) c(Re(out$values)))

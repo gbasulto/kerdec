@@ -90,7 +90,7 @@ h_NR <- function(h0, smp, error_smp, resolution, kernel, n,
     if(panel_proc == 2) sigE <- sigE/sqrt(k)
     sig_hat <- sqrt(sigY^2 - sigE^2)
     R <- 0.37/(sqrt(pi)*sig_hat^5)
-
+    
     ## Function to be minimized
     amise_fun <- function(bw){
         amise(bw, mu2K2, R, error_smp, resolution, kernel, n,
@@ -99,7 +99,7 @@ h_NR <- function(h0, smp, error_smp, resolution, kernel, n,
     
     ## Compute optimal bandwidth
     h_optim <- optimize_bw(amise_fun, h0)
-
+    
     ## If required, compute and print an interval with the values of
     ## the function to be minimized.
     plot_bw(bw_interval, f = amise_fun, h = h_optim$estimate, h0)
