@@ -23,7 +23,8 @@ Suggests: knitr,
     tidyr,
     ggplot2,
     microbenchmark,
-    purrr
+    purrr,
+    lattice
 URL: http://github.com/gbasulto/kerdec
 BugReports: https://github.com/gbasulto/kerdec/issues
 VignetteBuilder: knitr
