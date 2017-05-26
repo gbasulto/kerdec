@@ -9,6 +9,19 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r global_options, include=FALSE}
+rm(list=ls()) ### To clear namespace
+library(knitr)
+
+# opts_chunk$set(fig.width=12, fig.height=8, fig.path='Figs/',
+#                echo=TRUE, warning=FALSE, message=FALSE)
+opts_chunk$set(fig.width= 7, fig.height= 5,
+               echo=TRUE, warning=FALSE, message=FALSE)
+
+
+```
+
+
 ## Bandwidth Selection in KDDE
 
 Bandwidth selection is a crucial aspect while obtaining kernel deconvolution density estimates (KDDEs). It is not straightforward to adapt existing methods in usual kernel density estimators (KDEs) to their counterpart for samples contaminated with error, that is, KDDEs.
