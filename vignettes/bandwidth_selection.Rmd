@@ -1,0 +1,14 @@
+---
+title: "Bandwidth Selection"
+author: "Guillermo Basulto-Elias"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{bandwidth}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Bandwidth Selection
+
+dfd
