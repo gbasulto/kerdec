@@ -9,6 +9,47 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-## Bandwidth Selection
+## Bandwidth Selection in KDDE
 
-dfd
+Bandwidth selection is a crucial aspect while obtaining kernel deconvolution density estimates (KDDEs). It is not straightforward to adapt existing methods in usual kernel density estimators (KDEs) to their counterpart for samples contaminated with error, that is, KDDEs.
+
+The `kerdec` packages allows the user to either provide the bandwidth, or select some common methods that exist for KDDEs. In the bivariate setting, the options are more limited.
+
+## Providing the Bandwidth
+
+```{r}
+library(kerdec)                         # Load packages
+library(ggplot2)                         
+library(dplyr)
+library(purrr)
+
+set.seed(666)                           # Set seed
+
+
+## Signal parameters 
+shape <- 5                              # X distr. shape par.
+rate <- 5                               # X distr. rate par.
+
+## Settings and samples for all the cases
+n <- 150                                # Sample size
+sd_error <- 0.2                         # std. error of error distr.
+X <- rgamma(n, shape, rate)             # Uncontaminated sample
+Y <- X + rlaplace(n, sd = sd_error)     # Contaminated sample
+
+
+## Estimate density
+get_KDDE_and_return_df <- function(h)
+{
+  kdde <- kerdec_dens(smp = Y, error_scale_par = sd_error, h = h)
+  out <- data_frame(x = kdde$x_eval, value = kdde$f_vals, bandwidth = as.character(h))
+  return (out)
+}
+
+h <- c(0.1, 0.2, 0.08)
+out <- map_df(h, get_KDDE_and_return_df)
+
+ggplot(out, aes(x, value, color = bandwidth)) + geom_line(aes(linetype = bandwidth))
+
+```
+
+
