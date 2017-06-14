@@ -206,3 +206,24 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+
+static const R_CallMethodDef CallEntries[] = {
+    {"kerdec_ft_kernel_cpp", (DL_FUNC) &kerdec_ft_kernel_cpp, 2},
+    {"kerdec_ecf_re_cpp", (DL_FUNC) &kerdec_ecf_re_cpp, 2},
+    {"kerdec_ecf_im_cpp", (DL_FUNC) &kerdec_ecf_im_cpp, 2},
+    {"kerdec_ecf_mod_cpp", (DL_FUNC) &kerdec_ecf_mod_cpp, 2},
+    {"kerdec_ecf_cpp", (DL_FUNC) &kerdec_ecf_cpp, 2},
+    {"kerdec_process_differences_cpp", (DL_FUNC) &kerdec_process_differences_cpp, 2},
+    {"kerdec_kerdec_dens_cpp", (DL_FUNC) &kerdec_kerdec_dens_cpp, 12},
+    {"kerdec_kerdec_dens_nonreg_cpp", (DL_FUNC) &kerdec_kerdec_dens_nonreg_cpp, 11},
+    {"kerdec_amise", (DL_FUNC) &kerdec_amise, 11},
+    {"kerdec_CV", (DL_FUNC) &kerdec_CV, 11},
+    {"kerdec_kerdec_dens2D_cpp", (DL_FUNC) &kerdec_kerdec_dens2D_cpp, 12},
+    {"kerdec_CV2D", (DL_FUNC) &kerdec_CV2D, 11},
+    {NULL, NULL, 0}
+};
+
+RcppExport void R_init_kerdec(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
+}
