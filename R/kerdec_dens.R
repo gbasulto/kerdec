@@ -25,12 +25,12 @@
 ##'
 ##' ## Good initial point.
 ##' kerdec:::optimize_bw(function(x) x^2, 0.5)
-optimize_bw <- function(f, h0, ...){
+optimize_bw <- function (f, h0, ...) {
     ## Function to be minimized
-    objective <- function(bw){
-        if(bw < 0) return (.Machine$double.xmax) # Check bw > 0
+    objective <- function (bw) {
+        if (bw < 0) return (.Machine$double.xmax) # Check bw > 0
         val <- f(bw, ...)
-        if (is.nan(val) | !is.finite(val)){ # Check val is finite
+        if (is.nan(val) | !is.finite(val)) { # Check val is finite
             val <- .Machine$double.xmax
         }
         return (val)
@@ -53,10 +53,10 @@ optimize_bw <- function(f, h0, ...){
     return(out)
 }
 
-plot_bw <- function(bw_interval, f, h, h0, ...){
+plot_bw <- function (bw_interval, f, h, h0, ...) {
     ## If required, compute and print an interval with the values of
     ## the function to be minimized.
-    if(is.null(bw_interval)) return (NULL)
+    if (is.null(bw_interval)) return (NULL)
 
     h_grid <- seq(from = bw_interval[1], # Grid to plot vals.
                   to = bw_interval[2],
@@ -72,12 +72,12 @@ plot_bw <- function(bw_interval, f, h, h0, ...){
            col = c("magenta", "cyan"), lty = 2:3)
 }
 
-h_NR <- function(h0, smp, error_smp, resolution, kernel, n,
+h_NR <- function (h0, smp, error_smp, resolution, kernel, n,
                  error_scale_par, k, error_dist, panel_proc,
-                 bw_interval){
+                 bw_interval) {
     ## Normal references works only for kernels with second moment. We
     ## check that here.
-    if(!(kernel %in% 3:4)){
+    if (!(kernel %in% 3:4)) {
         stop("'nr' does not work for that kernel")
     }
     
@@ -87,12 +87,12 @@ h_NR <- function(h0, smp, error_smp, resolution, kernel, n,
     mu2K2 <- ifelse(kernel == 3, 6^2, (4.822182e-05)^2)
     sigY <- stats::sd(smp)
     sigE <- error_scale_par
-    if(panel_proc == 2) sigE <- sigE/sqrt(k)
+    if (panel_proc == 2) sigE <- sigE/sqrt(k)
     sig_hat <- sqrt(sigY^2 - sigE^2)
     R <- 0.37/(sqrt(pi)*sig_hat^5)
     
     ## Function to be minimized
-    amise_fun <- function(bw){
+    amise_fun <- function(bw) {
         amise(bw, mu2K2, R, error_smp, resolution, kernel, n,
               error_scale_par, k, error_dist, panel_proc)
     }
