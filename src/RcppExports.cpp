@@ -8,7 +8,7 @@ using namespace Rcpp;
 
 // ft_kernel_cpp
 arma::vec ft_kernel_cpp(const arma::mat& t, int ker);
-RcppExport SEXP kerdec_ft_kernel_cpp(SEXP tSEXP, SEXP kerSEXP) {
+RcppExport SEXP _kerdec_ft_kernel_cpp(SEXP tSEXP, SEXP kerSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -20,7 +20,7 @@ END_RCPP
 }
 // ecf_re_cpp
 arma::vec ecf_re_cpp(const arma::mat& t, const arma::mat& smp);
-RcppExport SEXP kerdec_ecf_re_cpp(SEXP tSEXP, SEXP smpSEXP) {
+RcppExport SEXP _kerdec_ecf_re_cpp(SEXP tSEXP, SEXP smpSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -32,7 +32,7 @@ END_RCPP
 }
 // ecf_im_cpp
 arma::vec ecf_im_cpp(const arma::mat& t, const arma::mat& smp);
-RcppExport SEXP kerdec_ecf_im_cpp(SEXP tSEXP, SEXP smpSEXP) {
+RcppExport SEXP _kerdec_ecf_im_cpp(SEXP tSEXP, SEXP smpSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -44,7 +44,7 @@ END_RCPP
 }
 // ecf_mod_cpp
 arma::vec ecf_mod_cpp(const arma::mat& t, const arma::mat& smp);
-RcppExport SEXP kerdec_ecf_mod_cpp(SEXP tSEXP, SEXP smpSEXP) {
+RcppExport SEXP _kerdec_ecf_mod_cpp(SEXP tSEXP, SEXP smpSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -56,7 +56,7 @@ END_RCPP
 }
 // ecf_cpp
 arma::cx_vec ecf_cpp(const arma::mat& t, const arma::mat& smp);
-RcppExport SEXP kerdec_ecf_cpp(SEXP tSEXP, SEXP smpSEXP) {
+RcppExport SEXP _kerdec_ecf_cpp(SEXP tSEXP, SEXP smpSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -68,7 +68,7 @@ END_RCPP
 }
 // process_differences_cpp
 arma::vec process_differences_cpp(const arma::mat& smp, int method);
-RcppExport SEXP kerdec_process_differences_cpp(SEXP smpSEXP, SEXP methodSEXP) {
+RcppExport SEXP _kerdec_process_differences_cpp(SEXP smpSEXP, SEXP methodSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -80,7 +80,7 @@ END_RCPP
 }
 // kerdec_dens_cpp
 arma::cx_vec kerdec_dens_cpp(const arma::vec& smp, const arma::vec& error_smp, double h, double lower, double upper, int resolution, int ker, double sigma, int k, int error_dist, int panel_proc, double cutoff);
-RcppExport SEXP kerdec_kerdec_dens_cpp(SEXP smpSEXP, SEXP error_smpSEXP, SEXP hSEXP, SEXP lowerSEXP, SEXP upperSEXP, SEXP resolutionSEXP, SEXP kerSEXP, SEXP sigmaSEXP, SEXP kSEXP, SEXP error_distSEXP, SEXP panel_procSEXP, SEXP cutoffSEXP) {
+RcppExport SEXP _kerdec_kerdec_dens_cpp(SEXP smpSEXP, SEXP error_smpSEXP, SEXP hSEXP, SEXP lowerSEXP, SEXP upperSEXP, SEXP resolutionSEXP, SEXP kerSEXP, SEXP sigmaSEXP, SEXP kSEXP, SEXP error_distSEXP, SEXP panel_procSEXP, SEXP cutoffSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -102,7 +102,7 @@ END_RCPP
 }
 // kerdec_dens_nonreg_cpp
 arma::cx_vec kerdec_dens_nonreg_cpp(const arma::vec& smp, const arma::vec& error_smp, double h, const arma::vec& x_eval, int resolution, int ker, double sigma, int k, int error_dist, int panel_proc, double cutoff);
-RcppExport SEXP kerdec_kerdec_dens_nonreg_cpp(SEXP smpSEXP, SEXP error_smpSEXP, SEXP hSEXP, SEXP x_evalSEXP, SEXP resolutionSEXP, SEXP kerSEXP, SEXP sigmaSEXP, SEXP kSEXP, SEXP error_distSEXP, SEXP panel_procSEXP, SEXP cutoffSEXP) {
+RcppExport SEXP _kerdec_kerdec_dens_nonreg_cpp(SEXP smpSEXP, SEXP error_smpSEXP, SEXP hSEXP, SEXP x_evalSEXP, SEXP resolutionSEXP, SEXP kerSEXP, SEXP sigmaSEXP, SEXP kSEXP, SEXP error_distSEXP, SEXP panel_procSEXP, SEXP cutoffSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -123,7 +123,7 @@ END_RCPP
 }
 // amise
 double amise(double h, double mu2K2, double R, const arma::vec& error_smp, int resolution, int ker, int n, double sigma, int k, int error_dist, int panel_proc);
-RcppExport SEXP kerdec_amise(SEXP hSEXP, SEXP mu2K2SEXP, SEXP RSEXP, SEXP error_smpSEXP, SEXP resolutionSEXP, SEXP kerSEXP, SEXP nSEXP, SEXP sigmaSEXP, SEXP kSEXP, SEXP error_distSEXP, SEXP panel_procSEXP) {
+RcppExport SEXP _kerdec_amise(SEXP hSEXP, SEXP mu2K2SEXP, SEXP RSEXP, SEXP error_smpSEXP, SEXP resolutionSEXP, SEXP kerSEXP, SEXP nSEXP, SEXP sigmaSEXP, SEXP kSEXP, SEXP error_distSEXP, SEXP panel_procSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -144,7 +144,7 @@ END_RCPP
 }
 // CV
 double CV(double h, const arma::vec& Z, const arma::vec& smp, const arma::vec& error_smp, int resolution, int ker, double sigma, int k, int error_dist, int panel_proc, double cutoff);
-RcppExport SEXP kerdec_CV(SEXP hSEXP, SEXP ZSEXP, SEXP smpSEXP, SEXP error_smpSEXP, SEXP resolutionSEXP, SEXP kerSEXP, SEXP sigmaSEXP, SEXP kSEXP, SEXP error_distSEXP, SEXP panel_procSEXP, SEXP cutoffSEXP) {
+RcppExport SEXP _kerdec_CV(SEXP hSEXP, SEXP ZSEXP, SEXP smpSEXP, SEXP error_smpSEXP, SEXP resolutionSEXP, SEXP kerSEXP, SEXP sigmaSEXP, SEXP kSEXP, SEXP error_distSEXP, SEXP panel_procSEXP, SEXP cutoffSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -165,7 +165,7 @@ END_RCPP
 }
 // kerdec_dens2D_cpp
 arma::cx_mat kerdec_dens2D_cpp(const arma::mat& smp, const arma::mat& error_smp, double h, const arma::vec& lower, const arma::vec& upper, const arma::vec& resolution, int ker, const arma::vec& sigma, int k, int error_dist, int panel_proc, double cutoff);
-RcppExport SEXP kerdec_kerdec_dens2D_cpp(SEXP smpSEXP, SEXP error_smpSEXP, SEXP hSEXP, SEXP lowerSEXP, SEXP upperSEXP, SEXP resolutionSEXP, SEXP kerSEXP, SEXP sigmaSEXP, SEXP kSEXP, SEXP error_distSEXP, SEXP panel_procSEXP, SEXP cutoffSEXP) {
+RcppExport SEXP _kerdec_kerdec_dens2D_cpp(SEXP smpSEXP, SEXP error_smpSEXP, SEXP hSEXP, SEXP lowerSEXP, SEXP upperSEXP, SEXP resolutionSEXP, SEXP kerSEXP, SEXP sigmaSEXP, SEXP kSEXP, SEXP error_distSEXP, SEXP panel_procSEXP, SEXP cutoffSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -187,7 +187,7 @@ END_RCPP
 }
 // CV2D
 double CV2D(double h, const arma::vec& Z, const arma::vec& smp, const arma::vec& error_smp, int resolution, int ker, double sigma, int k, int error_dist, int panel_proc, double cutoff);
-RcppExport SEXP kerdec_CV2D(SEXP hSEXP, SEXP ZSEXP, SEXP smpSEXP, SEXP error_smpSEXP, SEXP resolutionSEXP, SEXP kerSEXP, SEXP sigmaSEXP, SEXP kSEXP, SEXP error_distSEXP, SEXP panel_procSEXP, SEXP cutoffSEXP) {
+RcppExport SEXP _kerdec_CV2D(SEXP hSEXP, SEXP ZSEXP, SEXP smpSEXP, SEXP error_smpSEXP, SEXP resolutionSEXP, SEXP kerSEXP, SEXP sigmaSEXP, SEXP kSEXP, SEXP error_distSEXP, SEXP panel_procSEXP, SEXP cutoffSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -208,18 +208,18 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"kerdec_ft_kernel_cpp", (DL_FUNC) &kerdec_ft_kernel_cpp, 2},
-    {"kerdec_ecf_re_cpp", (DL_FUNC) &kerdec_ecf_re_cpp, 2},
-    {"kerdec_ecf_im_cpp", (DL_FUNC) &kerdec_ecf_im_cpp, 2},
-    {"kerdec_ecf_mod_cpp", (DL_FUNC) &kerdec_ecf_mod_cpp, 2},
-    {"kerdec_ecf_cpp", (DL_FUNC) &kerdec_ecf_cpp, 2},
-    {"kerdec_process_differences_cpp", (DL_FUNC) &kerdec_process_differences_cpp, 2},
-    {"kerdec_kerdec_dens_cpp", (DL_FUNC) &kerdec_kerdec_dens_cpp, 12},
-    {"kerdec_kerdec_dens_nonreg_cpp", (DL_FUNC) &kerdec_kerdec_dens_nonreg_cpp, 11},
-    {"kerdec_amise", (DL_FUNC) &kerdec_amise, 11},
-    {"kerdec_CV", (DL_FUNC) &kerdec_CV, 11},
-    {"kerdec_kerdec_dens2D_cpp", (DL_FUNC) &kerdec_kerdec_dens2D_cpp, 12},
-    {"kerdec_CV2D", (DL_FUNC) &kerdec_CV2D, 11},
+    {"_kerdec_ft_kernel_cpp", (DL_FUNC) &_kerdec_ft_kernel_cpp, 2},
+    {"_kerdec_ecf_re_cpp", (DL_FUNC) &_kerdec_ecf_re_cpp, 2},
+    {"_kerdec_ecf_im_cpp", (DL_FUNC) &_kerdec_ecf_im_cpp, 2},
+    {"_kerdec_ecf_mod_cpp", (DL_FUNC) &_kerdec_ecf_mod_cpp, 2},
+    {"_kerdec_ecf_cpp", (DL_FUNC) &_kerdec_ecf_cpp, 2},
+    {"_kerdec_process_differences_cpp", (DL_FUNC) &_kerdec_process_differences_cpp, 2},
+    {"_kerdec_kerdec_dens_cpp", (DL_FUNC) &_kerdec_kerdec_dens_cpp, 12},
+    {"_kerdec_kerdec_dens_nonreg_cpp", (DL_FUNC) &_kerdec_kerdec_dens_nonreg_cpp, 11},
+    {"_kerdec_amise", (DL_FUNC) &_kerdec_amise, 11},
+    {"_kerdec_CV", (DL_FUNC) &_kerdec_CV, 11},
+    {"_kerdec_kerdec_dens2D_cpp", (DL_FUNC) &_kerdec_kerdec_dens2D_cpp, 12},
+    {"_kerdec_CV2D", (DL_FUNC) &_kerdec_CV2D, 11},
     {NULL, NULL, 0}
 };
 

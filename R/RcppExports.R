@@ -2,50 +2,50 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 ft_kernel_cpp <- function(t, ker) {
-    .Call('kerdec_ft_kernel_cpp', PACKAGE = 'kerdec', t, ker)
+    .Call('_kerdec_ft_kernel_cpp', PACKAGE = 'kerdec', t, ker)
 }
 
 ecf_re_cpp <- function(t, smp) {
-    .Call('kerdec_ecf_re_cpp', PACKAGE = 'kerdec', t, smp)
+    .Call('_kerdec_ecf_re_cpp', PACKAGE = 'kerdec', t, smp)
 }
 
 ecf_im_cpp <- function(t, smp) {
-    .Call('kerdec_ecf_im_cpp', PACKAGE = 'kerdec', t, smp)
+    .Call('_kerdec_ecf_im_cpp', PACKAGE = 'kerdec', t, smp)
 }
 
 ecf_mod_cpp <- function(t, smp) {
-    .Call('kerdec_ecf_mod_cpp', PACKAGE = 'kerdec', t, smp)
+    .Call('_kerdec_ecf_mod_cpp', PACKAGE = 'kerdec', t, smp)
 }
 
 ecf_cpp <- function(t, smp) {
-    .Call('kerdec_ecf_cpp', PACKAGE = 'kerdec', t, smp)
+    .Call('_kerdec_ecf_cpp', PACKAGE = 'kerdec', t, smp)
 }
 
 process_differences_cpp <- function(smp, method) {
-    .Call('kerdec_process_differences_cpp', PACKAGE = 'kerdec', smp, method)
+    .Call('_kerdec_process_differences_cpp', PACKAGE = 'kerdec', smp, method)
 }
 
 kerdec_dens_cpp <- function(smp, error_smp, h, lower, upper, resolution, ker, sigma, k, error_dist, panel_proc, cutoff = 999) {
-    .Call('kerdec_kerdec_dens_cpp', PACKAGE = 'kerdec', smp, error_smp, h, lower, upper, resolution, ker, sigma, k, error_dist, panel_proc, cutoff)
+    .Call('_kerdec_kerdec_dens_cpp', PACKAGE = 'kerdec', smp, error_smp, h, lower, upper, resolution, ker, sigma, k, error_dist, panel_proc, cutoff)
 }
 
 kerdec_dens_nonreg_cpp <- function(smp, error_smp, h, x_eval, resolution, ker, sigma, k, error_dist, panel_proc, cutoff = 999) {
-    .Call('kerdec_kerdec_dens_nonreg_cpp', PACKAGE = 'kerdec', smp, error_smp, h, x_eval, resolution, ker, sigma, k, error_dist, panel_proc, cutoff)
+    .Call('_kerdec_kerdec_dens_nonreg_cpp', PACKAGE = 'kerdec', smp, error_smp, h, x_eval, resolution, ker, sigma, k, error_dist, panel_proc, cutoff)
 }
 
 amise <- function(h, mu2K2, R, error_smp, resolution, ker, n, sigma, k, error_dist, panel_proc) {
-    .Call('kerdec_amise', PACKAGE = 'kerdec', h, mu2K2, R, error_smp, resolution, ker, n, sigma, k, error_dist, panel_proc)
+    .Call('_kerdec_amise', PACKAGE = 'kerdec', h, mu2K2, R, error_smp, resolution, ker, n, sigma, k, error_dist, panel_proc)
 }
 
 CV <- function(h, Z, smp, error_smp, resolution, ker, sigma, k, error_dist, panel_proc, cutoff = 999) {
-    .Call('kerdec_CV', PACKAGE = 'kerdec', h, Z, smp, error_smp, resolution, ker, sigma, k, error_dist, panel_proc, cutoff)
+    .Call('_kerdec_CV', PACKAGE = 'kerdec', h, Z, smp, error_smp, resolution, ker, sigma, k, error_dist, panel_proc, cutoff)
 }
 
 kerdec_dens2D_cpp <- function(smp, error_smp, h, lower, upper, resolution, ker, sigma, k, error_dist, panel_proc, cutoff = 999) {
-    .Call('kerdec_kerdec_dens2D_cpp', PACKAGE = 'kerdec', smp, error_smp, h, lower, upper, resolution, ker, sigma, k, error_dist, panel_proc, cutoff)
+    .Call('_kerdec_kerdec_dens2D_cpp', PACKAGE = 'kerdec', smp, error_smp, h, lower, upper, resolution, ker, sigma, k, error_dist, panel_proc, cutoff)
 }
 
 CV2D <- function(h, Z, smp, error_smp, resolution, ker, sigma, k, error_dist, panel_proc, cutoff = 999) {
-    .Call('kerdec_CV2D', PACKAGE = 'kerdec', h, Z, smp, error_smp, resolution, ker, sigma, k, error_dist, panel_proc, cutoff)
+    .Call('_kerdec_CV2D', PACKAGE = 'kerdec', h, Z, smp, error_smp, resolution, ker, sigma, k, error_dist, panel_proc, cutoff)
 }
 
