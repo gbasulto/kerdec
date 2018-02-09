@@ -25,15 +25,20 @@
 ##'
 ##' ## Good initial point.
 ##' kerdec:::optimize_bw(function(x) x^2, 0.5)
-optimize_bw <- function (f, h0, ...) {
+optimize_bw <- function(f, h0, ...) {
+
     ## Function to be minimized
     objective <- function (bw) {
-        if (bw < 0) return (.Machine$double.xmax) # Check bw > 0
+
+        ## Check bw > 0
+        if (bw < 0) return (.Machine$double.xmax) 
         val <- f(bw, ...)
-        if (is.nan(val) | !is.finite(val)) { # Check val is finite
+
+        ## Check val is finite
+        if (is.nan(val) | !is.finite(val)) { 
             val <- .Machine$double.xmax
         }
-        return (val)
+        val
     }
     
     ## Compute optimal bandwidth
@@ -50,10 +55,11 @@ optimize_bw <- function (f, h0, ...) {
                   "limits in the argument bw_limits.\n\n")
         warning(msg)
     }
-    return(out)
+    out
 }
 
 plot_bw <- function (bw_interval, f, h, h0, ...) {
+
     ## If required, compute and print an interval with the values of
     ## the function to be minimized.
     if (is.null(bw_interval)) return (NULL)
@@ -64,17 +70,19 @@ plot_bw <- function (bw_interval, f, h, h0, ...) {
     vals <- sapply(h_grid, f)
     
     graphics::plot(h_grid, vals, type = "l", lwd = 1.5,
-         xlab = "grid", ylab = "values",
-         main = paste0("h = ", round(h, 4), ", h0 = ", round(h0, 4)))
+                   xlab = "grid", ylab = "values",
+                   main = paste0("h = ", round(h, 4),
+                                 ", h0 = ", round(h0, 4)))
     graphics::abline(v = h, col = "magenta", lty = 2)
     graphics::abline(v = h0, col = "cyan", lty = 3)
     graphics::legend("topright", legend = c("h", "h0"),
-           col = c("magenta", "cyan"), lty = 2:3)
+                     col = c("magenta", "cyan"), lty = 2:3)
 }
 
 h_NR <- function (h0, smp, error_smp, resolution, kernel, n,
-                 error_scale_par, k, error_dist, panel_proc,
-                 bw_interval) {
+                  error_scale_par, k, error_dist, panel_proc,
+                  bw_interval) {
+
     ## Normal references works only for kernels with second moment. We
     ## check that here.
     if (!(kernel %in% 3:4)) {
