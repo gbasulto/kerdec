@@ -28,7 +28,7 @@ Bandwidth selection is a crucial aspect while obtaining kernel deconvolution den
 
 The `kerdec` packages allows the user to either provide the bandwidth, or select some common methods that exist for KDDEs. In the bivariate setting, the options are more limited.
 
-## Providing the Bandwidth
+## Bandwidth Given
 
 ```{r}
 library(kerdec)                         # Load packages
