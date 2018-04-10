@@ -17,7 +17,8 @@ library(knitr)
 # opts_chunk$set(fig.width=12, fig.height=8, fig.path='Figs/',
 #                echo=TRUE, warning=FALSE, message=FALSE)
 opts_chunk$set(fig.width= 7, fig.height= 5,
-               echo=TRUE, warning=FALSE, message=FALSE)
+               echo=TRUE, warning=FALSE, message=FALSE,
+               eval=FALSE)
 
 
 ```
