@@ -30,7 +30,7 @@ A well studied nonparametric estimator of probability density functions based on
  
 There are two popular `R` packages that provide functions to do this, `decon`[](www.deamer.com) and `deamer` (**REFERENCES**). The former package performs kdde with known error distribution allowing the suer to pick the bandwidth selection method between several methods summarized in Delaigle and Gijbels (2004)(**REFERENCES**). The latter package covers the univariate case and it allows known error case, repeated observations and pure error case, the bandwidth selection method follows Comte (**2011???**)
 
-The package `kerdec` provides functions to handle univariate and bivariate kdde with unknown error distribution, by using the empirical characteristic function, or known errors, which can be Laplace or Gaussian. Also functions are provided to estimate the parameters based on a sample of errors or panel data structured data.
+The package `kerdec` provides functions to handle univariate and bivariate kdde with unknown error distribution, by using the empirical characteristic function, or known errors, which can be Laplace or Gaussian. Also, functions are provided to estimate the parameters based on a sample of errors or panel data.
 
 
 
