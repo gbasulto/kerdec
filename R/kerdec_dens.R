@@ -493,7 +493,7 @@ kerdec_dens <- function(smp,
     }
     
     
-    return(list(f_vals = c(f_vals),
+    return(list(f_vals = Re(c(f_vals)),
                 x_eval= x_eval,
                 h = h,
                 h0 = h0,
