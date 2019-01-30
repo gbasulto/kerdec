@@ -570,8 +570,8 @@ arma::cx_mat kerdec_dens2D_cpp(const arma::mat & smp,
 {
   // resolution.print("resolution = ");
   // Rprintf("Flag 1, %d.\n", resolution(0));
-  int m1 = resolution(0), m2 = resolution(1), i;
-  arma::vec t1(m1), t2(m2), aux_col(m1);
+  int m1 = resolution(0), m2 = resolution(1), i, j;
+  arma::vec t1(m1), t2(m2), aux_col(m1), denom(m1);
   arma::mat integrand(m1, m2), t_temp(m1, 2);
   arma::cx_mat out(m1, m2);
 
@@ -590,23 +590,20 @@ arma::cx_mat kerdec_dens2D_cpp(const arma::mat & smp,
       aux_col.fill(t2(i));
       // aux_mat is m1 x 2 matrix with grid values.
       t_temp = arma::join_horiz(t1, aux_col);
+      // Compute denominator
+      denom = dens_denominator2D(t_temp, smp, sigma, k, error_dist,
+				 panel_proc);
       // We will fill out this m1 sized complex vector
       out.col(i) = 
 	(ecf_cpp(t_temp, smp) % ft_kernel_cpp(t_temp, ker))/
-	dens_denominator2D(t_temp, smp, sigma, k, error_dist,
-			   panel_proc);
+	denom;
+      // Truncate function if denominator is very small
+      for (j = 0; j < m1; j++)
+      	{
+	  if (denom(i) < cutoff) out(i, j) = 0;
+      	}
     }
   
-  // denom = dens_denominator(t, error_smp, sigma, k, error_dist,
-  // 			   panel_proc);
-  // fun_vals = (ecf_cpp(t, smp) % ft_kernel_cpp(h*t, ker))/denom;
-
-  // // Truncate integrand if denominator is very small.
-  // for(i = 0; i < m; i++)
-  //   {
-  //     if(denom[i] < cutoff) fun_vals[i] = 0;
-  //   }
-
   out = fourierin::fourierin_cx_2d_cpp(out, -ones(2)/h, ones(2)/h,
 				       lower, upper, -1.0, -1.0);
 
