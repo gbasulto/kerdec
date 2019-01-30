@@ -177,7 +177,7 @@ kerdec_dens2D <- function(smp1, smp2,
                               panel_proc,
                               cutoff = 999)
     
-    return(list(smp = smp, error_smp = error_smp, vals = vals))
+    return(list(smp = smp, error_smp = error_smp, vals = Re(vals)))
     ## ## 
     ## h_optim <-
     ##     switch(method,
