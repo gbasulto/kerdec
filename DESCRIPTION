@@ -14,11 +14,11 @@ LinkingTo:
 Imports:
     Rcpp,
     graphics,
-    stats
+    stats,
+    fourierin
 RoxygenNote: 6.1.1
 Suggests: knitr,
     rmarkdown,
-    fourierin,
     dplyr,
     tidyr,
     ggplot2,
