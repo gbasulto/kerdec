@@ -7,3 +7,5 @@ output:
 ---
 
 `R` package to kernel deconvolution methods, including multivariate kernel deconvolution density estimation and deconvolution version of local constant polynomial regression.
+
+Install with `devtools::install_github("gbasulto/kerdec")`.
