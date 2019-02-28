@@ -600,7 +600,7 @@ arma::cx_mat kerdec_dens2D_cpp(const arma::mat & smp,
       // Truncate function if denominator is very small
       for (j = 0; j < m1; j++)
       	{
-	  if (denom(i) < cutoff) out(i, j) = 0;
+	  if (denom(i) < cutoff) out(j, i) = 0;
       	}
     }
   
