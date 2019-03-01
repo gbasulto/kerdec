@@ -162,6 +162,14 @@ kerdec_dens2D <- function(smp1, smp2,
         error_smp2 <- matrix(0, 5, 1)
     } 
     
+    ## Evaluation grid
+    del <- (upper - lower)/resolution # Increment in the time domain.
+    grid1 <- seq(lower[1] + del[1]/2, upper[1] - del[1]/2,
+                 length.out = resolution)
+    grid2 <- seq(lower[2] + del[1]/2, upper[2] - del[1]/2,
+                 length.out = resolution)
+    
+    
     ## Define smp and error_smp, which are two-column matrices.
     smp <- cbind(smp1, smp2)
     error_smp <- cbind(error_smp1, error_smp2)
@@ -177,7 +185,8 @@ kerdec_dens2D <- function(smp1, smp2,
                               panel_proc,
                               cutoff = 999)
     
-    return(list(smp = smp, error_smp = error_smp, vals = Re(vals)))
+    return(list(smp = smp, error_smp = error_smp, 
+                vals = Re(vals), grid1 = grid1, grid2 = grid2))
     ## ## 
     ## h_optim <-
     ##     switch(method,
