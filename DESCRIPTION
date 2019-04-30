@@ -9,13 +9,15 @@ License: MIT + file LICENSE
 LazyData: TRUE
 LinkingTo:
     fourierin,
+    empichar,
     RcppArmadillo,
     Rcpp
 Imports:
     Rcpp,
     graphics,
     stats,
-    fourierin
+    fourierin,
+    empichar
 RoxygenNote: 6.1.1
 Suggests: knitr,
     rmarkdown,
@@ -28,3 +30,4 @@ Suggests: knitr,
 URL: http://github.com/gbasulto/kerdec
 BugReports: https://github.com/gbasulto/kerdec/issues
 VignetteBuilder: knitr
+Encoding: UTF-8

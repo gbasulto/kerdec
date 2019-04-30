@@ -18,54 +18,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// ecf_re_cpp
-arma::vec ecf_re_cpp(const arma::mat& t, const arma::mat& smp);
-RcppExport SEXP _kerdec_ecf_re_cpp(SEXP tSEXP, SEXP smpSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::mat& >::type t(tSEXP);
-    Rcpp::traits::input_parameter< const arma::mat& >::type smp(smpSEXP);
-    rcpp_result_gen = Rcpp::wrap(ecf_re_cpp(t, smp));
-    return rcpp_result_gen;
-END_RCPP
-}
-// ecf_im_cpp
-arma::vec ecf_im_cpp(const arma::mat& t, const arma::mat& smp);
-RcppExport SEXP _kerdec_ecf_im_cpp(SEXP tSEXP, SEXP smpSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::mat& >::type t(tSEXP);
-    Rcpp::traits::input_parameter< const arma::mat& >::type smp(smpSEXP);
-    rcpp_result_gen = Rcpp::wrap(ecf_im_cpp(t, smp));
-    return rcpp_result_gen;
-END_RCPP
-}
-// ecf_mod_cpp
-arma::vec ecf_mod_cpp(const arma::mat& t, const arma::mat& smp);
-RcppExport SEXP _kerdec_ecf_mod_cpp(SEXP tSEXP, SEXP smpSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::mat& >::type t(tSEXP);
-    Rcpp::traits::input_parameter< const arma::mat& >::type smp(smpSEXP);
-    rcpp_result_gen = Rcpp::wrap(ecf_mod_cpp(t, smp));
-    return rcpp_result_gen;
-END_RCPP
-}
-// ecf_cpp
-arma::cx_vec ecf_cpp(const arma::mat& t, const arma::mat& smp);
-RcppExport SEXP _kerdec_ecf_cpp(SEXP tSEXP, SEXP smpSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::mat& >::type t(tSEXP);
-    Rcpp::traits::input_parameter< const arma::mat& >::type smp(smpSEXP);
-    rcpp_result_gen = Rcpp::wrap(ecf_cpp(t, smp));
-    return rcpp_result_gen;
-END_RCPP
-}
 // process_differences_cpp
 arma::vec process_differences_cpp(const arma::mat& smp, int method);
 RcppExport SEXP _kerdec_process_differences_cpp(SEXP smpSEXP, SEXP methodSEXP) {
@@ -209,10 +161,6 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_kerdec_ft_kernel_cpp", (DL_FUNC) &_kerdec_ft_kernel_cpp, 2},
-    {"_kerdec_ecf_re_cpp", (DL_FUNC) &_kerdec_ecf_re_cpp, 2},
-    {"_kerdec_ecf_im_cpp", (DL_FUNC) &_kerdec_ecf_im_cpp, 2},
-    {"_kerdec_ecf_mod_cpp", (DL_FUNC) &_kerdec_ecf_mod_cpp, 2},
-    {"_kerdec_ecf_cpp", (DL_FUNC) &_kerdec_ecf_cpp, 2},
     {"_kerdec_process_differences_cpp", (DL_FUNC) &_kerdec_process_differences_cpp, 2},
     {"_kerdec_kerdec_dens_cpp", (DL_FUNC) &_kerdec_kerdec_dens_cpp, 12},
     {"_kerdec_kerdec_dens_nonreg_cpp", (DL_FUNC) &_kerdec_kerdec_dens_nonreg_cpp, 11},

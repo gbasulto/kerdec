@@ -5,22 +5,6 @@ ft_kernel_cpp <- function(t, ker) {
     .Call('_kerdec_ft_kernel_cpp', PACKAGE = 'kerdec', t, ker)
 }
 
-ecf_re_cpp <- function(t, smp) {
-    .Call('_kerdec_ecf_re_cpp', PACKAGE = 'kerdec', t, smp)
-}
-
-ecf_im_cpp <- function(t, smp) {
-    .Call('_kerdec_ecf_im_cpp', PACKAGE = 'kerdec', t, smp)
-}
-
-ecf_mod_cpp <- function(t, smp) {
-    .Call('_kerdec_ecf_mod_cpp', PACKAGE = 'kerdec', t, smp)
-}
-
-ecf_cpp <- function(t, smp) {
-    .Call('_kerdec_ecf_cpp', PACKAGE = 'kerdec', t, smp)
-}
-
 process_differences_cpp <- function(smp, method) {
     .Call('_kerdec_process_differences_cpp', PACKAGE = 'kerdec', smp, method)
 }
