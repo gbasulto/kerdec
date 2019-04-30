@@ -493,7 +493,7 @@ arma::cx_mat kerdec_dens2D_cpp(const arma::mat & smp,
       // aux_mat is m1 x 2 matrix with grid values.
       t_temp = arma::join_horiz(t1, aux_col);
       // Compute denominator
-      denom = dens_denominator2D(t_temp, smp, sigma, k, error_dist,
+      denom = dens_denominator2D(t_temp, error_smp, sigma, k, error_dist,
 				 panel_proc);
       // We will fill out this m1 sized complex vector
       out.col(i) = 
