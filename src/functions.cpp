@@ -493,17 +493,18 @@ arma::cx_mat kerdec_dens2D_cpp(const arma::mat & smp,
       // aux_mat is m1 x 2 matrix with grid values.
       t_temp = arma::join_horiz(t1, aux_col);
       // Compute denominator
-      denom = dens_denominator2D(t_temp, error_smp, sigma, k, error_dist,
+      denom = dens_denominator2D(t_temp, error_smp, sigma,
+				 k, error_dist,
 				 panel_proc);
       // We will fill out this m1 sized complex vector
       out.col(i) = 
-	(ecf_cpp(t_temp, smp) % ft_kernel_cpp(t_temp, ker))/
+	(ecf_cpp(t_temp, smp) % ft_kernel_cpp(h*t_temp, ker))/
 	denom;
       // Truncate function if denominator is very small
       for (j = 0; j < m1; j++)
       	{
-	  if (denom(i) < cutoff) out(j, i) = 0;
-      	}
+	  if (denom(j) < cutoff) out(j, i) = 0;
+      }	
     }
   
   out = fourierin::fourierin_cx_2d_cpp(out, -ones(2)/h, ones(2)/h,
