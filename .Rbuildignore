@@ -3,3 +3,5 @@
 .travis.yml
 README.Rmd
 ^appveyor\.yml$
+^README\.Rmd$
+^\.travis\.yml$
