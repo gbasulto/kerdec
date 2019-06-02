@@ -1,31 +1,42 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-kerdec
-======
+
+# kerdec
 
 <!-- badges: start -->
-[![Travis build status](https://travis-ci.org/gbasulto/kerdec.svg?branch=master)](https://travis-ci.org/gbasulto/kerdec) [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/gbasulto/kerdec?branch=master&svg=true)](https://ci.appveyor.com/project/gbasulto/kerdec) <!-- badges: end -->
 
-`R` package to kernel deconvolution methods, including multivariate kernel deconvolution density estimation and deconvolution version of local constant polynomial regression.
+[![Travis build
+status](https://travis-ci.org/gbasulto/kerdec.svg?branch=master)](https://travis-ci.org/gbasulto/kerdec)
+[![AppVeyor build
+status](https://ci.appveyor.com/api/projects/status/github/gbasulto/kerdec?branch=master&svg=true)](https://ci.appveyor.com/project/gbasulto/kerdec)
+<!-- badges: end -->
 
-Installation
-------------
+`R` package to kernel deconvolution methods, including multivariate
+kernel deconvolution density estimation and deconvolution version of
+local constant polynomial
+regression.
 
-You can install the released version of kerdec from [CRAN](https://CRAN.R-project.org) with:
+## Installation
 
-``` r
-install.packages("kerdec")
-```
+<!-- You can install the released version of kerdec from [CRAN](https://CRAN.R-project.org) with: -->
 
-And the development version from [GitHub](https://github.com/) with:
+<!-- ``` r -->
+
+<!-- install.packages("kerdec") -->
+
+<!-- ``` -->
+
+You can install the development version from
+[GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("gbasulto/kerdec")
 ```
 
-Example
--------
+A stable version will soon be uploaded to CRAN.
+
+## Example
 
 This is a basic example which shows you how to solve a common problem:
 

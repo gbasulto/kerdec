@@ -23,18 +23,21 @@ knitr::opts_chunk$set(
 
 ## Installation
 
-You can install the released version of kerdec from [CRAN](https://CRAN.R-project.org) with:
+<!-- You can install the released version of kerdec from [CRAN](https://CRAN.R-project.org) with: -->
 
-``` r
-install.packages("kerdec")
-```
+<!-- ``` r -->
+<!-- install.packages("kerdec") -->
+<!-- ``` -->
 
-And the development version from [GitHub](https://github.com/) with:
+You can install the development version from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("gbasulto/kerdec")
 ```
+
+A stable version will soon be uploaded to CRAN.
+
 ## Example
 
 This is a basic example which shows you how to solve a common problem:
