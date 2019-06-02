@@ -27,12 +27,12 @@ The (positive) standard deviation
 This function computes the maximum likelihood estimator of the
 standard deviation for the error distribution provided as long as
 this error is normal or Laplace and the sample is either a sample
-or errors or a sample of differeces of errors (which arises in
+or errors or a sample of differences of errors (which arises in
 panel data).
 }
 \details{
 This function also computes the standard deviation when the error
-is approximated with the enpirical charcteristic function, since
+is approximated with the empirical characteristic function, since
 it is useful for bandwidth selection.
 }
 \examples{

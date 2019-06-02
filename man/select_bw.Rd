@@ -63,7 +63,7 @@ A list with the initial value, the computed value and the
 }
 \description{
 This function computes a bandwidth with the selected method and it
-also plots the corresponging function to minimize (MISE, AMISE,
+also plots the corresponding function to minimize (MISE, AMISE,
 CV, etc.).
 }
 \author{

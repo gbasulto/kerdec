@@ -24,9 +24,9 @@ opts_chunk$set(fig.width= 7, fig.height= 5,
 
 ## Error Distribution Specification in KDDE
 
-Recall that kernel deconvolution density estimatiors (KDDE).
+Recall that kernel deconvolution density estimators (KDDE).
 
-## Assesing Error distribution
+## Assessing Error distribution
 
 
 
