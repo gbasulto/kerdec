@@ -19,15 +19,18 @@ Imports:
     fourierin,
     empichar
 RoxygenNote: 6.1.1
-Suggests: knitr,
+Suggests: 
+    knitr,
     rmarkdown,
     dplyr,
     tidyr,
     ggplot2,
     microbenchmark,
     purrr,
-    lattice
+    lattice,
+    spelling
 URL: http://github.com/gbasulto/kerdec
 BugReports: https://github.com/gbasulto/kerdec/issues
 VignetteBuilder: knitr
 Encoding: UTF-8
+Language: en-US
